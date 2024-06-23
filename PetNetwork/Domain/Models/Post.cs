@@ -14,12 +14,12 @@ public class Post : ISerializable
     public string? VideoUrl { get; set; }
     public int LikeCount { get; set; }
     public PostStatus Status { get; set; }
-    public DateTime Created { get; set; }
+    public DateTime CreatedAt { get; set; }
     //public IList<Comment> Comments { get; set; } // if NoSql can be used
     //public IList<string> CommentIds { get; set; } // if Sql needs to be used
 
     public Post(string id, string title, string desc, string author, string imageUrl, string videoUrl, int likeCount,
-        PostStatus status, DateTime created)
+        PostStatus status, DateTime createdAt)
     {
         Id = id;
         Title = title;
@@ -29,7 +29,7 @@ public class Post : ISerializable
         VideoUrl = videoUrl;
         LikeCount = likeCount;
         Status = status;
-        Created = created;
+        CreatedAt = createdAt;
     }
 }
 
