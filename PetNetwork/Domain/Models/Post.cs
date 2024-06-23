@@ -18,7 +18,7 @@ public class Post : ISerializable
     //public IList<Comment> Comments { get; set; } // if NoSql can be used
     //public IList<string> CommentIds { get; set; } // if Sql needs to be used
 
-    public Post(string id, string title, string desc, string author, string imageUrl, string videoUrl, int likeCount,
+    public Post(string id, string title, string desc, string author, string? imageUrl, string? videoUrl, int likeCount,
         PostStatus status, DateTime createdAt)
     {
         Id = id;
