@@ -141,6 +141,10 @@ public class PostViewModel : BaseViewModel
         }
     }
 
+    private readonly string[] _validatedProperties = { "Title", "Description", "Author", "LikeCount", "CreatedAt" };
+
+    public bool IsValid => _validatedProperties.All(property => this[property] == string.Empty);
+
 
     public PostViewModel()
     {
@@ -156,4 +160,3 @@ public class PostViewModel : BaseViewModel
 
     public Post ToPost() => new Post(Id, Title, Description, Author, ImageUrl, VideoUrl, LikeCount, Status, CreatedAt);
 }
-
