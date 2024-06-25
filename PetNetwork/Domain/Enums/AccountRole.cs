@@ -4,6 +4,5 @@ public enum AccountRole
 {
     RegularUser,
     Volunteer,
-    Moderator,
     Admin
 }

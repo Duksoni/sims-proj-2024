@@ -41,7 +41,7 @@ public class UserAccountViewModel : BaseViewModel, IDataErrorInfo
     public UserAccount ToUserAccount() =>
         _role == AccountRole.RegularUser 
             ? new UserAccount(_email, _password) 
-            : new UserAccount(_email, _password, AccountRole.Moderator, AccountStatus.Active);
+            : new UserAccount(_email, _password, AccountRole.Volunteer, AccountStatus.Active);
 
     private readonly UserAccountValidation _validation = new();
 
