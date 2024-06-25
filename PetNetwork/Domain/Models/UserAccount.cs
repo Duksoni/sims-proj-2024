@@ -25,7 +25,7 @@ public class UserAccount : ISerializable
     public AccountRole Role { get; set; }
 
     [JsonConverter(typeof(StringEnumConverter))]
-    public AccountStatus Status { get; private set; }
+    public AccountStatus Status { get; set; }
 
     public bool Deleted
     {
