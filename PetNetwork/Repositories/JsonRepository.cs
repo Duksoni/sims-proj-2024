@@ -47,7 +47,7 @@ public class JsonRepository<T> : IRepository<T> where T : ISerializable
     {
         var enumeratedEntries = GetEntriesFromFile();
 
-        foreach (var entry in enumeratedEntries.Select(DeserializeEntry).Where(entry => entry.Id == id))
+        foreach (var entry in enumeratedEntries.Select(DeserializeEntry).Where(entry => entry.Id == id && !entry.Deleted))
             return entry;
 
         return default;
