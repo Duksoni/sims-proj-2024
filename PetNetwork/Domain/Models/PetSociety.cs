@@ -31,6 +31,13 @@ public class PetSociety : ISerializable
         BankAccount = bankAccount;
     }
 
+    public PetSociety(string id, string name, string bankAccount)
+    {
+        Id = id;
+        Name = name;
+        BankAccount = bankAccount;
+    }
+
     [JsonConstructor]
     public PetSociety(string id, string name, string bankAccount, bool deleted)
     {
