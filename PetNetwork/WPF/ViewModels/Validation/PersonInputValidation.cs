@@ -34,17 +34,10 @@ public class PersonInputValidation : InputValidation
               "\nwith optional spaces, parentheses, and dashes.";
     }
 
-    public string ValidateAddress(AddressViewModel address)
-    {
-        if (string.IsNullOrEmpty(address.Street)) return GetRequiredFieldMessage("Street");
-        if (string.IsNullOrEmpty(address.StreetNo)) return GetRequiredFieldMessage("Street number");
-        return string.IsNullOrEmpty(address.Town) ? GetRequiredFieldMessage("Town") : string.Empty;
-    }
-
     public string ValidateIdentityCardNo(string identityCardNo)
     {
         if (identityCardNo.Length != 9 || !long.TryParse(identityCardNo, out _))
-            return "Invalid identity format";
+            return "Invalid identity card format";
 
         var sum = 0;
         for (var i = 0; i < 8; i++)
@@ -56,6 +49,6 @@ public class PersonInputValidation : InputValidation
 
         var lastDigit = identityCardNo[8] - '0';
 
-        return controlDigit == lastDigit ? string.Empty : "Invalid identity card format.";
+        return controlDigit == lastDigit ? string.Empty : "Control digit doesn't match.";
     }
 }

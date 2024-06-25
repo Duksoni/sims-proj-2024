@@ -1,8 +1,10 @@
 ﻿using PetNetwork.Domain.Models;
+using PetNetwork.WPF.ViewModels.Validation;
+using System.ComponentModel;
 
 namespace PetNetwork.WPF.ViewModels;
 
-public class AddressViewModel : BaseViewModel
+public class AddressViewModel : BaseViewModel, IDataErrorInfo
 {
 
 	private string _street = string.Empty;
@@ -42,18 +44,42 @@ public class AddressViewModel : BaseViewModel
     }
 
     private int _postalCode = 11000;
-    public int PostalCode
+    public string PostalCode
     {
-        get => _postalCode;
+        get => _postalCode.ToString();
         set
         {
-            if (_postalCode == value) return;
-            if (value is < 11000 or > 38299)
-                _postalCode = 11000;
-            _postalCode = value;
+            if (!int.TryParse(value, out var parsed))
+                return;
+            if (_postalCode == parsed) return;
+            if (parsed > 38299)
+                parsed = 11000;
+            _postalCode = parsed;
             OnPropertyChanged();
         }
     }
 
-    public Address ToAddress() => new(Street, StreetNo, Town, PostalCode);
+    public Address ToAddress() => new(_street, _streetNo, _town, _postalCode);
+
+    private readonly AddressInputValidation _validation = new();
+
+    public string this[string columnName]
+    {
+        get
+        {
+            return columnName switch
+            {
+                "Street" => _validation.ValidateStreet(Street),
+                "StreetNo" => _validation.ValidateStreetNumber(StreetNo),
+                "Town" => _validation.ValidateTown(Town),
+                _ => string.Empty
+            };
+        }
+    }
+
+    public string Error => string.Empty;
+
+    private readonly string[] _validatedProperties = { "Street", "StreetNo", "Town" };
+
+    public bool IsValid => _validatedProperties.All(property => this[property] == string.Empty);
 }

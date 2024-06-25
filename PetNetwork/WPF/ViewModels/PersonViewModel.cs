@@ -1,10 +1,11 @@
 ﻿using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Models;
 using PetNetwork.WPF.ViewModels.Validation;
+using System.ComponentModel;
 
 namespace PetNetwork.WPF.ViewModels;
 
-public class PersonViewModel : BaseViewModel
+public class PersonViewModel : BaseViewModel, IDataErrorInfo
 {
     private string _firstName = string.Empty;
     public string FirstName
@@ -54,7 +55,7 @@ public class PersonViewModel : BaseViewModel
         }
     }
 
-    public AddressViewModel AddressViewModel { get; } = new();
+    public AddressViewModel Address { get; } = new();
 
     private string _identityCardNo = string.Empty;
     public string IdentityCardNo
@@ -69,7 +70,7 @@ public class PersonViewModel : BaseViewModel
     }
 
     public Person ToPerson(string email) =>
-        new(email, FirstName, LastName, Phone, Gender, AddressViewModel.ToAddress(), IdentityCardNo);
+        new(email, FirstName, LastName, Phone, Gender, Address.ToAddress(), IdentityCardNo);
 
     private readonly PersonInputValidation _validation = new();
 
@@ -82,14 +83,15 @@ public class PersonViewModel : BaseViewModel
                 "FirstName" => _validation.ValidateFirstName(FirstName),
                 "LastName" => _validation.ValidateLastName(LastName),
                 "Phone" => _validation.ValidatePhone(Phone),
-                "Address" => _validation.ValidateAddress(AddressViewModel),
                 "IdentityCardNo" => _validation.ValidateIdentityCardNo(IdentityCardNo),
                 _ => string.Empty
             };
         }
     }
 
-    private readonly string[] _validatedProperties = { "FirstName", "LastName", "Phone", "Address", "IdentityCardNo" };
+    public string Error => string.Empty;
 
-    public bool IsValid => _validatedProperties.All(property => this[property] == string.Empty);
+    private readonly string[] _validatedProperties = { "FirstName", "LastName", "Phone", "IdentityCardNo" };
+
+    public bool IsValid => _validatedProperties.All(property => this[property] == string.Empty) && Address.IsValid;
 }
