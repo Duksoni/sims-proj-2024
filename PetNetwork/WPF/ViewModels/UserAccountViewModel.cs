@@ -35,6 +35,8 @@ public class UserAccountViewModel : BaseViewModel, IDataErrorInfo
 
     public UserAccountViewModel(AccountRole role = AccountRole.RegularUser)
     {
+        if (role == AccountRole.Admin)
+            throw new ArgumentException("Can't add new admin");
         _role = role;
     }
 
