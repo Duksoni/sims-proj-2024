@@ -19,16 +19,7 @@ public class UserAccount : ISerializable
         }
     }
 
-    private AccountRole _role;
-    public AccountRole Role
-    {
-        get => _role;
-        set
-        {
-            if (value == AccountRole.Admin) throw new ArgumentException("No new admin can be added");
-            _role = value;
-        }
-    }
+    public AccountRole Role { get; set; }
 
     public AccountStatus Status { get; private set; }
 
@@ -42,6 +33,7 @@ public class UserAccount : ISerializable
 
     public UserAccount(string email, string password, AccountRole role)
     {
+        if (role == AccountRole.Admin) throw new ArgumentException("No new admin can be added");
         Id = email;
         Password = password;
         Role = role;
@@ -51,7 +43,7 @@ public class UserAccount : ISerializable
     public UserAccount(string id, string password, AccountRole role, AccountStatus status)
     {
         Id = id;
-        Password = password;
+        _password = password;
         Role = role;
         Status = status;
     }

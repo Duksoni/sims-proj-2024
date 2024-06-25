@@ -30,6 +30,16 @@ public class Person : ISerializable
         }
     }
 
+    internal Person()
+    {
+        Id = string.Empty;
+        FirstName = string.Empty;
+        LastName = string.Empty;
+        Phone = string.Empty;
+        Address = new Address();
+        IdentityCardNo = string.Empty;
+    }
+
     public Person(string id, string firstName, string lastName, string phone, Gender gender, Address address, string identityCardNo)
     {
         Id = id;

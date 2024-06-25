@@ -25,6 +25,13 @@ public class Address : ISerializable
         }
     }
 
+    internal Address()
+    {
+        Street = string.Empty;
+        StreetNo = string.Empty;
+        Town = string.Empty;
+    }
+
     public Address(string street, string streetNo, string town, int postalCode)
     {
         Street = street;
