@@ -27,6 +27,7 @@ public class UserAccount : ISerializable
     [JsonConverter(typeof(StringEnumConverter))]
     public AccountStatus Status { get; set; }
 
+    [JsonIgnore]
     public bool Deleted
     {
         get => Status == AccountStatus.Deleted;
