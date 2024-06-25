@@ -4,12 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PetNetwork"
+        xmlns:userControls="clr-namespace:PetNetwork.WPF.Views.UserControls"
         mc:Ignorable="d"
         MinHeight="450" MinWidth="800"
         Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow">
+        WindowState="Maximized"
+        Title="Pet Network">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <userControls:MainMenuBarView Grid.Row="0"/>
+        <ContentControl Grid.Row="1" Name="MainView"/>
     </Grid>
 </Window>
+
+    
