@@ -1,4 +1,6 @@
-﻿using PetNetwork.Application.Utility;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
 
@@ -19,9 +21,21 @@ public class UserAccount : ISerializable
         }
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public AccountRole Role { get; set; }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public AccountStatus Status { get; private set; }
+
+    public bool Deleted
+    {
+        get => Status == AccountStatus.Deleted;
+        set
+        {
+            if (Status == AccountStatus.Deleted || !value) return;
+            Status = AccountStatus.Deleted;
+        }
+    }
 
     public UserAccount(string email, string password)
     {
@@ -37,9 +51,10 @@ public class UserAccount : ISerializable
         Id = email;
         Password = password;
         Role = role;
-        Status = AccountStatus.PendingApproval;
+        Status = AccountStatus.Active;
     }
 
+    [JsonConstructor]
     public UserAccount(string id, string password, AccountRole role, AccountStatus status)
     {
         Id = id;

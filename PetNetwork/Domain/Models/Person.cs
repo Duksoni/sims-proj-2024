@@ -1,4 +1,6 @@
-﻿using PetNetwork.Domain.Enums;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
 
 namespace PetNetwork.Domain.Models;
@@ -13,6 +15,7 @@ public class Person : ISerializable
 
     public string Phone { get; set; }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public Gender Gender { get; set; }
 
     public Address Address { get; set; }
@@ -51,6 +54,7 @@ public class Person : ISerializable
         IdentityCardNo = identityCardNo;
     }
 
+    [JsonConstructor]
     public Person(string id, string firstName, string lastName, string phone, Gender gender, Address address, string identityCardNo, bool deleted)
     {
         Id = id;

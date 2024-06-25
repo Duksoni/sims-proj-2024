@@ -1,4 +1,5 @@
-﻿using PetNetwork.Domain.Interfaces;
+﻿using Newtonsoft.Json;
+using PetNetwork.Domain.Interfaces;
 
 namespace PetNetwork.Domain.Models;
 
@@ -6,7 +7,7 @@ public class Address : ISerializable
 {
 
     public string Id => $"{Street.Replace(' ', '-')}_{StreetNo}";
-    
+
     public string Street { get; set; }
 
     public string StreetNo { get; set; }
@@ -25,6 +26,17 @@ public class Address : ISerializable
         }
     }
 
+    private bool _deleted;
+    public bool Deleted
+    {
+        get => _deleted;
+        set
+        {
+            if (!_deleted && value)
+                _deleted = value;
+        }
+    }
+
     internal Address()
     {
         Street = string.Empty;
@@ -38,5 +50,15 @@ public class Address : ISerializable
         StreetNo = streetNo;
         Town = town;
         PostalCode = postalCode;
+    }
+
+    [JsonConstructor]
+    public Address(string street, string streetNo, string town, int postalCode, bool deleted)
+    {
+        Street = street;
+        StreetNo = streetNo;
+        Town = town;
+        PostalCode = postalCode;
+        _deleted = deleted;
     }
 }
