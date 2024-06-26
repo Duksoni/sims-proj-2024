@@ -32,7 +32,7 @@ public class PostRatingService
 
     public PostRating? GetPostRating(string id)
     {
-        _postRatingRepository.Get(id);
+        return _postRatingRepository.Get(id);
     }
 }
 
