@@ -1,0 +1,19 @@
+[
+  {
+    "Id": "pera@gmail.com",
+    "FirstName": "Pera",
+    "LastName": "Peric",
+    "Phone": "0612345678",
+    "Gender": "Male",
+    "Address": {
+      "Id": "Petra_Kocica_11",
+      "Street": "Petra Kocica",
+      "StreetNo": "11",
+      "Town": "Smederevo",
+      "PostalCode": 11300,
+      "Deleted": false
+    },
+    "IdentityCardNo": "123456789",
+    "Deleted": false
+  }
+]
