@@ -7,7 +7,7 @@ public class CommentService
 {
     private readonly IRepository<Comment> _commentRepository;
 
-    public CommentService(IRepository<Post> commentRepository)
+    public CommentService(IRepository<Comment> commentRepository)
     {
         _commentRepository = commentRepository;
     }
