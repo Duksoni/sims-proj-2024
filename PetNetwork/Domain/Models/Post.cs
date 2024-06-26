@@ -1,5 +1,8 @@
-﻿using PetNetwork.Domain.Enums;
+﻿using Newtonsoft.Json.Converters;
+using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
+using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace PetNetwork.Domain.Models;
 
@@ -12,9 +15,20 @@ public class Post : ISerializable
     public string? ImageUrl { get; set; }
     public string? VideoUrl { get; set; }
     public int LikeCount { get; set; }
+
+    [JsonConverter(typeof(StringEnumConverter))]
     public PostStatus Status { get; set; }
+    [JsonConverter(typeof(DateTimeConverter))]
     public DateTime CreatedAt { get; set; }
-    public bool Deleted { get; set; }
+    public bool Deleted
+    {
+        get => Status == PostStatus.Deleted;
+        set
+        {
+            if (Status == PostStatus.Deleted || !value) return;
+            Status = PostStatus.Deleted;
+        }
+    }
 
     public Post(string id, string title, string desc, string author, string? imageUrl, string? videoUrl, int likeCount,
         PostStatus status, DateTime createdAt)
