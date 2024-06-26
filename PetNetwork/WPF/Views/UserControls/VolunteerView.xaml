@@ -9,7 +9,7 @@
     <TabControl>
         <TabItem Header="Home" Width="120">
             <Grid>
-
+                <local:PostView></local:PostView>
             </Grid>
         </TabItem>
         <TabItem Header="Chat" Width="120">
