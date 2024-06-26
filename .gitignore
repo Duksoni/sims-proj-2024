@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Diagrams
+SV7-2022-dijagrami.mdzip
+SV7-2022-dijagrami.mdzip.bak
