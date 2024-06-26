@@ -6,7 +6,6 @@ namespace PetNetwork.Domain.Models;
 public class Post : ISerializable
 {
     public string Id { get; set; }
-
     public string Title { get; set; }
     public string Description { get; set; }
     public string Author { get; set; } // user account email
@@ -15,6 +14,7 @@ public class Post : ISerializable
     public int LikeCount { get; set; }
     public PostStatus Status { get; set; }
     public DateTime CreatedAt { get; set; }
+    public bool Deleted { get; set; }
 
     public Post(string id, string title, string desc, string author, string? imageUrl, string? videoUrl, int likeCount,
         PostStatus status, DateTime createdAt)
@@ -28,6 +28,7 @@ public class Post : ISerializable
         LikeCount = likeCount;
         Status = status;
         CreatedAt = createdAt;
+        Deleted = false;
     }
 }
 
