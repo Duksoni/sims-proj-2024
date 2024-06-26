@@ -7,7 +7,7 @@ public class PostLikeViewModel : BaseViewModel
 {
     private string _id;
     private string _author;
-    private string _postId;
+    private Post _post;
 
     public string Id
     {
@@ -31,13 +31,13 @@ public class PostLikeViewModel : BaseViewModel
         }
     }
 
-    public string PostId
+    public Post Post
     {
-        get => _postId;
+        get => _post;
         set
         {
-            if (_postId == value) return;
-            _postId = value;
+            if (_post == value) return;
+            _post = value;
             OnPropertyChanged();
         }
     }
@@ -49,7 +49,6 @@ public class PostLikeViewModel : BaseViewModel
             return columnName switch
             {
                 "Author" => Author != string.Empty ? string.Empty : "Author can't be empty",
-                "PostId" => PostId != string.Empty ? string.Empty : "PostId can't be empty",
                 _ => string.Empty
             };
         }
@@ -63,8 +62,14 @@ public class PostLikeViewModel : BaseViewModel
     {
         _id = IdGenerator.Generate();
         _author = string.Empty;
-        _postId = string.Empty;
     }
 
-    public PostLike ToPostLike() => new PostLike(Id, Author, PostId);
+    public PostLikeViewModel(string id, string author, Post post)
+    {
+        _id = id;
+        _author = author;
+        _post = post;
+    }
+
+    public PostLike ToPostLike() => new PostLike(Id, Author, Post);
 }

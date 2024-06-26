@@ -7,7 +7,7 @@ public class PostRatingViewModel : BaseViewModel
 {
     private string _id;
     private string _author;
-    private string _postId;
+    private Post _post;
     private int _rating;
 
     public string Id
@@ -32,13 +32,13 @@ public class PostRatingViewModel : BaseViewModel
         }
     }
 
-    public string PostId
+    public Post Post
     {
-        get => _postId;
+        get => _post;
         set
         {
-            if (_postId == value) return;
-            _postId = value;
+            if (_post == value) return;
+            _post = value;
             OnPropertyChanged();
         }
     }
@@ -61,7 +61,6 @@ public class PostRatingViewModel : BaseViewModel
             return columnName switch
             {
                 "Author" => Author != string.Empty ? string.Empty : "Author can't be empty",
-                "PostId" => PostId != string.Empty ? string.Empty : "PostId can't be empty",
                 "Rating" => Rating >= 1 && Rating <= 5 ? string.Empty : "Rating must be between 1 and 5",
                 _ => string.Empty
             };
@@ -76,10 +75,9 @@ public class PostRatingViewModel : BaseViewModel
     {
         _id = IdGenerator.Generate();
         _author = string.Empty;
-        _postId = string.Empty;
         _rating = 1; // default rating to 1
     }
 
-    public PostRating ToPostRating() => new PostRating(Id, Author, PostId, Rating);
+    public PostRating ToPostRating() => new PostRating(Id, Author, Post, Rating);
 }
 

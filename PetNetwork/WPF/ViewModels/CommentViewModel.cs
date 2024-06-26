@@ -7,6 +7,7 @@ public class CommentViewModel : BaseViewModel
     private string _id;
     private string _text;
     private string _author;
+    private Post _post;
     private DateTime _createdAt;
 
     public string Id
@@ -38,6 +39,17 @@ public class CommentViewModel : BaseViewModel
         {
             if (_author == value) return;
             _author = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Post Post
+    {
+        get => _post;
+        set
+        {
+            if (_post == value) return;
+            _post = value;
             OnPropertyChanged();
         }
     }
@@ -78,8 +90,17 @@ public class CommentViewModel : BaseViewModel
         _id = IdGenerator.Generate();
         _text = string.Empty;
         _author = string.Empty;
-        _createdAt = DateTime.MinValue;
+        _createdAt = DateTime.Now;
     }
 
-    public Comment ToComment() => new Comment(Id, Text, Author, CreatedAt);
+    public CommentViewModel(string id, string text, string author, Post post)
+    {
+        _id = id;
+        _text = text;
+        _author = author;
+        _post = post;
+        _createdAt = DateTime.Now;
+    }
+
+    public Comment ToComment() => new Comment(Id, Text, Author, Post, CreatedAt);
 }
