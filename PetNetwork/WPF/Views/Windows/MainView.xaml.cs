@@ -7,12 +7,12 @@ namespace PetNetwork.WPF.Views.Windows;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow
+public partial class MainView
 {
-    public MainWindow()
+    public MainView()
     {
         InitializeComponent();
-        MainView.Content = UserSession.Session?.Account.Role switch
+        Main.Content = UserSession.Session?.Account.Role switch
         {
             AccountRole.RegularUser => new RegularUserView(),
             AccountRole.Volunteer => new VolunteerView(),

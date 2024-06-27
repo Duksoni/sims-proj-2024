@@ -12,7 +12,7 @@ public partial class App
     {
         base.OnStartup(e);
         
-        MainWindow = new MainWindow();
+        MainWindow = new MainView();
         MainWindow.Show();
     }
 
@@ -21,7 +21,7 @@ public partial class App
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
         MainWindow?.Close();
         ShutdownMode = ShutdownMode.OnMainWindowClose;
-        MainWindow = new MainWindow();
+        MainWindow = new MainView();
         MainWindow.Show();
     }
 }
