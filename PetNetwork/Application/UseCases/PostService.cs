@@ -37,5 +37,18 @@ public class PostService
         return _postRepository.Get(id);
     }
 
+    public IList<Post> GetAllPosts()
+    {
+        return _postRepository.GetAll();
+    }
+
+    public void IncrementLikeCount(string id)
+    {
+        Post? post = _postRepository.Get(id);
+        if (post == null) return;
+        post.LikeCount++;
+        _postRepository.Update(post);
+    }
+
 
 }
