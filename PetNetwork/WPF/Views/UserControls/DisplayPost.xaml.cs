@@ -3,6 +3,7 @@ using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
+using PetNetwork.WPF.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,9 +17,7 @@ namespace PetNetwork.WPF.Views.UserControls
     public partial class DisplayPost : UserControl
     {
 
-        public ObservableCollection<Post> Posts;
-
-        public ObservableCollection<bool> LikeButtonEnabled;
+        public ObservableCollection<PostDisplayViewModel> Posts { get; set; }
 
         public ICommand LikeCommand { get; }
 
@@ -29,12 +28,23 @@ namespace PetNetwork.WPF.Views.UserControls
             SetupButtonNames();
 
             var postRepo = Injector.CreateInstance<IRepository<Post>>();
+            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
+            var postLikeService = new PostLikeService(postLikeRepo);
             var postService = new PostService(postRepo);
-            List<bool> list = new List<bool>();
-            list.Add(false);
-            list.Add(false);
-            LikeButtonEnabled = new(list);
-            Posts = new ObservableCollection<Post>(postService.GetAllPosts());
+            Posts = new ObservableCollection<PostDisplayViewModel>();
+            foreach (var post in postService.GetAllPosts())
+            {
+                if (UserSession.Session == null)
+                {
+                    Posts.Add(new PostDisplayViewModel(post, false));
+                }
+                else
+                {
+                    Posts.Add(new PostDisplayViewModel(post,
+                        !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id)));
+                }
+
+            }
             PostsListView.ItemsSource = Posts;
             LikeCommand = new RelayCommand(LikePost);
 
@@ -58,12 +68,23 @@ namespace PetNetwork.WPF.Views.UserControls
 
         private void LikePost(object parameter)
         {
-            if (parameter is Post post)
+            if (parameter is PostDisplayViewModel viewModel)
             {
                 var postRepo = Injector.CreateInstance<IRepository<Post>>();
+                var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
                 var postService = new PostService(postRepo);
-                postService.IncrementLikeCount(post.Id);
-                Posts = new ObservableCollection<Post>(postService.GetAllPosts());
+                var postLikeService = new PostLikeService(postLikeRepo);
+                var postLikeViewModel = new PostLikeViewModel(UserSession.Session!.Account.Id, viewModel.Post);
+
+                if (!postLikeViewModel.IsValid) return;
+                postLikeService.AddPostLike(postLikeViewModel.ToPostLike());
+                postService.IncrementLikeCount(viewModel.Post.Id);
+                Posts = new ObservableCollection<PostDisplayViewModel>();
+                foreach (var postToCheck in postService.GetAllPosts())
+                {
+                    Posts.Add(new PostDisplayViewModel(postToCheck,
+                        !postLikeService.UserAlreadyLiked(UserSession.Session.Account.Id, postToCheck.Id)));
+                }
 
                 PostsListView.ItemsSource = Posts;
             }

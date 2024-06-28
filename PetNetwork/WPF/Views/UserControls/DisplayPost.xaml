@@ -31,12 +31,12 @@
                 <DataTemplate>
                     <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" HorizontalAlignment="Stretch">
                         <StackPanel HorizontalAlignment="Stretch">
-                            <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="18"/>
-                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,5,0,5"/>
-                            <TextBlock Text="{Binding Author}" FontStyle="Italic" FontSize="12" Foreground="Gray"/>
-                            <TextBlock Text="{Binding ImageUrl}" FontStyle="Italic" Margin="0,5,0,5"/>
-                            <TextBlock Text="{Binding CreatedAt}" FontSize="12" Foreground="Gray"/>
-                            <TextBlock Text="{Binding LikeCount, StringFormat='Likes: {0}'}" FontSize="12" Foreground="Gray"/>
+                            <TextBlock Text="{Binding Post.Title}" FontWeight="Bold" FontSize="18"/>
+                            <TextBlock Text="{Binding Post.Description}" TextWrapping="Wrap" Margin="0,5,0,5"/>
+                            <TextBlock Text="{Binding Post.Author}" FontStyle="Italic" FontSize="12" Foreground="Gray"/>
+                            <TextBlock Text="{Binding Post.ImageUrl}" FontStyle="Italic" Margin="0,5,0,5"/>
+                            <TextBlock Text="{Binding Post.CreatedAt}" FontSize="12" Foreground="Gray"/>
+                            <TextBlock Text="{Binding Post.LikeCount, StringFormat='Likes: {0}'}" FontSize="12" Foreground="Gray"/>
                             <Button Content="Like"
                                     FontSize="20"
                                     Height="Auto"
@@ -47,7 +47,7 @@
                                     HorizontalAlignment="Left"
                                     Command="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                     CommandParameter="{Binding}"
-                                    IsEnabled="{Binding LikeButtonEnabled1}"/>
+                                    IsEnabled="{Binding CanLike}"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

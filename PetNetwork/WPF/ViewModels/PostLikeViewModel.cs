@@ -58,15 +58,10 @@ public class PostLikeViewModel : BaseViewModel
 
     public bool IsValid => _validatedProperties.All(property => this[property] == string.Empty);
 
-    public PostLikeViewModel()
+
+    public PostLikeViewModel(string author, Post post)
     {
         _id = IdGenerator.Generate();
-        _author = string.Empty;
-    }
-
-    public PostLikeViewModel(string id, string author, Post post)
-    {
-        _id = id;
         _author = author;
         _post = post;
     }
