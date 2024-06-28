@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Converters;
+using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 
 namespace PetNetwork.Domain.Models;
@@ -18,7 +18,7 @@ public class Post : ISerializable
 
     [JsonConverter(typeof(StringEnumConverter))]
     public PostStatus Status { get; set; }
-    [JsonConverter(typeof(DateTimeConverter))]
+    [JsonConverter(typeof(StringDateTimeConverter))]
     public DateTime CreatedAt { get; set; }
     public bool Deleted
     {

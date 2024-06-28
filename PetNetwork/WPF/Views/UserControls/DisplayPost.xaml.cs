@@ -4,6 +4,7 @@ using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
 using PetNetwork.WPF.ViewModels;
+using PetNetwork.WPF.Views.Windows;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,8 @@ namespace PetNetwork.WPF.Views.UserControls
         public ObservableCollection<PostDisplayViewModel> Posts { get; set; }
 
         public ICommand LikeCommand { get; }
+
+        public ICommand CommentCommand { get; }
 
         public DisplayPost()
         {
@@ -47,6 +50,7 @@ namespace PetNetwork.WPF.Views.UserControls
             }
             PostsListView.ItemsSource = Posts;
             LikeCommand = new RelayCommand(LikePost);
+            CommentCommand = new RelayCommand(CommentPost);
 
         }
 
@@ -87,6 +91,15 @@ namespace PetNetwork.WPF.Views.UserControls
                 }
 
                 PostsListView.ItemsSource = Posts;
+            }
+        }
+
+        private void CommentPost(object parameter)
+        {
+            if (parameter is PostDisplayViewModel viewModel)
+            {
+                var commentWindow = new CommentWindow(viewModel.Post);
+                commentWindow.Show();
             }
         }
 

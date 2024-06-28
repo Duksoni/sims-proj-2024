@@ -36,5 +36,15 @@ public class CommentService
         return _commentRepository.Get(id);
     }
 
+    public IList<Comment> GetCommentsByPost(string postId)
+    {
+        IList<Comment> comments = new List<Comment>();
+        foreach (var comment in _commentRepository.GetAll())
+        {
+            if (comment.Post.Id == postId) comments.Add(comment);
+        }
+
+        return comments;
+    }
 
 }
