@@ -78,6 +78,14 @@ public class PostRatingViewModel : BaseViewModel
         _rating = 1; // default rating to 1
     }
 
+    public PostRatingViewModel(string author, int rating, Post post)
+    {
+        _id = IdGenerator.Generate();
+        _author = author;
+        _rating = rating;
+        _post = post;
+    }
+
     public PostRating ToPostRating() => new PostRating(Id, Author, Post, Rating);
 }
 
