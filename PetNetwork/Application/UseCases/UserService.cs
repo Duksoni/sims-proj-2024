@@ -30,7 +30,7 @@ public class UserService
 
     public void UpdateAccountStatus(string email, AccountStatus newStatus)
     {
-        if (newStatus == AccountStatus.Deleted)
+        if (newStatus == AccountStatus.Blocked)
         {
             CloseAccount(email);
             return;
@@ -41,6 +41,14 @@ public class UserService
         _userAccountRepository.Update(matchedAccount);
     }
 
+    public void PromoteUser(string email)
+    {
+        var user = GetAccount(email);
+        if (user is not { Role: AccountRole.RegularUser }) return;
+        user.Role = AccountRole.Volunteer;
+        _userAccountRepository.Update(user);
+    }
+
     public UserAccount? GetAccount(string email) => _userAccountRepository.Get(email);
 
     public Person? GetPersonalInfo(string email) => _personRepository.Get(email);
@@ -49,11 +57,15 @@ public class UserService
         _personRepository.GetAll().Where(person => accountEmails.Contains(person.Id)).ToList();
 
     public IList<UserAccount> FindUserAccounts(AccountRole role) => 
-        _userAccountRepository.Find(account => account.Role == role && account.Status != AccountStatus.Deleted);
+        _userAccountRepository.Find(account => account.Role == role);
 
     public IList<Person> FindUsersPersonalInfo(AccountRole role)
     {
         var accountEmails = FindUserAccounts(role).Select(account => account.Id).ToList();
         return GetUserPersonalInfoRange(accountEmails);
     }
+
+    public IList<UserAccount> GetAllAccounts(bool includeRemoved = false) => _userAccountRepository.GetAll(includeRemoved);
+
+    public IList<Person> GetAllPersonalInfo(bool includeRemoved = false) => _personRepository.GetAll(includeRemoved);
 }
