@@ -34,5 +34,18 @@ public class PostLikeService
     {
         return _postLikeRepository.Get(id);
     }
+
+    public bool UserAlreadyLiked(string email, string postId)
+    {
+        foreach (var postLike in _postLikeRepository.GetAll())
+        {
+            if (postLike.Author == email && postLike.Post.Id == postId)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 

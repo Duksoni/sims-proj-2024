@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Interfaces;
-using System.ComponentModel;
 
 namespace PetNetwork.Domain.Models;
 
@@ -11,7 +11,7 @@ public class Comment : ISerializable
     public string Author { get; set; } // user account email
     public Post Post { get; set; }
 
-    [JsonConverter(typeof(DateTimeConverter))]
+    [JsonConverter(typeof(StringDateTimeConverter))]
     public DateTime CreatedAt { get; set; }
     public bool Deleted { get; set; }
 

@@ -73,15 +73,12 @@ public class CommentViewModel : BaseViewModel
             {
                 "Text" => Text != string.Empty ? string.Empty : "Text can't be empty",
                 "Author" => Author != string.Empty ? string.Empty : "Author can't be empty",
-                "CreatedAt" => CreatedAt > DateTime.Now || CreatedAt == DateTime.MinValue
-                    ? string.Empty
-                    : "Date not configured correctly",
                 _ => string.Empty
             };
         }
     }
 
-    private readonly string[] _validatedProperties = { "Text", "Author", "CreatedAt" };
+    private readonly string[] _validatedProperties = { "Text", "Author" };
 
     public bool IsValid => _validatedProperties.All(property => this[property] == string.Empty);
 
@@ -93,9 +90,9 @@ public class CommentViewModel : BaseViewModel
         _createdAt = DateTime.Now;
     }
 
-    public CommentViewModel(string id, string text, string author, Post post)
+    public CommentViewModel(string text, string author, Post post)
     {
-        _id = id;
+        _id = IdGenerator.Generate();
         _text = text;
         _author = author;
         _post = post;
