@@ -17,14 +17,15 @@ namespace PetNetwork.WPF.Views.UserControls
     /// </summary>
     public partial class DisplayPost : UserControl
     {
-
         public ObservableCollection<PostDisplayViewModel> Posts { get; set; }
 
         public ICommand LikeCommand { get; }
-
         public ICommand CommentCommand { get; }
-
         public ICommand RateCommand { get; }
+
+        private readonly PostService _postService;
+        private readonly PostLikeService _postLikeService;
+        private readonly PostRatingService _postRatingService;
 
         public DisplayPost()
         {
@@ -32,29 +33,15 @@ namespace PetNetwork.WPF.Views.UserControls
             DataContext = this;
             SetupButtonNames();
 
-            var postRepo = Injector.CreateInstance<IRepository<Post>>();
-            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
-            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
-            var postLikeService = new PostLikeService(postLikeRepo);
-            var postService = new PostService(postRepo);
-            var postRatingService = new PostRatingService(postRatingRepo);
+            _postService = new PostService(Injector.CreateInstance<IRepository<Post>>());
+            _postLikeService = new PostLikeService(Injector.CreateInstance<IRepository<PostLike>>());
+            _postRatingService = new PostRatingService(Injector.CreateInstance<IRepository<PostRating>>());
 
             Posts = new ObservableCollection<PostDisplayViewModel>();
-            foreach (var post in postService.GetAllActivePosts())
-            {
-                if (UserSession.Session == null)
-                {
-                    Posts.Add(new PostDisplayViewModel(post, false, false));
-                }
-                else
-                {
-                    Posts.Add(new PostDisplayViewModel(post,
-                        !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id),
-                        postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id)));
-                }
+            LoadPosts(_postService.GetAllActivePosts());
 
-            }
             PostsListView.ItemsSource = Posts;
+
             LikeCommand = new RelayCommand(LikePost);
             CommentCommand = new RelayCommand(CommentPost);
             RateCommand = new RelayCommand(RatePost);
@@ -80,26 +67,14 @@ namespace PetNetwork.WPF.Views.UserControls
         {
             if (parameter is PostDisplayViewModel viewModel)
             {
-                var postRepo = Injector.CreateInstance<IRepository<Post>>();
-                var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
-                var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
-                var postService = new PostService(postRepo);
-                var postLikeService = new PostLikeService(postLikeRepo);
                 var postLikeViewModel = new PostLikeViewModel(UserSession.Session!.Account.Id, viewModel.Post);
-                var postRatingService = new PostRatingService(postRatingRepo);
 
                 if (!postLikeViewModel.IsValid) return;
-                postLikeService.AddPostLike(postLikeViewModel.ToPostLike());
-                postService.IncrementLikeCount(viewModel.Post.Id);
-                Posts = new ObservableCollection<PostDisplayViewModel>();
-                foreach (var postToCheck in postService.GetAllActivePosts())
-                {
-                    Posts.Add(new PostDisplayViewModel(postToCheck,
-                        !postLikeService.UserAlreadyLiked(UserSession.Session.Account.Id, postToCheck.Id),
-                        postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
-                }
 
-                PostsListView.ItemsSource = Posts;
+                _postLikeService.AddPostLike(postLikeViewModel.ToPostLike());
+                _postService.IncrementLikeCount(viewModel.Post.Id);
+
+                LoadPosts(_postService.GetAllActivePosts());
             }
         }
 
@@ -117,163 +92,48 @@ namespace PetNetwork.WPF.Views.UserControls
             if (parameter is PostDisplayViewModel viewModel)
             {
                 var ratingWindow = new RatingWindow(viewModel.Post);
-                ratingWindow.Closed += RatingWindow_Closed;
+                ratingWindow.Closed += (s, e) => LoadPosts(_postService.GetAllActivePosts());
                 ratingWindow.Show();
             }
         }
 
-        private void RatingWindow_Closed(object sender, EventArgs e)
-        {
-            var postRepo = Injector.CreateInstance<IRepository<Post>>();
-            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
-            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
-            var postService = new PostService(postRepo);
-            var postLikeService = new PostLikeService(postLikeRepo);
-            var postRatingService = new PostRatingService(postRatingRepo);
-
-            Posts = new ObservableCollection<PostDisplayViewModel>();
-            foreach (var postToCheck in postService.GetAllActivePosts())
-            {
-                Posts.Add(new PostDisplayViewModel(postToCheck,
-                    !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
-                    postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
-            }
-
-            PostsListView.ItemsSource = Posts;
-        }
-
-
         private void CreatePostButton_OnClick(object sender, RoutedEventArgs e)
         {
             var createPostWindow = new CreatePostWindow();
-            createPostWindow.Closed += CreatePost_Closed;
+            createPostWindow.Closed += (s, e) => LoadPosts(_postService.GetAllActivePosts());
             createPostWindow.Show();
-        }
-
-        private void CreatePost_Closed(object sender, EventArgs e)
-        {
-            var postRepo = Injector.CreateInstance<IRepository<Post>>();
-            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
-            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
-            var postService = new PostService(postRepo);
-            var postLikeService = new PostLikeService(postLikeRepo);
-            var postRatingService = new PostRatingService(postRatingRepo);
-
-            Posts = new ObservableCollection<PostDisplayViewModel>();
-            foreach (var postToCheck in postService.GetAllActivePosts())
-            {
-                Posts.Add(new PostDisplayViewModel(postToCheck,
-                    !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
-                    postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
-            }
-
-            PostsListView.ItemsSource = Posts;
         }
 
         private void RankDateButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var postRepo = Injector.CreateInstance<IRepository<Post>>();
-            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
-            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
-            var postService = new PostService(postRepo);
-            var postLikeService = new PostLikeService(postLikeRepo);
-            var postRatingService = new PostRatingService(postRatingRepo);
-
-            Posts = new ObservableCollection<PostDisplayViewModel>();
-            var activeCourses = postService.GetAllActivePosts().OrderByDescending(post => post.CreatedAt);
-            foreach (var postToCheck in activeCourses)
-            {
-                if (UserSession.Session == null)
-                {
-                    Posts.Add(new PostDisplayViewModel(postToCheck, false, false));
-                }
-                else
-                {
-                    Posts.Add(new PostDisplayViewModel(postToCheck,
-                        !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
-                        postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
-                }
-            }
-
-            PostsListView.ItemsSource = Posts;
+            var sortedPosts = _postService.GetAllActivePosts().OrderByDescending(post => post.CreatedAt);
+            LoadPosts(sortedPosts);
         }
 
         private void RankLikeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var postRepo = Injector.CreateInstance<IRepository<Post>>();
-            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
-            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
-            var postService = new PostService(postRepo);
-            var postLikeService = new PostLikeService(postLikeRepo);
-            var postRatingService = new PostRatingService(postRatingRepo);
-
-            Posts = new ObservableCollection<PostDisplayViewModel>();
-            var activeCourses = postService.GetAllActivePosts().OrderByDescending(post => post.LikeCount);
-            foreach (var postToCheck in activeCourses)
-            {
-                if (UserSession.Session == null)
-                {
-                    Posts.Add(new PostDisplayViewModel(postToCheck, false, false));
-                }
-                else
-                {
-                    Posts.Add(new PostDisplayViewModel(postToCheck,
-                        !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
-                        postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
-                }
-            }
-
-            PostsListView.ItemsSource = Posts;
+            var sortedPosts = _postService.GetAllActivePosts().OrderByDescending(post => post.LikeCount);
+            LoadPosts(sortedPosts);
         }
 
         private void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var postRepo = Injector.CreateInstance<IRepository<Post>>();
-            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
-            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
-            var postLikeService = new PostLikeService(postLikeRepo);
-            var postService = new PostService(postRepo);
-            var postRatingService = new PostRatingService(postRatingRepo);
-            var pattern = SearchBox.Text;
-            pattern = pattern.Trim();
-            if (pattern == string.Empty || pattern == "")
+            var pattern = SearchBox.Text.Trim();
+            var posts = string.IsNullOrEmpty(pattern) ? _postService.GetAllActivePosts() : _postService.SearchPosts(pattern);
+            LoadPosts(posts);
+        }
+
+        private void LoadPosts(IEnumerable<Post> posts)
+        {
+            Posts.Clear();
+            foreach (var post in posts)
             {
-                Posts = new ObservableCollection<PostDisplayViewModel>();
-                foreach (var post in postService.GetAllActivePosts())
-                {
-                    if (UserSession.Session == null)
-                    {
-                        Posts.Add(new PostDisplayViewModel(post, false, false));
-                    }
-                    else
-                    {
-                        Posts.Add(new PostDisplayViewModel(post,
-                            !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id),
-                            postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id)));
-                    }
+                var canLike = UserSession.Session == null ? false : !_postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id);
+                var canRate = UserSession.Session == null ? false : _postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id);
 
-                }
+                Posts.Add(new PostDisplayViewModel(post, canLike, canRate));
             }
-            else
-            {
-                Posts = new ObservableCollection<PostDisplayViewModel>();
-                foreach (var post in postService.SearchPosts(pattern))
-                {
-                    if (UserSession.Session == null)
-                    {
-                        Posts.Add(new PostDisplayViewModel(post, false, false));
-                    }
-                    else
-                    {
-                        Posts.Add(new PostDisplayViewModel(post,
-                            !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id),
-                            postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id)));
-                    }
-                }
-            }
-            PostsListView.ItemsSource = Posts;
-
-
         }
     }
+
 }
