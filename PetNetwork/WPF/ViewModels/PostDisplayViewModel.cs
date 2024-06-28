@@ -8,11 +8,14 @@ public class PostDisplayViewModel
 
     public bool CanLike { get; set; }
 
+    public bool CanRate { get; set; }
 
-    public PostDisplayViewModel(Post post, bool canLike)
+
+    public PostDisplayViewModel(Post post, bool canLike, bool canRate)
     {
         Post = post;
         CanLike = canLike;
+        CanRate = canRate;
     }
 }
 

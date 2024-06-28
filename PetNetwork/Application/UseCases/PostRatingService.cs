@@ -34,5 +34,15 @@ public class PostRatingService
     {
         return _postRatingRepository.Get(id);
     }
+
+    public bool CanUserRate(string email, string postId)
+    {
+        foreach (var rating in _postRatingRepository.GetAll())
+        {
+            if (rating.Author == email && rating.Post.Id == postId) return false;
+        }
+
+        return true;
+    }
 }
 
