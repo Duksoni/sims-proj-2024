@@ -81,5 +81,17 @@ public class AddressViewModel : BaseViewModel, IDataErrorInfo
 
     private readonly string[] _validatedProperties = { "Street", "StreetNo", "Town" };
 
+    public AddressViewModel()
+    {
+    }
+
+    public AddressViewModel(Address address)
+    {
+        _street = address.Street;
+        _streetNo = address.StreetNo;
+        _town = address.Town;
+        _postalCode = address.PostalCode;
+    }
+
     public bool IsValid => _validatedProperties.All(property => this[property] == string.Empty);
 }
