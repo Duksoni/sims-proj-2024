@@ -6,7 +6,7 @@
     "Phone": "0612345678",
     "Gender": "Male",
     "Address": {
-      "Id": "Petra_Kocica_11",
+      "Id": "Petra-Kocica_11",
       "Street": "Petra Kocica",
       "StreetNo": "11",
       "Town": "Smederevo",
@@ -14,6 +14,23 @@
       "Deleted": false
     },
     "IdentityCardNo": "123456789",
+    "Deleted": false
+  },
+  {
+    "Id": "mika@gmail.com",
+    "FirstName": "Mika",
+    "LastName": "Mikic",
+    "Phone": "0611234156",
+    "Gender": "Male",
+    "Address": {
+      "Id": "Mike-Antica_22",
+      "Street": "Mike Antica",
+      "StreetNo": "22",
+      "Town": "Novi Sad",
+      "PostalCode": 21110,
+      "Deleted": false
+    },
+    "IdentityCardNo": "010704009",
     "Deleted": false
   }
 ]
