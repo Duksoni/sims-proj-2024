@@ -11,7 +11,7 @@
             <MenuItem Header="Menu" FontSize="18">
                 <MenuItem Header="Login" Name="Login" IsEnabled="False" FontSize="16"/>
                 <MenuItem Header="Register" Name="Register" IsEnabled="False" FontSize="16"/>
-                <MenuItem Header="Logout" Name="Logout" IsEnabled="False"
+                <MenuItem Header="Logout" Name="Logout"
                           Command="{Binding LogoutCommand}" FontSize="16"/>
                 <Separator/>
                 <MenuItem Name="Exit" Header="Exit" FontSize="16"/>
