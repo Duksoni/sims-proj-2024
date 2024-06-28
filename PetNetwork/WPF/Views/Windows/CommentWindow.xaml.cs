@@ -27,24 +27,12 @@ namespace PetNetwork.WPF.Views.Windows
         {
             InitializeComponent();
             Post = post;
-            SetupButtonDisability();
+            CommentButton.IsEnabled = UserSession.Session == null;
             Title = $"Comments for post: {Post.Title}";
             var commentRepo = Injector.CreateInstance<IRepository<Comment>>();
             var commentService = new CommentService(commentRepo);
             Comments = new ObservableCollection<Comment>(commentService.GetCommentsByPost(Post.Id));
             CommentListView.ItemsSource = Comments;
-        }
-
-        private void SetupButtonDisability()
-        {
-            if (UserSession.Session == null)
-            {
-                CommentButton.IsEnabled = false;
-            }
-            else
-            {
-                CommentButton.IsEnabled = true;
-            }
         }
 
         private void CommentButton_OnClick(object sender, RoutedEventArgs e)
