@@ -133,7 +133,7 @@ public class PostViewModel : BaseViewModel
                 "Description" => Description != string.Empty ? string.Empty : "Description can't be empty",
                 "Author" => Author != string.Empty ? string.Empty : "Author can't be empty",
                 "LikeCount" => LikeCount >= 0 ? string.Empty : "Like count can't be less than zero",
-                "CreatedAt" => CreatedAt > DateTime.Now || CreatedAt == DateTime.MinValue
+                "CreatedAt" => CreatedAt < DateTime.Now && CreatedAt != DateTime.MinValue
                     ? string.Empty
                     : "Date not configured correctly",
                 _ => string.Empty
@@ -155,7 +155,7 @@ public class PostViewModel : BaseViewModel
         _imageUrl = string.Empty;
         _videoUrl = string.Empty;
         _likeCount = 0;
-        _createdAt = DateTime.MinValue;
+        _createdAt = DateTime.Now;
     }
 
     public Post ToPost() => new Post(Id, Title, Description, Author, ImageUrl, VideoUrl, LikeCount, Status, CreatedAt);

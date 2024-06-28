@@ -19,12 +19,23 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="" Name="CreatePostButton" Height="Auto" Width="Auto" FontSize="24"
-                    Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+                    Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CreatePostButton_OnClick"></Button>
             <TextBox Grid.Column="1" Name="SearchBox" Margin="5" ></TextBox>
             <Button Grid.Column="2" Content="Search" Height="Auto" Width="Auto" FontSize="24" Margin="5"
-                    Padding="20,0,20,0"  HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
+                    Padding="20,0,20,0"  HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Name="SearchButton" Click="SearchButton_OnClick"></Button>
+
+            <Button Grid.Column="3" Content="Rank by date" Height="Auto" Width="Auto" FontSize="24" Margin="5"
+                    Padding="20,0,20,0"  HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Name="RankDateButton" Click="RankDateButton_OnClick"></Button>
+ 
+            <Button Grid.Column="4" Content="Rank by likes" Height="Auto" Width="Auto" FontSize="24" Margin="5"
+                    Padding="20,0,20,0"  HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Name="RankLikeButton" Click="RankLikeButton_OnClick"></Button>
         </Grid>
         <ListView Grid.Row="1" Name="PostsListView" ItemsSource="{Binding Posts}" HorizontalContentAlignment="Stretch">
             <ListView.ItemTemplate>

@@ -42,6 +42,17 @@ public class PostService
         return _postRepository.GetAll();
     }
 
+    public IList<Post> GetAllActivePosts()
+    {
+        IList<Post> actives = new List<Post>();
+        foreach (var post in _postRepository.GetAll())
+        {
+            if (post.Status == PostStatus.Active) actives.Add(post);
+        }
+
+        return actives;
+    }
+
     public void IncrementLikeCount(string id)
     {
         Post? post = _postRepository.Get(id);
@@ -50,5 +61,15 @@ public class PostService
         _postRepository.Update(post);
     }
 
+    public IList<Post> SearchPosts(string pattern)
+    {
+        IList<Post> posts = new List<Post>();
+        foreach (var post in GetAllActivePosts())
+        {
+            if (post.Title.ToLower().Contains(pattern.ToLower())) posts.Add(post);
+        }
+
+        return posts;
+    }
 
 }

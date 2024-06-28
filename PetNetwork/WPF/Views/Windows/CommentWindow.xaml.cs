@@ -58,6 +58,7 @@ namespace PetNetwork.WPF.Views.Windows
             commentService.AddComment(commentViewModel.ToComment());
             Comments = new ObservableCollection<Comment>(commentService.GetCommentsByPost(Post.Id));
             CommentListView.ItemsSource = Comments;
+            CommentTextBox.Text = "";
         }
     }
 }

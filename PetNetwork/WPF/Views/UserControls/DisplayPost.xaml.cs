@@ -40,7 +40,7 @@ namespace PetNetwork.WPF.Views.UserControls
             var postRatingService = new PostRatingService(postRatingRepo);
 
             Posts = new ObservableCollection<PostDisplayViewModel>();
-            foreach (var post in postService.GetAllPosts())
+            foreach (var post in postService.GetAllActivePosts())
             {
                 if (UserSession.Session == null)
                 {
@@ -92,7 +92,7 @@ namespace PetNetwork.WPF.Views.UserControls
                 postLikeService.AddPostLike(postLikeViewModel.ToPostLike());
                 postService.IncrementLikeCount(viewModel.Post.Id);
                 Posts = new ObservableCollection<PostDisplayViewModel>();
-                foreach (var postToCheck in postService.GetAllPosts())
+                foreach (var postToCheck in postService.GetAllActivePosts())
                 {
                     Posts.Add(new PostDisplayViewModel(postToCheck,
                         !postLikeService.UserAlreadyLiked(UserSession.Session.Account.Id, postToCheck.Id),
@@ -117,7 +117,7 @@ namespace PetNetwork.WPF.Views.UserControls
             if (parameter is PostDisplayViewModel viewModel)
             {
                 var ratingWindow = new RatingWindow(viewModel.Post);
-                ratingWindow.Closed += RatingWindow_Closed; // Subscribe to the Closed event
+                ratingWindow.Closed += RatingWindow_Closed;
                 ratingWindow.Show();
             }
         }
@@ -132,7 +132,7 @@ namespace PetNetwork.WPF.Views.UserControls
             var postRatingService = new PostRatingService(postRatingRepo);
 
             Posts = new ObservableCollection<PostDisplayViewModel>();
-            foreach (var postToCheck in postService.GetAllPosts())
+            foreach (var postToCheck in postService.GetAllActivePosts())
             {
                 Posts.Add(new PostDisplayViewModel(postToCheck,
                     !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
@@ -143,5 +143,137 @@ namespace PetNetwork.WPF.Views.UserControls
         }
 
 
+        private void CreatePostButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var createPostWindow = new CreatePostWindow();
+            createPostWindow.Closed += CreatePost_Closed;
+            createPostWindow.Show();
+        }
+
+        private void CreatePost_Closed(object sender, EventArgs e)
+        {
+            var postRepo = Injector.CreateInstance<IRepository<Post>>();
+            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
+            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
+            var postService = new PostService(postRepo);
+            var postLikeService = new PostLikeService(postLikeRepo);
+            var postRatingService = new PostRatingService(postRatingRepo);
+
+            Posts = new ObservableCollection<PostDisplayViewModel>();
+            foreach (var postToCheck in postService.GetAllActivePosts())
+            {
+                Posts.Add(new PostDisplayViewModel(postToCheck,
+                    !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
+                    postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
+            }
+
+            PostsListView.ItemsSource = Posts;
+        }
+
+        private void RankDateButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var postRepo = Injector.CreateInstance<IRepository<Post>>();
+            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
+            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
+            var postService = new PostService(postRepo);
+            var postLikeService = new PostLikeService(postLikeRepo);
+            var postRatingService = new PostRatingService(postRatingRepo);
+
+            Posts = new ObservableCollection<PostDisplayViewModel>();
+            var activeCourses = postService.GetAllActivePosts().OrderByDescending(post => post.CreatedAt);
+            foreach (var postToCheck in activeCourses)
+            {
+                if (UserSession.Session == null)
+                {
+                    Posts.Add(new PostDisplayViewModel(postToCheck, false, false));
+                }
+                else
+                {
+                    Posts.Add(new PostDisplayViewModel(postToCheck,
+                        !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
+                        postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
+                }
+            }
+
+            PostsListView.ItemsSource = Posts;
+        }
+
+        private void RankLikeButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var postRepo = Injector.CreateInstance<IRepository<Post>>();
+            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
+            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
+            var postService = new PostService(postRepo);
+            var postLikeService = new PostLikeService(postLikeRepo);
+            var postRatingService = new PostRatingService(postRatingRepo);
+
+            Posts = new ObservableCollection<PostDisplayViewModel>();
+            var activeCourses = postService.GetAllActivePosts().OrderByDescending(post => post.LikeCount);
+            foreach (var postToCheck in activeCourses)
+            {
+                if (UserSession.Session == null)
+                {
+                    Posts.Add(new PostDisplayViewModel(postToCheck, false, false));
+                }
+                else
+                {
+                    Posts.Add(new PostDisplayViewModel(postToCheck,
+                        !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, postToCheck.Id),
+                        postRatingService.CanUserRate(UserSession.Session!.Account.Id, postToCheck.Id)));
+                }
+            }
+
+            PostsListView.ItemsSource = Posts;
+        }
+
+        private void SearchButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var postRepo = Injector.CreateInstance<IRepository<Post>>();
+            var postLikeRepo = Injector.CreateInstance<IRepository<PostLike>>();
+            var postRatingRepo = Injector.CreateInstance<IRepository<PostRating>>();
+            var postLikeService = new PostLikeService(postLikeRepo);
+            var postService = new PostService(postRepo);
+            var postRatingService = new PostRatingService(postRatingRepo);
+            var pattern = SearchBox.Text;
+            pattern = pattern.Trim();
+            if (pattern == string.Empty || pattern == "")
+            {
+                Posts = new ObservableCollection<PostDisplayViewModel>();
+                foreach (var post in postService.GetAllActivePosts())
+                {
+                    if (UserSession.Session == null)
+                    {
+                        Posts.Add(new PostDisplayViewModel(post, false, false));
+                    }
+                    else
+                    {
+                        Posts.Add(new PostDisplayViewModel(post,
+                            !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id),
+                            postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id)));
+                    }
+
+                }
+            }
+            else
+            {
+                Posts = new ObservableCollection<PostDisplayViewModel>();
+                foreach (var post in postService.SearchPosts(pattern))
+                {
+                    if (UserSession.Session == null)
+                    {
+                        Posts.Add(new PostDisplayViewModel(post, false, false));
+                    }
+                    else
+                    {
+                        Posts.Add(new PostDisplayViewModel(post,
+                            !postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id),
+                            postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id)));
+                    }
+                }
+            }
+            PostsListView.ItemsSource = Posts;
+
+
+        }
     }
 }
