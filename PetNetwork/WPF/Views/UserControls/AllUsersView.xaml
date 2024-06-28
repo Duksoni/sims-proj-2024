@@ -13,7 +13,20 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <TextBlock Text="Actions" FontSize="20" HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Reject" Height="25" Width="100" Margin="15" FontSize="15"
+                    Command="{Binding RejectUserCommand}"/>
+            <Button Content="Accept" Height="25" Width="100" Margin="15" FontSize="15"
+                    Command="{Binding AcceptUserCommand}"/>
+            <Button Content="Promote" Height="25" Width="100" Margin="15" FontSize="15"
+                    Command="{Binding PromoteUserCommand}"/>
+            <Button Content="Block" Height="25" Width="100" Margin="15" FontSize="15"
+                    Command="{Binding BlockUserCommand}"/>
+        </StackPanel>
+
         <DataGrid x:Name="VolunteersGrid" Grid.Row="2" AutoGenerateColumns="False" Margin="10" FontSize="15"
                   ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                   IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
@@ -41,16 +54,5 @@
                 <DataGridTextColumn Header="Id card no." Binding="{Binding IdentityCardNo}"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Reject" Height="25" Width="100" Margin="15" FontSize="15"
-                    Command="{Binding RejectUserCommand}"/>
-            <Button Content="Accept" Height="25" Width="100" Margin="15" FontSize="15"
-                    Command="{Binding AcceptUserCommand}"/>
-            <Button Content="Promote" Height="25" Width="100" Margin="15" FontSize="15"
-                    Command="{Binding PromoteUserCommand}"/>
-            <Button Content="Block" Height="25" Width="100" Margin="15" FontSize="15"
-                    Command="{Binding BlockUserCommand}"/>
-        </StackPanel>
     </Grid>
 </UserControl>
