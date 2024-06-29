@@ -40,35 +40,23 @@ public class MessageService
         return _messageRepository.Get(id);
     }
 
-    public IList<Message> GetAllMessages(string recipient)
+    public IList<Message> GetMessagesForChat(string sender, string recipient)
     {
         IList<Message> messages = new List<Message>();
         foreach (var message in _messageRepository.GetAll())
         {
-            if (message.Recipient != null && message.Recipient == recipient) messages.Add(message);
+            if (message.Status == MessageStatus.Deleted) continue;
 
-            else if (message.GroupName != null && _messageGroupService.IsMember(message.GroupName, recipient))
-                messages.Add(message);
-        }
-        return messages;
-    }
-
-    public IList<Message> GetSentMessages(string sender)
-    {
-        IList<Message> messages = new List<Message>();
-        foreach (var message in _messageRepository.GetAll())
-        {
-            if (message.Sender == sender) messages.Add(message);
-        }
-        return messages;
-    }
-
-    public IList<Message> GetUnreadMessages(string recipient)
-    {
-        IList<Message> messages = new List<Message>();
-        foreach (var message in GetAllMessages(recipient))
-        {
-            if (message.Status == MessageStatus.Unread) messages.Add(message);
+            if (message.Recipient != null)
+            {
+                if ((message.Sender == sender && message.Recipient == recipient) || (message.Sender == recipient && message.Recipient == sender))
+                    messages.Add(message);
+            }
+            else if (message.GroupName != null)
+            {
+                if (_messageGroupService.IsMember(message.GroupName, sender) && _messageGroupService.IsMember(message.GroupName, recipient))
+                    messages.Add(message);
+            }
         }
         return messages;
     }
@@ -81,13 +69,14 @@ public class MessageService
         _messageRepository.Update(message);
     }
 
-    public IList<Message> SearchMessages(string pattern, string recipient)
+    public IList<string> GetAllChats(string email)
     {
-        IList<Message> messages = new List<Message>();
-        foreach (var message in GetAllMessages(recipient))
-        {
-            if (message.Title.ToLower().Contains(pattern.ToLower())) messages.Add(message);
-        }
-        return messages;
+        return _messageRepository.GetAll()
+            .Where(m => m.Sender == email || m.Recipient == email || (m.GroupName != null && _messageGroupService.IsMember(m.GroupName, email)))
+            .SelectMany(m => new List<string?> { m.Sender, m.Recipient, m.GroupName })
+            .Where(e => e != null && e != email) // Exclude the parameter email and null values
+            .Distinct()
+            .Cast<string>()
+            .ToList();
     }
 }
