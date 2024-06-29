@@ -8,9 +8,12 @@ public class MessageService
 {
     private readonly IRepository<Message> _messageRepository;
 
-    public MessageService(IRepository<Message> messageRepository)
+    private readonly MessageGroupService _messageGroupService;
+
+    public MessageService(IRepository<Message> messageRepository, MessageGroupService messageGroupService)
     {
         _messageRepository = messageRepository;
+        _messageGroupService = messageGroupService;
     }
 
     public void AddMessage(Message message)
@@ -37,15 +40,33 @@ public class MessageService
         return _messageRepository.Get(id);
     }
 
-    public IList<Message> GetAllMessages()
-    {
-        return _messageRepository.GetAll();
-    }
-
-    public IList<Message> GetUnreadMessages()
+    public IList<Message> GetAllMessages(string recipient)
     {
         IList<Message> messages = new List<Message>();
         foreach (var message in _messageRepository.GetAll())
+        {
+            if (message.Recipient != null && message.Recipient == recipient) messages.Add(message);
+
+            else if (message.GroupName != null && _messageGroupService.IsMember(message.GroupName, recipient))
+                messages.Add(message);
+        }
+        return messages;
+    }
+
+    public IList<Message> GetSentMessages(string sender)
+    {
+        IList<Message> messages = new List<Message>();
+        foreach (var message in _messageRepository.GetAll())
+        {
+            if (message.Sender == sender) messages.Add(message);
+        }
+        return messages;
+    }
+
+    public IList<Message> GetUnreadMessages(string recipient)
+    {
+        IList<Message> messages = new List<Message>();
+        foreach (var message in GetAllMessages(recipient))
         {
             if (message.Status == MessageStatus.Unread) messages.Add(message);
         }
@@ -60,10 +81,10 @@ public class MessageService
         _messageRepository.Update(message);
     }
 
-    public IList<Message> SearchMessages(string pattern)
+    public IList<Message> SearchMessages(string pattern, string recipient)
     {
         IList<Message> messages = new List<Message>();
-        foreach (var message in _messageRepository.GetAll())
+        foreach (var message in GetAllMessages(recipient))
         {
             if (message.Title.ToLower().Contains(pattern.ToLower())) messages.Add(message);
         }
