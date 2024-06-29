@@ -4,9 +4,9 @@ namespace PetNetwork.WPF.ViewModels;
 
 public class MainMenuBarViewModel
 {
-    public RelayCommand LoginCommand => new(_ => Login());
+    public RelayCommand LoginCommand => new(_ => Login(), _ => UserSession.Session == null);
 
-    public RelayCommand LogoutCommand => new(_ => Logout());
+    public RelayCommand LogoutCommand => new(_ => Logout(), _ => UserSession.Session != null);
 
 
     private static void Login()

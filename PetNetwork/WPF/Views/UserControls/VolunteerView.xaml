@@ -23,13 +23,13 @@
             </Grid>
         </TabItem>
         <TabItem Header="Manage users" Width="120">
-            <Grid>
-
-            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:AllUsersView/>
+            </ScrollViewer>
         </TabItem>
         <TabItem Header="Manage payments" Width="120">
             <Grid>
-                    
+
             </Grid>
         </TabItem>
     </TabControl>

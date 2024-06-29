@@ -29,7 +29,7 @@ public partial class MainMenuBarView
         Login.Click += (_, _) =>
         {
             if (new LoginView().ShowDialog() == true)
-                viewModel.LoginCommand.Execute(null);
+                viewModel.LoginCommand.Execute();
         };
         Register.IsEnabled = true;
         Register.Click += (_, _) =>

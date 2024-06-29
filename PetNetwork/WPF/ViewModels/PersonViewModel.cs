@@ -7,6 +7,8 @@ namespace PetNetwork.WPF.ViewModels;
 
 public class PersonViewModel : BaseViewModel, IDataErrorInfo
 {
+    public string Email { get; } = string.Empty;
+
     private string _firstName = string.Empty;
     public string FirstName
     {
@@ -67,6 +69,21 @@ public class PersonViewModel : BaseViewModel, IDataErrorInfo
             _identityCardNo = value;
             OnPropertyChanged();
         }
+    }
+
+    public PersonViewModel()
+    {
+    }
+
+    public PersonViewModel(Person personalInfo)
+    {
+        _firstName = personalInfo.FirstName;
+        _lastName = personalInfo.LastName;
+        _phone = personalInfo.Phone;
+        _gender = personalInfo.Gender;
+        Address = new AddressViewModel(personalInfo.Address);
+        _identityCardNo = personalInfo.IdentityCardNo;
+        Email = personalInfo.Id;
     }
 
     public Person ToPerson(string email) =>

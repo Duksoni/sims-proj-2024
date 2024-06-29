@@ -7,6 +7,13 @@
     "Deleted": false
   },
   {
+    "Id": "mika@gmail.com",
+    "Password": "8efe310f9ab3efeae8d410a8e0166eb2",
+    "Role": "RegularUser",
+    "Status": "PendingApproval",
+    "Deleted": false
+  },
+  {
     "Id": "patrik@gmail.com",
     "Password": "8efe310f9ab3efeae8d410a8e0166eb2",
     "Role": "RegularUser",

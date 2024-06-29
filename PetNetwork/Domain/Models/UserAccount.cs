@@ -30,11 +30,11 @@ public class UserAccount : ISerializable
     [JsonIgnore]
     public bool Deleted
     {
-        get => Status == AccountStatus.Deleted;
+        get => Status == AccountStatus.Blocked;
         set
         {
-            if (Status == AccountStatus.Deleted || !value) return;
-            Status = AccountStatus.Deleted;
+            if (Status == AccountStatus.Blocked || !value) return;
+            Status = AccountStatus.Blocked;
         }
     }
 
