@@ -28,6 +28,11 @@ public class MessageGroupService
         return _messageGroupsRepository.Get(id);
     }
 
+    public IList<MessageGroup> GetAll()
+    {
+        return _messageGroupsRepository.GetAll();
+    }
+
     public void JoinGroup(MessageGroup messageGroup, string email)
     {
         messageGroup.Members.Add(email);

@@ -16,6 +16,7 @@ public partial class AllChatsView : UserControl
 {
     public ObservableCollection<string> Chats { get; set; }
     public ObservableCollection<string> Members { get; set; }
+    public ObservableCollection<string> Groups { get; set; }
 
     private readonly MessageGroupService _messageGroupService;
     private readonly MessageService _messageService;
@@ -36,43 +37,94 @@ public partial class AllChatsView : UserControl
         LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
 
         Members = new ObservableCollection<string>();
-        
         LoadMembers(_userService.GetAllPersonalInfo());
+
+        Groups = new ObservableCollection<string>();
+        LoadGroups(_messageGroupService.GetAll());
 
         ChatListView.ItemsSource = Chats;  
     }
 
     private void CreateGroupButton_Click(object sender, RoutedEventArgs e)
     {
-
+        var createGroupWindow = new CreateMessageGroup();
+        createGroupWindow.Closed += (s, e) => LoadGroups(_messageGroupService.GetAll());
+        createGroupWindow.Show();
     }
 
     private void JoinGroupButton_Click(object sender, RoutedEventArgs e)
     {
+        var groupName = GroupsComboBox.SelectedValue;
+        if (groupName == null)
+        {
+            MessageBox.Show("Must choose a group");
+            return;
+        }
 
+        var group = _messageGroupService.GetGroup((string)groupName);
+        if (group == null)
+        {
+            MessageBox.Show("Group doesn't exist");
+            return;
+        }
+
+        if (_messageGroupService.IsMember((string)groupName, UserSession.Session!.Account.Id))
+        {
+            MessageBox.Show("Already a member");
+            return;
+        }
+
+        _messageGroupService.JoinGroup(group, UserSession.Session!.Account.Id);
+        MessageBox.Show("Successfully joined", (string)groupName);
+        GroupsComboBox.SelectedItem = null;
     }
 
     private void LeaveGroupButton_Click(object sender, RoutedEventArgs e)
     {
+        var groupName = GroupsComboBox.SelectedValue;
+        if (groupName == null)
+        {
+            MessageBox.Show("Must choose a group");
+            return;
+        }
 
+        var group = _messageGroupService.GetGroup((string)groupName);
+        if (group == null)
+        {
+            MessageBox.Show("Group doesn't exist");
+            return;
+        }
+
+        if (!_messageGroupService.IsMember((string)groupName, UserSession.Session!.Account.Id))
+        {
+            MessageBox.Show("Not a member");
+            return;
+        }
+
+        _messageGroupService.LeaveGroup(group, UserSession.Session!.Account.Id);
+        MessageBox.Show("Successfully left", (string)groupName);
+        GroupsComboBox.SelectedItem = null;
     }
 
     private void LoadChats(IList<string> chats) 
     {
         Chats.Clear();
         foreach (var chat in chats)
-        {
             Chats.Add(chat);
-        }
     }
 
     private void LoadMembers(IList<Person> members)
     {
         Members.Clear();
         foreach (var member in members)
-        {
             Members.Add(member.Id);
-        }
+    }
+
+    private void LoadGroups(IList<MessageGroup> groups)
+    {
+        Groups.Clear();
+        foreach (var group in groups)
+            Groups.Add(group.Id);
     }
 
     private void SendMessage_Click(object sender, RoutedEventArgs e)
