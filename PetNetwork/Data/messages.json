@@ -1,0 +1,28 @@
+[
+  {
+    "Id": "dfe91405-b5ca-4381-a9ee-56db62567594",
+    "Sender": "pera@gmail.com",
+    "Recipient": "mika@gmail.com",
+    "GroupName": "",
+    "Title": "dfhsh",
+    "Body": "ahfshs",
+    "ImageUrl": "",
+    "VideoUrl": "",
+    "SendTime": "2024-06-30T12:27:17.5740644+02:00",
+    "Status": 0,
+    "Deleted": false
+  },
+  {
+    "Id": "268f0c09-7d2b-48ab-a389-629bcd6f907f",
+    "Sender": "pera@gmail.com",
+    "Recipient": "patrik@gmail.com",
+    "GroupName": "",
+    "Title": "angjkbdsajkg",
+    "Body": "agasha",
+    "ImageUrl": "",
+    "VideoUrl": "",
+    "SendTime": "2024-06-30T12:34:51.8139701+02:00",
+    "Status": 0,
+    "Deleted": false
+  }
+]

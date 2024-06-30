@@ -13,8 +13,8 @@
             </Grid>
         </TabItem>
         <TabItem Header="Chat" Width="120">
-            <Grid>
-
+            <Grid ScrollViewer.CanContentScroll="True">
+                <local:AllChatsView/>
             </Grid>
         </TabItem>
         <TabItem Header="Manage posts" Width="120">

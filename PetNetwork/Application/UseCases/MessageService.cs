@@ -47,12 +47,12 @@ public class MessageService
         {
             if (message.Status == MessageStatus.Deleted) continue;
 
-            if (message.Recipient != null)
+            if (!string.IsNullOrEmpty(message.Recipient))
             {
                 if ((message.Sender == sender && message.Recipient == recipient) || (message.Sender == recipient && message.Recipient == sender))
                     messages.Add(message);
             }
-            else if (message.GroupName != null)
+            else if (!string.IsNullOrEmpty(message.GroupName))
             {
                 if (_messageGroupService.IsMember(message.GroupName, sender) && _messageGroupService.IsMember(message.GroupName, recipient))
                     messages.Add(message);
@@ -74,7 +74,7 @@ public class MessageService
         return _messageRepository.GetAll()
             .Where(m => m.Sender == email || m.Recipient == email || (m.GroupName != null && _messageGroupService.IsMember(m.GroupName, email)))
             .SelectMany(m => new List<string?> { m.Sender, m.Recipient, m.GroupName })
-            .Where(e => e != null && e != email) // Exclude the parameter email and null values
+            .Where(e => e != null && e != string.Empty && e != email) // Exclude the parameter email and null values
             .Distinct()
             .Cast<string>()
             .ToList();

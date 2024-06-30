@@ -1,0 +1,49 @@
+﻿<Window x:Class="PetNetwork.WPF.Views.Windows.SendMessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PetNetwork.WPF.Views.Windows"
+        mc:Ignorable="d"
+        Title="SendMessageWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24*" />
+            <RowDefinition Height="24*" />
+            <RowDefinition Height="24*" />
+            <RowDefinition Height="24*" />
+            <RowDefinition Height="17*" />
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="24*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="0.7*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="1" FontSize="36" Name="CreateTitle"
+           VerticalAlignment="Center" HorizontalAlignment="Left" Margin="160,0,0,0"/>
+
+        <TextBlock Grid.Row="1" Text="Title:" FontSize="24" 
+           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" Name="TitleTextBox" 
+         Text="{Binding MessageViewModel.Title}"></TextBox>
+
+        <TextBlock Grid.Row="2" Text="Body:" FontSize="24" 
+           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" Name="BodyTextBox"
+         Text="{Binding MessageViewModel.Body}"></TextBox>
+
+        <TextBlock Grid.Row="3" Text="Image URL:" FontSize="24" 
+           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" Name="ImageTextBox"
+         Text="{Binding MessageViewModel.ImageUrl}"></TextBox>
+
+        <TextBlock Grid.Row="4" Text="Video URL:" FontSize="24" 
+           VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" Name="VideoTextBox" Grid.RowSpan="2"
+         Text="{Binding MessageViewModel.VideoUrl}"></TextBox>
+
+        <Button Grid.Row="6" Name="SendButton" Content="Send" Click="SendButton_Click"/>
+    </Grid>
+</Window>
