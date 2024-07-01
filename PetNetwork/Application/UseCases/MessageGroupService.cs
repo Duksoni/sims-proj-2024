@@ -33,6 +33,17 @@ public class MessageGroupService
         return _messageGroupsRepository.GetAll();
     }
 
+    public IList<MessageGroup> GetJoinedGroups(string email)
+    {
+        IList<MessageGroup> groups = new List<MessageGroup>();
+        foreach (var group in _messageGroupsRepository.GetAll())
+        {
+            if (IsMember(group.Id, email)) 
+                groups.Add(group);
+        }
+        return groups;
+    }
+
     public void JoinGroup(MessageGroup messageGroup, string email)
     {
         messageGroup.Members.Add(email);

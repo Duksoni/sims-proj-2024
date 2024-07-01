@@ -17,6 +17,7 @@ public partial class AllChatsView : UserControl
     public ObservableCollection<string> Chats { get; set; }
     public ObservableCollection<string> Members { get; set; }
     public ObservableCollection<string> Groups { get; set; }
+    public ObservableCollection<string> JoinedGroups { get; set; }
 
     private readonly MessageGroupService _messageGroupService;
     private readonly MessageService _messageService;
@@ -37,10 +38,13 @@ public partial class AllChatsView : UserControl
         LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
 
         Members = new ObservableCollection<string>();
-        LoadMembers(_userService.GetAllPersonalInfo());
+        LoadRecipients(_userService.GetAllPersonalInfo());
 
         Groups = new ObservableCollection<string>();
         LoadGroups(_messageGroupService.GetAll());
+
+        JoinedGroups = new ObservableCollection<string>();
+        LoadJoinedGroups(_messageGroupService.GetJoinedGroups(UserSession.Session!.Account.Id));
 
         ChatListView.ItemsSource = Chats;  
     }
@@ -49,6 +53,7 @@ public partial class AllChatsView : UserControl
     {
         var createGroupWindow = new CreateMessageGroup();
         createGroupWindow.Closed += (s, e) => LoadGroups(_messageGroupService.GetAll());
+        createGroupWindow.Closed += (s, e) => LoadJoinedGroups(_messageGroupService.GetJoinedGroups(UserSession.Session!.Account.Id));
         createGroupWindow.Show();
     }
 
@@ -77,6 +82,7 @@ public partial class AllChatsView : UserControl
         _messageGroupService.JoinGroup(group, UserSession.Session!.Account.Id);
         MessageBox.Show("Successfully joined", (string)groupName);
         GroupsComboBox.SelectedItem = null;
+        LoadJoinedGroups(_messageGroupService.GetJoinedGroups(UserSession.Session!.Account.Id));
     }
 
     private void LeaveGroupButton_Click(object sender, RoutedEventArgs e)
@@ -104,6 +110,7 @@ public partial class AllChatsView : UserControl
         _messageGroupService.LeaveGroup(group, UserSession.Session!.Account.Id);
         MessageBox.Show("Successfully left", (string)groupName);
         GroupsComboBox.SelectedItem = null;
+        LoadJoinedGroups(_messageGroupService.GetJoinedGroups(UserSession.Session!.Account.Id));
     }
 
     private void LoadChats(IList<string> chats) 
@@ -113,11 +120,21 @@ public partial class AllChatsView : UserControl
             Chats.Add(chat);
     }
 
-    private void LoadMembers(IList<Person> members)
+    private void LoadRecipients(IList<Person> members)
     {
         Members.Clear();
         foreach (var member in members)
+        {
+            if (member.Id == UserSession.Session!.Account.Id) continue;
             Members.Add(member.Id);
+        }
+    }
+
+    private void LoadJoinedGroups(IList<MessageGroup> groups)
+    {
+        JoinedGroups.Clear();
+        foreach (var group in groups)
+            JoinedGroups.Add(group.Id);
     }
 
     private void LoadGroups(IList<MessageGroup> groups)
@@ -129,8 +146,35 @@ public partial class AllChatsView : UserControl
 
     private void SendMessage_Click(object sender, RoutedEventArgs e)
     {
-        var sendMessageWindow = new SendMessageWindow((string)MembersComboBox.SelectedValue, false);
-        sendMessageWindow.Closed += (s, e) => LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
-        sendMessageWindow.Show();
+        var reciepient = RecipientsComboBox.SelectedValue;
+        var group = JoinedGroupsComboBox.SelectedValue;
+        if (reciepient != null) 
+        {
+            var sendMessageWindow = new SendMessageWindow((string)reciepient, false);
+            sendMessageWindow.Closed += (s, e) => LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
+            sendMessageWindow.Show();
+        }
+        else if (group != null)
+        {
+            var sendMessageWindow = new SendMessageWindow((string)group, true);
+            sendMessageWindow.Closed += (s, e) => LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
+            sendMessageWindow.Show();
+
+        }
+        else
+        {
+            MessageBox.Show("Must choose a recipient");
+            return;
+        }
+    }
+
+    private void XRecipientButton_Click(object sender, RoutedEventArgs e)
+    {
+        RecipientsComboBox.SelectedItem = null;   
+    }
+
+    private void XGroupButton_Click(object sender, RoutedEventArgs e)
+    {
+        JoinedGroupsComboBox.SelectedItem = null;
     }
 }
