@@ -1,4 +1,5 @@
-﻿using PetNetwork.Domain.Models;
+﻿using PetNetwork.Domain.Enums;
+using PetNetwork.Domain.Models;
 
 namespace PetNetwork.WPF.ViewModels;
 
@@ -26,6 +27,28 @@ public class PaymentViewModel : BaseViewModel
 
 	public DateTime PaymentDate { get; }
 
+    private PaymentType _paymentType;
+    public PaymentType PaymentType
+    {
+        get => _paymentType;
+        set
+        {
+            _paymentType = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string _assignedPetId = string.Empty;
+    public string AssignedPetId
+    {
+        get => _assignedPetId;
+        set
+        {
+            _assignedPetId = value;
+            OnPropertyChanged();
+        }
+    }
+
     public PaymentViewModel(Payment payment)
     {
         Id = payment.Id;
@@ -33,6 +56,8 @@ public class PaymentViewModel : BaseViewModel
         Purpose = payment.Purpose;
         Amount = payment.Amount;
         PaymentDate = payment.PaymentDate;
+        PaymentType = payment.PaymentType;
+        AssignedPetId = payment.AssignedPetId;
     }
 
     /// <summary> Use when importing from bank statement file </summary>
@@ -45,5 +70,5 @@ public class PaymentViewModel : BaseViewModel
         PaymentDate = payment.VremeIzvrsenja;
     }
 
-	public Payment ToPayment() => new(_payer, Purpose, Amount, PaymentDate);
+	public Payment ToPayment() => new(_payer, Purpose, Amount, PaymentDate, PaymentType, AssignedPetId);
 }

@@ -1,12 +1,18 @@
 ﻿using Microsoft.Win32;
 using PetNetwork.Application.Utility;
 using PetNetwork.Application.Utility.Constants;
+using PetNetwork.Domain.Enums;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace PetNetwork.WPF.ViewModels;
 
 public class PaymentImportViewModel : AllPaymentsViewModel
 {
+
+    public ReadOnlyObservableCollection<PaymentType> PaymentTypes => new(
+        new ObservableCollection<PaymentType>(Enum.GetValues(typeof(PaymentType))
+            .Cast<PaymentType>()));
 
     private string _filePath = string.Empty;
     public string FilePath

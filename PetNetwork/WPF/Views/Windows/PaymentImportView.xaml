@@ -44,15 +44,28 @@
 
         <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" VerticalScrollBarVisibility="Auto" >
             <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
-                      SelectionMode="Single" CanUserReorderColumns="False" IsReadOnly="True"
+                      SelectionMode="Single" CanUserReorderColumns="False"
                       SelectedItem="{Binding SelectedPayment, Mode=TwoWay}"
                       ItemsSource="{Binding PaymentsView}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Payer bank account" Binding="{Binding PayerBankAccountNo}"/>
-                    <DataGridTextColumn Header="Payer" Binding="{Binding Payer}"/>
-                    <DataGridTextColumn Header="Payment purpose" Binding="{Binding Purpose}"/>
-                    <DataGridTextColumn Header="Payment Date" Binding="{Binding PaymentDate, StringFormat='yyyy-MM-dd HH:mm'}"/>
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}"/>
+                    <DataGridTextColumn Header="Payer bank account" Binding="{Binding PayerBankAccountNo}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Payer" Binding="{Binding Payer}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Payment purpose" Binding="{Binding Purpose}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Payment Date" Binding="{Binding PaymentDate, StringFormat='yyyy-MM-dd HH:mm'}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="Payment type">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PaymentType}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding DataContext.PaymentTypes, RelativeSource={RelativeSource AncestorType=Window}}"
+                                          SelectedItem="{Binding PaymentType}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
