@@ -41,12 +41,20 @@ public partial class CreateMessageGroup : Window
         };
 
         var group = new MessageGroup(groupName, VolunteerGroup, members);
-        _messageGroupService.AddGroup(group);
 
-        if (VolunteerGroup)
-            _messageGroupService.AddAllVolunteers(group);
+        try
+        {
+            _messageGroupService.AddGroup(group);
+            if (VolunteerGroup)
+                _messageGroupService.AddAllVolunteers(group);
+            Close();
+        }
+        catch (Exception ex)
+        {
+            MessageDisplay.ErrorMessage(ex.Message, "Registration fail");
+        }
 
-        Close();
+
     }
 
     private void VolunteerButton_Click(object sender, RoutedEventArgs e)
