@@ -52,9 +52,9 @@ public class MessageService
                 if ((message.Sender == sender && message.Recipient == recipient) || (message.Sender == recipient && message.Recipient == sender))
                     messages.Add(message);
             }
-            else if (!string.IsNullOrEmpty(message.GroupName))
+            else if (!string.IsNullOrEmpty(message.GroupName) && message.GroupName == recipient)
             {
-                if (_messageGroupService.IsMember(message.GroupName, sender) && _messageGroupService.IsMember(message.GroupName, recipient))
+                if (_messageGroupService.IsMember(message.GroupName, sender))
                     messages.Add(message);
             }
         }
@@ -72,9 +72,20 @@ public class MessageService
     public IList<string> GetAllChats(string email)
     {
         return _messageRepository.GetAll()
-            .Where(m => m.Sender == email || m.Recipient == email || (m.GroupName != null && _messageGroupService.IsMember(m.GroupName, email)))
-            .SelectMany(m => new List<string?> { m.Sender, m.Recipient, m.GroupName })
+            .Where(m => m.Sender == email || m.Recipient == email)
+            .SelectMany(m => new List<string?> { m.Sender, m.Recipient })
             .Where(e => e != null && e != string.Empty && e != email) // Exclude the parameter email and null values
+            .Distinct()
+            .Cast<string>()
+            .ToList();
+    }
+
+    public IList<string> GetAllGroupChats(string email)
+    {
+        return _messageRepository.GetAll()
+            .Where(m => m.Sender == email || (m.GroupName != null && _messageGroupService.IsMember(m.GroupName, email)))
+            .SelectMany(m => new List<string?> { m.GroupName })
+            .Where(e => e! != null && e != string.Empty)
             .Distinct()
             .Cast<string>()
             .ToList();

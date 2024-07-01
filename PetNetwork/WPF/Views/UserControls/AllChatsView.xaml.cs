@@ -15,6 +15,7 @@ namespace PetNetwork.WPF.Views.UserControls;
 public partial class AllChatsView : UserControl
 {
     public ObservableCollection<string> Chats { get; set; }
+    public ObservableCollection<string> GroupChats { get; set; }
     public ObservableCollection<string> Members { get; set; }
     public ObservableCollection<string> Groups { get; set; }
     public ObservableCollection<string> JoinedGroups { get; set; }
@@ -36,6 +37,11 @@ public partial class AllChatsView : UserControl
 
         Chats = new ObservableCollection<string>();
         LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
+        ChatListView.ItemsSource = Chats;  
+
+        GroupChats = new ObservableCollection<string>();
+        LoadGroupChats(_messageService.GetAllGroupChats(UserSession.Session!.Account.Id));
+        GroupChatListView.ItemsSource = GroupChats;  
 
         Members = new ObservableCollection<string>();
         LoadRecipients(_userService.GetAllPersonalInfo());
@@ -46,7 +52,6 @@ public partial class AllChatsView : UserControl
         JoinedGroups = new ObservableCollection<string>();
         LoadJoinedGroups(_messageGroupService.GetJoinedGroups(UserSession.Session!.Account.Id));
 
-        ChatListView.ItemsSource = Chats;  
     }
 
     private void CreateGroupButton_Click(object sender, RoutedEventArgs e)
@@ -120,6 +125,13 @@ public partial class AllChatsView : UserControl
             Chats.Add(chat);
     }
 
+    private void LoadGroupChats(IList<string> chats)
+    {
+        GroupChats.Clear();
+        foreach (var chat in chats)
+            GroupChats.Add(chat);
+    }
+
     private void LoadRecipients(IList<Person> members)
     {
         Members.Clear();
@@ -149,18 +161,18 @@ public partial class AllChatsView : UserControl
 
     private void SendMessage_Click(object sender, RoutedEventArgs e)
     {
-        var reciepient = RecipientsComboBox.SelectedValue;
+        var recipient = RecipientsComboBox.SelectedValue;
         var group = JoinedGroupsComboBox.SelectedValue;
-        if (reciepient != null) 
+        if (recipient != null) 
         {
-            var sendMessageWindow = new SendMessageWindow((string)reciepient, false);
+            var sendMessageWindow = new SendMessageWindow((string)recipient, false);
             sendMessageWindow.Closed += (s, e) => LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
             sendMessageWindow.Show();
         }
         else if (group != null)
         {
             var sendMessageWindow = new SendMessageWindow((string)group, true);
-            sendMessageWindow.Closed += (s, e) => LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
+            sendMessageWindow.Closed += (s, e) => LoadGroupChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
             sendMessageWindow.Show();
 
         }
@@ -179,5 +191,25 @@ public partial class AllChatsView : UserControl
     private void EmptyGroupButton_Click(object sender, RoutedEventArgs e)
     {
         JoinedGroupsComboBox.SelectedItem = null;
+    }
+
+    private void OpenChat_TextBlock(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (sender is TextBlock textBlock)
+        {
+            string recipient = textBlock.Text;
+            var chat = new ChatWindow(recipient, false);
+            chat.Show();
+        }
+    }
+
+    private void OpenGroupChat_TextBlock(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (sender is TextBlock textBlock)
+        {
+            string recipient = textBlock.Text;
+            var groupChat = new ChatWindow(recipient, true);
+            groupChat.Show();
+        }
     }
 }

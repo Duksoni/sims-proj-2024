@@ -171,5 +171,20 @@ public class MessageViewModel : BaseViewModel
         _sendTime = DateTime.Now;
     }
 
+    public MessageViewModel(Message message)
+    {
+        _id = message.Id;
+        _title = message.Title;
+        _body = message.Body;
+        _sender = message.Sender;
+        _recipient = message.Recipient;
+        _groupName = message.GroupName;
+        _imageUrl = message.ImageUrl;
+        _videoUrl = message.VideoUrl;
+        _sendTime = message.SendTime;
+        _status = message.Status;
+
+    }
+
     public Message ToMessage() => new Message(Id, Sender, Recipient, GroupName, Title, Body, ImageUrl, VideoUrl, SendTime, Status);
 }
