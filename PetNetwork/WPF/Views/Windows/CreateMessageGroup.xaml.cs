@@ -1,5 +1,6 @@
 ﻿using PetNetwork.Application.UseCases;
 using PetNetwork.Application.Utility;
+using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace PetNetwork.WPF.Views.Windows;
 public partial class CreateMessageGroup : Window
 {
     private readonly MessageGroupService _messageGroupService;
+    public bool VolunteerGroup = false;
 
     public CreateMessageGroup()
     {
@@ -19,6 +21,9 @@ public partial class CreateMessageGroup : Window
         DataContext = this;
 
         _messageGroupService = new MessageGroupService(Injector.CreateInstance<IRepository<MessageGroup>>());
+
+        if (UserSession.Session!.Account.Role == AccountRole.RegularUser)
+            VolunteerButton.Visibility = Visibility.Hidden;
     }
 
     private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -35,7 +40,26 @@ public partial class CreateMessageGroup : Window
             UserSession.Session!.Account.Id
         };
 
-        _messageGroupService.AddGroup(new MessageGroup(groupName, members));
+        var group = new MessageGroup(groupName, VolunteerGroup, members);
+        _messageGroupService.AddGroup(group);
+
+        if (VolunteerGroup)
+            _messageGroupService.AddAllVolunteers(group);
+
         Close();
+    }
+
+    private void VolunteerButton_Click(object sender, RoutedEventArgs e)
+    {
+        if ((string)VolunteerButton.Content == "Add all volunteers")
+        {
+            VolunteerButton.Content = "Remove all volunteers";
+            VolunteerGroup = true;
+        }
+        else
+        {
+            VolunteerButton.Content = "Add all volunteers";
+            VolunteerGroup = false;
+        }
     }
 }

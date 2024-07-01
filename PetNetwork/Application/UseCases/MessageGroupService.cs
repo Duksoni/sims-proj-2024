@@ -1,4 +1,6 @@
-﻿using PetNetwork.Domain.Interfaces;
+﻿using PetNetwork.Application.Utility;
+using PetNetwork.Domain.Enums;
+using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
 
 namespace PetNetwork.Application.UseCases;
@@ -6,6 +8,7 @@ namespace PetNetwork.Application.UseCases;
 public class MessageGroupService
 {
     private readonly IRepository<MessageGroup> _messageGroupsRepository;
+    private UserService _userService;
 
     public MessageGroupService(IRepository<MessageGroup> messageGroupsRepository)
     {
@@ -66,5 +69,31 @@ public class MessageGroupService
             if (member ==  email) return true;
         }
         return false;
+    }
+
+    public void AddAllVolunteers(MessageGroup messageGroup)
+    {
+        var userRepo = Injector.CreateInstance<IRepository<UserAccount>>();
+        var personRepo = Injector.CreateInstance<IRepository<Person>>();
+        _userService = new UserService(userRepo, personRepo);
+
+        foreach (var user in _userService.FindUsersPersonalInfo(AccountRole.Volunteer))
+        {
+            if (user.Id == UserSession.Session!.Account.Id) continue;
+            JoinGroup(messageGroup, user.Id);
+        }
+    }
+
+    public void RemoveAllVolunteers(MessageGroup messageGroup)
+    {
+        var userRepo = Injector.CreateInstance<IRepository<UserAccount>>();
+        var personRepo = Injector.CreateInstance<IRepository<Person>>();
+        _userService = new UserService(userRepo, personRepo);
+
+        foreach (var user in _userService.FindUsersPersonalInfo(AccountRole.Volunteer))
+        {
+            if (user.Id == UserSession.Session!.Account.Id) continue;
+            LeaveGroup(messageGroup, user.Id);
+        }
     }
 }

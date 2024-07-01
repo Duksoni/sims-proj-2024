@@ -13,15 +13,28 @@
     "Deleted": false
   },
   {
-    "Id": "268f0c09-7d2b-48ab-a389-629bcd6f907f",
+    "Id": "130e90f9-24b5-4ef0-ae9a-0ca5a1bc692a",
     "Sender": "pera@gmail.com",
     "Recipient": "patrik@gmail.com",
     "GroupName": "",
-    "Title": "angjkbdsajkg",
-    "Body": "agasha",
+    "Title": "test title",
+    "Body": "test body",
+    "ImageUrl": "test image",
+    "VideoUrl": "test video",
+    "SendTime": "2024-07-01T12:48:13.1392171+02:00",
+    "Status": 0,
+    "Deleted": false
+  },
+  {
+    "Id": "d88f36db-ab82-47f1-b39b-71b381838264",
+    "Sender": "pera@gmail.com",
+    "Recipient": "",
+    "GroupName": "grupa 2",
+    "Title": "group title",
+    "Body": "group body",
     "ImageUrl": "",
     "VideoUrl": "",
-    "SendTime": "2024-06-30T12:34:51.8139701+02:00",
+    "SendTime": "2024-07-01T13:19:09.9099836+02:00",
     "Status": 0,
     "Deleted": false
   }

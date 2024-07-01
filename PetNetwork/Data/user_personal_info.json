@@ -17,6 +17,23 @@
     "Deleted": false
   },
   {
+    "Id": "zika@gmail.com",
+    "FirstName": "Zika",
+    "LastName": "Zikic",
+    "Phone": "0612345678",
+    "Gender": "Male",
+    "Address": {
+      "Id": "Petra-Kocica_12",
+      "Street": "Petra Kocica",
+      "StreetNo": "12",
+      "Town": "Smederevo",
+      "PostalCode": 11300,
+      "Deleted": false
+    },
+    "IdentityCardNo": "123456781",
+    "Deleted": false
+  },
+  {
     "Id": "mika@gmail.com",
     "FirstName": "Mika",
     "LastName": "Mikic",

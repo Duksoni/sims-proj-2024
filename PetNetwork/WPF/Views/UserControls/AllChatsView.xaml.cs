@@ -141,7 +141,10 @@ public partial class AllChatsView : UserControl
     {
         Groups.Clear();
         foreach (var group in groups)
+        {
+            if (group.VolunteerGroup) continue;
             Groups.Add(group.Id);
+        }
     }
 
     private void SendMessage_Click(object sender, RoutedEventArgs e)
@@ -168,12 +171,12 @@ public partial class AllChatsView : UserControl
         }
     }
 
-    private void XRecipientButton_Click(object sender, RoutedEventArgs e)
+    private void EmptyRecipientButton_Click(object sender, RoutedEventArgs e)
     {
         RecipientsComboBox.SelectedItem = null;   
     }
 
-    private void XGroupButton_Click(object sender, RoutedEventArgs e)
+    private void EmptyGroupButton_Click(object sender, RoutedEventArgs e)
     {
         JoinedGroupsComboBox.SelectedItem = null;
     }

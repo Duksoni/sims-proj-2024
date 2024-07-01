@@ -37,9 +37,9 @@
             <Button Grid.Row="1" Grid.Column="2" Content="Leave group" Name="LeaveGroupButton" Click="LeaveGroupButton_Click"/>
 
             <ComboBox Grid.Row="0" Grid.Column="3" ItemsSource="{Binding Members}" Name="RecipientsComboBox"/>
-            <Button Grid.Row="0" Grid.Column="4" Content="X" Click="XRecipientButton_Click"/>
+            <Button Grid.Row="0" Grid.Column="4" Content="X" Click="EmptyRecipientButton_Click"/>
             <ComboBox Grid.Row="0" Grid.Column="5" ItemsSource="{Binding JoinedGroups}" Name="JoinedGroupsComboBox"/>
-            <Button Grid.Row="0" Grid.Column="6" Content="X" Click="XGroupButton_Click"/>
+            <Button Grid.Row="0" Grid.Column="6" Content="X" Click="EmptyGroupButton_Click"/>
 
             <Button Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="4" Content="Send message" Name="SendMessage" Click="SendMessage_Click"/>
         </Grid>
