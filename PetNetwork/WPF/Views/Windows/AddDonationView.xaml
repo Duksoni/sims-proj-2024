@@ -1,0 +1,55 @@
+﻿<Window x:Class="PetNetwork.WPF.Views.Windows.AddDonationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PetNetwork.WPF.Views.Windows"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Add Payment" Height="450" Width="600">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="60*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" Margin="15"
+                   Text="Donator (pick user email if the donator has an account)" TextWrapping="Wrap"/>
+        <ComboBox Grid.Column="1" Grid.Row="0" Margin="15" ItemsSource="{Binding UserEmails}" 
+                  SelectedItem="{Binding Payment.Payer}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="15" Text="{Binding Payment.Payer, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="15"
+                   Text="What has been donated? "/>
+        <TextBox Grid.Column="1" Grid.Row="2" Margin="15" Text="{Binding Payment.Purpose, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="What is the amount of donated item(s)? "
+                   VerticalAlignment="Center" Margin="15"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Margin="15" Text="{Binding Payment.Amount, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="For whom is the donation for?" Margin="15"
+                   VerticalAlignment="Center"/>
+        <ComboBox Grid.Column="1" Grid.Row="4" Margin="15" ItemsSource="{Binding PaymentTypes}" 
+                  SelectedItem="{Binding Payment.PaymentType}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="5" Margin="15" Text="Payment date: " 
+                   VerticalAlignment="Center"/>
+        <DatePicker x:Name="PaymentDatePicker" Grid.Column="1" Grid.Row="5" Margin="15" SelectedDate="{Binding Payment.PaymentDate}"/>
+
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Margin="15"
+                    Grid.Row="6" Orientation="Horizontal"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Submit" Margin="15" Width="85" Command="{Binding SubmitCommand}"/>
+            <Button Content="Cancel" IsCancel="True" Width="85" Margin="15"/>
+        </StackPanel>
+    </Grid>
+</Window>
