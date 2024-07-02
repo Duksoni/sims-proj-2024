@@ -1,4 +1,5 @@
-﻿using PetNetwork.Domain.Interfaces;
+﻿using PetNetwork.Domain.Enums;
+using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
 
 namespace PetNetwork.Application.UseCases;
@@ -20,4 +21,7 @@ public class PetService
     public Pet? Get(string id) => _petRepository.Get(id);
 
     public IList<Pet> GetAll(bool includeRemoved = false) => _petRepository.GetAll(includeRemoved);
+
+    public IList<Pet> FindNonAdopted() =>
+        _petRepository.Find(pet => pet.Status is PetAdoptionStatus.Pending or PetAdoptionStatus.Returned);
 }

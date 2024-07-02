@@ -10,10 +10,10 @@ public class AssignPaymentToPetViewModel : BaseViewModel
 {
     private readonly PaymentService _paymentService;
 
-    public ObservableCollection<string> Pets { get; } // TODO replace string with Pet class
+    public ObservableCollection<Pet> Pets { get; }
 
-    private string? _selectedPet; // TODO replace string? with Pet class
-    public string? SelectedPet
+    private Pet? _selectedPet;
+    public Pet? SelectedPet
     {
         get => _selectedPet;
         set
@@ -42,14 +42,13 @@ public class AssignPaymentToPetViewModel : BaseViewModel
     {
         _selectedPayment = selectedPayment;
         _paymentService = new PaymentService(Injector.CreateInstance<IRepository<Payment>>());
-        // TODO get all pets from service
-        // TODO replace string with Pet class, define ToString in PetClass, so it can show up nicely in UI
-        Pets = new ObservableCollection<string>();
+        var petService = new PetService(Injector.CreateInstance<IRepository<Pet>>());
+        Pets = new ObservableCollection<Pet>(petService.FindNonAdopted());
     }
 
     private void Submit()
     {
-        _selectedPayment.AssignedPetId = SelectedPet!;
+        _selectedPayment.AssignedPetId = SelectedPet!.Id;
         _paymentService.Update(_selectedPayment.ToPayment());
         Assigned = true;
     }
