@@ -7,6 +7,7 @@ namespace PetNetwork.Domain.Models;
 
 public class Person : ISerializable
 {
+    [JsonProperty("AccountEmail")]
     public string Id { get; set; }
 
     public string FirstName { get; set; }
@@ -55,9 +56,9 @@ public class Person : ISerializable
     }
 
     [JsonConstructor]
-    public Person(string id, string firstName, string lastName, string phone, Gender gender, Address address, string identityCardNo, bool deleted)
+    public Person(string accountEmail, string firstName, string lastName, string phone, Gender gender, Address address, string identityCardNo, bool deleted)
     {
-        Id = id;
+        Id = accountEmail;
         FirstName = firstName;
         LastName = lastName;
         Phone = phone;
