@@ -1,0 +1,11 @@
+[
+  {
+    "Id": "volonterska grupa",
+    "Members": [
+      "pera@gmail.com",
+      "zika@gmail.com"
+    ],
+    "VolunteerGroup": true,
+    "Deleted": false
+  }
+]
