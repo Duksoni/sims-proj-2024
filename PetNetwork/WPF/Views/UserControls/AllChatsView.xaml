@@ -47,12 +47,13 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
             <StackPanel HorizontalAlignment="Stretch">
-                <ListView Name="ChatListView" HorizontalAlignment="Stretch" ItemsSource="{Binding Chats}">
+                <TextBlock Text="Chats" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20" Padding="5"/>
+                <ListView Name="ChatListView" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Chats}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" HorizontalAlignment="Stretch">
+                            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5">
                                 <StackPanel HorizontalAlignment="Stretch">
-                                    <TextBlock Text="{Binding Chat}" MouseLeftButtonUp="OpenChat_TextBlock" HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding Chat}" MouseLeftButtonUp="OpenChat_TextBlock" HorizontalAlignment="Center" FontSize="16">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontWeight" Value="Normal"/>
@@ -69,12 +70,13 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <ListView Name="GroupChatListView" HorizontalAlignment="Stretch" ItemsSource="{Binding GroupChats}">
+                <TextBlock Text="Groupchats" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20" Padding="5"/>
+                <ListView Name="GroupChatListView" ItemsSource="{Binding GroupChats}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" HorizontalAlignment="Stretch">
-                                <StackPanel HorizontalAlignment="Stretch">
-                                    <TextBlock Text="{Binding Chat}" MouseLeftButtonUp="OpenGroupChat_TextBlock">
+                            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Chat}" MouseLeftButtonUp="OpenGroupChat_TextBlock" HorizontalAlignment="Center" FontSize="16">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontWeight" Value="Normal"/>

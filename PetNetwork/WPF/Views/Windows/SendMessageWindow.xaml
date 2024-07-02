@@ -44,6 +44,6 @@
         <TextBox Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" Name="VideoTextBox" Grid.RowSpan="2"
          Text="{Binding MessageViewModel.VideoUrl}"></TextBox>
 
-        <Button Grid.Row="6" Name="SendButton" Content="Send" Click="SendButton_Click"/>
+        <Button Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" Padding="10" Height="50" Name="SendButton" Content="Send" Click="SendButton_Click"/>
     </Grid>
 </Window>

@@ -121,6 +121,7 @@ public partial class AllChatsView : UserControl
 
     private void LoadChats(IList<string> chats)
     {
+        chats = chats.AsEnumerable().Reverse().ToList();
         Chats.Clear();
         foreach (var chat in chats)
             Chats.Add(new ChatViewModel(chat, _messageService.IsChatRead(UserSession.Session!.Account.Id, chat)));
@@ -128,6 +129,7 @@ public partial class AllChatsView : UserControl
 
     private void LoadGroupChats(IList<string> chats)
     {
+        chats = chats.AsEnumerable().Reverse().ToList();
         GroupChats.Clear();
         foreach (var chat in chats)
             GroupChats.Add(new ChatViewModel(chat, _messageService.IsChatRead(UserSession.Session!.Account.Id, chat)));
