@@ -1,0 +1,72 @@
+﻿[
+  {
+    "Id": "1",
+    "Title": "Adopt this Cute Puppy",
+    "Description": "A friendly and playful puppy looking for a loving home.",
+    "Author": "user1@example.com",
+    "ImageUrl": "https://i.imgur.com/IX5Q777_d.webp?maxwidth=520&shape=thumb&fidelity=high",
+    "VideoUrl": "",
+    "LikeCount": 150,
+    "Status": "Active",
+    "CreatedAt": "2024-07-01T14:30:00Z",
+    "Pet": {
+      "Id": "P1",
+      "Breed": "Labrador Retriever",
+      "Colour": "Golden",
+      "BirthYear": 2022,
+      "Ownership": "Owned",
+      "Status": "Pending",
+      "Gender": "Male",
+      "Location": {
+        "Street": "123 Pet Street",
+        "City": "Petville",
+        "State": "CA",
+        "PostalCode": "23000"
+      },
+      "FinalOwner": null,
+      "Animal": {
+        "Type": "Dog"
+      },
+      "Health": {
+        "Description": "All good",
+        "Condition": "Healthy"
+      },
+      "Deleted": false
+    }
+  },
+  {
+    "Id": "2",
+    "Title": "Beautiful Siamese Cat for Adoption",
+    "Description": "A calm and affectionate cat looking for a new home.",
+    "Author": "user2@example.com",
+    "ImageUrl": "",
+    "VideoUrl": "",
+    "LikeCount": 200,
+    "Status": "Active",
+    "CreatedAt": "2024-06-30T10:00:00Z",
+    "Pet": {
+      "Id": "P2",
+      "Breed": "Siamese",
+      "Colour": "Cream and Brown",
+      "BirthYear": 2020,
+      "Ownership": "Owned",
+      "Status": "Pending",
+      "Gender": "Female",
+      "Location": {
+        "Street": "456 Cat Avenue",
+        "City": "Catland",
+        "State": "NY",
+        "PostalCode": "23000"
+      },
+      "FinalOwner": null,
+      "Animal": {
+        "Type": "Dog"
+      },
+      "Health": {
+        "Description": "All good",
+        "Condition": "Healthy"
+      },
+      "Deleted": false
+    }
+  }
+]

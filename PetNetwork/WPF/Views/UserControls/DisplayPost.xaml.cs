@@ -26,6 +26,7 @@ namespace PetNetwork.WPF.Views.UserControls
         private readonly PostService _postService;
         private readonly PostLikeService _postLikeService;
         private readonly PostRatingService _postRatingService;
+        private readonly PetPostService _petPostService;
 
         public DisplayPost()
         {
@@ -36,9 +37,10 @@ namespace PetNetwork.WPF.Views.UserControls
             _postService = new PostService(Injector.CreateInstance<IRepository<Post>>());
             _postLikeService = new PostLikeService(Injector.CreateInstance<IRepository<PostLike>>());
             _postRatingService = new PostRatingService(Injector.CreateInstance<IRepository<PostRating>>());
+            _petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
 
             Posts = new ObservableCollection<PostDisplayViewModel>();
-            LoadPosts(_postService.GetAllActivePosts());
+            LoadPosts(GetAllPosts());
 
             PostsListView.ItemsSource = Posts;
 
@@ -74,7 +76,7 @@ namespace PetNetwork.WPF.Views.UserControls
                 _postLikeService.AddPostLike(postLikeViewModel.ToPostLike());
                 _postService.IncrementLikeCount(viewModel.Post.Id);
 
-                LoadPosts(_postService.GetAllActivePosts());
+                LoadPosts(GetAllPosts());
             }
         }
 
@@ -92,7 +94,7 @@ namespace PetNetwork.WPF.Views.UserControls
             if (parameter is PostDisplayViewModel viewModel)
             {
                 var ratingWindow = new RatingWindow(viewModel.Post);
-                ratingWindow.Closed += (s, e) => LoadPosts(_postService.GetAllActivePosts());
+                ratingWindow.Closed += (s, e) => LoadPosts(GetAllPosts());
                 ratingWindow.Show();
             }
         }
@@ -100,32 +102,33 @@ namespace PetNetwork.WPF.Views.UserControls
         private void CreatePostButton_OnClick(object sender, RoutedEventArgs e)
         {
             var createPostWindow = new CreatePostWindow();
-            createPostWindow.Closed += (s, e) => LoadPosts(_postService.GetAllActivePosts());
+            createPostWindow.Closed += (s, e) => LoadPosts(GetAllPosts());
             createPostWindow.Show();
         }
 
         private void RankDateButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var sortedPosts = _postService.GetAllActivePosts().OrderByDescending(post => post.CreatedAt);
+            var sortedPosts = GetAllPosts().OrderByDescending(post => post.CreatedAt);
             LoadPosts(sortedPosts);
         }
 
         private void RankLikeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var sortedPosts = _postService.GetAllActivePosts().OrderByDescending(post => post.LikeCount);
+            var sortedPosts = GetAllPosts().OrderByDescending(post => post.LikeCount);
             LoadPosts(sortedPosts);
         }
 
         private void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
             var pattern = SearchBox.Text.Trim();
-            var posts = string.IsNullOrEmpty(pattern) ? _postService.GetAllActivePosts() : _postService.SearchPosts(pattern);
+            var posts = string.IsNullOrEmpty(pattern) ? GetAllPosts() : _postService.SearchPosts(pattern).Concat(_petPostService.SearchPosts(pattern).Cast<Post>());
             LoadPosts(posts);
         }
 
         private void LoadPosts(IEnumerable<Post> posts)
         {
             Posts.Clear();
+
             foreach (var post in posts)
             {
                 var canLike = UserSession.Session == null ? false : !_postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id);
@@ -134,6 +137,14 @@ namespace PetNetwork.WPF.Views.UserControls
                 Posts.Add(new PostDisplayViewModel(post, canLike, canRate));
             }
         }
+
+        private IEnumerable<Post> GetAllPosts()
+        {
+            var posts = _postService.GetAllActivePosts();
+            var petPosts = _petPostService.GetAllActivePosts().Cast<Post>(); // Cast PetPosts to Post
+            return posts.Concat(petPosts);
+        }
+
     }
 
 }

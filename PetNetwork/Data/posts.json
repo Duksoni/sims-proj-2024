@@ -10,5 +10,17 @@
     "Status": 2,
     "CreatedAt": "2024-06-28T22:56:37.7340582+02:00",
     "Deleted": false
+  },
+  {
+    "Id": "58de279a-c4ef-4883-83a8-09e007e0862b",
+    "Title": "Another post from GUI",
+    "Description": "Hello",
+    "Author": "pera@gmail.com",
+    "ImageUrl": "",
+    "VideoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "LikeCount": 0,
+    "Status": 2,
+    "CreatedAt": "2024-06-30T17:38:17.1665734+02:00",
+    "Deleted": false
   }
 ]
