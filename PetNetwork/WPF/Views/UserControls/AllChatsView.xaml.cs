@@ -172,7 +172,8 @@ public partial class AllChatsView : UserControl
         else if (group != null)
         {
             var sendMessageWindow = new SendMessageWindow((string)group, true);
-            sendMessageWindow.Closed += (s, e) => LoadGroupChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
+            sendMessageWindow.Closed += (s, e) => LoadGroupChats(_messageService.GetAllGroupChats
+                (UserSession.Session!.Account.Id));
             sendMessageWindow.Show();
 
         }

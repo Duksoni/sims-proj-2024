@@ -2,11 +2,9 @@
 using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Models;
 using PetNetwork.WPF.ViewModels.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace PetNetwork.WPF.ViewModels;
 
@@ -97,6 +95,37 @@ public class MessageViewModel : BaseViewModel
         }
     }
 
+    private ImageSource? _imageSource;
+    public ImageSource? ImageSource
+    {
+        get => _imageSource;
+        set
+        {
+            if (_imageSource == value) return;   
+            _imageSource = value;
+            OnPropertyChanged(nameof(ImageSource));
+        }
+    }
+
+    private ImageSource? LoadImage()
+    {
+        // Convert imageUrl to ImageSource
+        if (!string.IsNullOrEmpty(ImageUrl))
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(ImageUrl);
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.EndInit();
+            ImageSource = bitmap;
+        }
+        else
+        {
+            ImageSource = null; // Or set a default image source
+        }
+        return ImageSource;
+    }
+
     private string? _videoUrl;
     public string? VideoUrl
     {
@@ -107,6 +136,34 @@ public class MessageViewModel : BaseViewModel
             _videoUrl = value;
             OnPropertyChanged();
         }
+    }
+
+    private MediaElement? _mediaElement;
+    public MediaElement? MediaElement
+    {
+        get => _mediaElement;
+        set
+        {
+            if (_mediaElement == value) return;
+            _mediaElement = value;
+            OnPropertyChanged(nameof(MediaElement));
+        }
+    }
+
+    private MediaElement? LoadVideo()
+    {
+        // Convert videoUrl to MediaElement
+        if (!string.IsNullOrEmpty(VideoUrl))
+        {
+            MediaElement = new MediaElement();
+            MediaElement.Source = new Uri(VideoUrl);
+            MediaElement.LoadedBehavior = MediaState.Manual; // Ensure the video doesn't auto-play
+        }
+        else
+        {
+            MediaElement = null; // Or set a default media element
+        }
+        return MediaElement;
     }
 
     private DateTime _sendTime;
@@ -180,7 +237,9 @@ public class MessageViewModel : BaseViewModel
         _recipient = message.Recipient;
         _groupName = message.GroupName;
         _imageUrl = message.ImageUrl;
+        _imageSource = LoadImage();
         _videoUrl = message.VideoUrl;
+        _mediaElement = LoadVideo();
         _sendTime = message.SendTime;
         _status = message.Status;
 
