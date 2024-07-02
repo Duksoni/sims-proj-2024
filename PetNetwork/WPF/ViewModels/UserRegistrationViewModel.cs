@@ -1,14 +1,13 @@
-﻿using PetNetwork.Application.Utility;
-using PetNetwork.Application.Utility.Constants;
+﻿using PetNetwork.Application.UseCases;
+using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Enums;
-using System.Collections.ObjectModel;
-using PetNetwork.Application.UseCases;
 using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
+using System.Collections.ObjectModel;
 
 namespace PetNetwork.WPF.ViewModels;
 
-public class UserRegistrationViewModel
+public class UserRegistrationViewModel : BaseViewModel
 {
     private readonly UserService _userService;
 
@@ -20,9 +19,18 @@ public class UserRegistrationViewModel
 
     public UserAccountViewModel Account { get; }
 
-    public bool RegistrationSuccess { get; private set; }
+    private bool _registrationSuccess;
+    public bool RegistrationSuccess
+    {
+        get => _registrationSuccess;
+        private set
+        {
+            _registrationSuccess = value;
+            OnPropertyChanged();
+        }
+    }
 
-    public RelayCommand SubmitRegistrationCommand => new(_ => TrySubmitting());
+    public RelayCommand SubmitRegistrationCommand => new(_ => TrySubmitting(), _ => Person.IsValid && Account.IsValid);
 
     public UserRegistrationViewModel(AccountRole role)
     {
@@ -35,12 +43,6 @@ public class UserRegistrationViewModel
 
     public void TrySubmitting()
     {
-        if (!Person.IsValid || !Account.IsValid)
-        {
-            MessageDisplay.ErrorMessage(UserMessages.FailedRegistration, "Registration fail");
-            return;
-        }
-
         try
         {
             var account = Account.ToUserAccount();

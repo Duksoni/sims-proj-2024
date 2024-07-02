@@ -147,9 +147,9 @@
             <TextBlock Name="PasswordValidationMessageTBlock" Foreground="Red" Text="Password is required."/>
         </StackPanel>        
 
-        <Button Name="SubmitRegistrationBtn" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"
-                Width="100" Height="25" Content="Submit"
-                />
+        <Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"
+                Width="100" Height="25" Content="Submit" IsDefault="True"
+                Command="{Binding SubmitRegistrationCommand}"/>
 
     </Grid>
 </Window>

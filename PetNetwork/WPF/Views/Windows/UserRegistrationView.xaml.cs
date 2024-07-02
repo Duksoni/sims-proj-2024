@@ -19,10 +19,8 @@ public partial class UserRegistrationView
         DataContext = _viewModel;
 
         PasswordBox.PasswordChanged += (_, _) => { TrySettingPassword(); };
-        SubmitRegistrationBtn.Click += (_, _) =>
-        {
-            _viewModel.SubmitRegistrationCommand.Execute();
-            if (_viewModel.RegistrationSuccess)
+        _viewModel.PropertyChanged +=  (_, args) => {
+            if (args.PropertyName == nameof(_viewModel.RegistrationSuccess))
                 DialogResult = true;
         };
         FirstNameTBlock.MouseDown += (_, _) => { FirstNameTBox.Focus(); };
