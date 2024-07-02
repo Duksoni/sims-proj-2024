@@ -50,6 +50,9 @@
                             <TextBlock Text="{Binding Post.CreatedAt}" FontSize="12" Foreground="Gray"/>
                             <TextBlock Text="{Binding Post.LikeCount, StringFormat='Likes: {0}'}" FontSize="12" Foreground="Gray"/>
                             <TextBlock Text="{Binding Pet.Breed}"/>
+                            <TextBlock Text="{Binding Pet.Colour}" />
+                            <TextBlock Text="{Binding Pet.BirthYear}" />
+                            <TextBlock Text="{Binding Pet.Gender}" />
                             <Button Content="Like"
                                     FontSize="20"
                                     Height="Auto"

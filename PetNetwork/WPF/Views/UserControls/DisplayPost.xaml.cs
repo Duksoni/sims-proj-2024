@@ -28,6 +28,8 @@ namespace PetNetwork.WPF.Views.UserControls
         private readonly PostRatingService _postRatingService;
         private readonly PetPostService _petPostService;
 
+        private bool _isRankDate { get; set; } //flag to track the ranking
+
         public DisplayPost()
         {
             InitializeComponent();
@@ -40,6 +42,7 @@ namespace PetNetwork.WPF.Views.UserControls
             _petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
 
             Posts = new ObservableCollection<PostDisplayViewModel>();
+            _isRankDate = true;
             LoadPosts(GetAllPosts());
 
             PostsListView.ItemsSource = Posts;
@@ -74,8 +77,16 @@ namespace PetNetwork.WPF.Views.UserControls
                 if (!postLikeViewModel.IsValid) return;
 
                 _postLikeService.AddPostLike(postLikeViewModel.ToPostLike());
-                _postService.IncrementLikeCount(viewModel.Post.Id);
+                if (viewModel.Post is PetPost petPost)
+                {
+                    _petPostService.IncrementLikeCount(petPost.Id);
+                }
+                else
+                {
+                    _postService.IncrementLikeCount(viewModel.Post.Id);
+                }
 
+                viewModel.CanLike = false;
                 LoadPosts(GetAllPosts());
             }
         }
@@ -109,12 +120,14 @@ namespace PetNetwork.WPF.Views.UserControls
         private void RankDateButton_OnClick(object sender, RoutedEventArgs e)
         {
             var sortedPosts = GetAllPosts().OrderByDescending(post => post.CreatedAt);
+            _isRankDate = true;
             LoadPosts(sortedPosts);
         }
 
         private void RankLikeButton_OnClick(object sender, RoutedEventArgs e)
         {
             var sortedPosts = GetAllPosts().OrderByDescending(post => post.LikeCount);
+            _isRankDate = false;
             LoadPosts(sortedPosts);
         }
 
@@ -142,7 +155,13 @@ namespace PetNetwork.WPF.Views.UserControls
         {
             var posts = _postService.GetAllActivePosts();
             var petPosts = _petPostService.GetAllActivePosts().Cast<Post>(); // Cast PetPosts to Post
-            return posts.Concat(petPosts);
+            if (_isRankDate)
+            {
+                return posts.Concat(petPosts).OrderByDescending(post => post.CreatedAt);
+            }
+
+            return posts.Concat(petPosts).OrderByDescending(post => post.LikeCount);
+
         }
 
     }
