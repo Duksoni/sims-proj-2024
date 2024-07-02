@@ -10,17 +10,16 @@ namespace PetNetwork.WPF.Views.Windows;
 /// </summary>
 public partial class LoginView
 {
-    private readonly LoginViewModel _loginViewModel;
+    private readonly LoginViewModel _viewModel;
 
     public LoginView()
     {
         InitializeComponent();
-        _loginViewModel = new LoginViewModel();
-        DataContext = _loginViewModel;
-        LoginBtn.Click += (_, _) =>
-        {
-            _loginViewModel.TryLoginCommand.Execute();
-            if (UserSession.Session != null)
+        _viewModel = new LoginViewModel();
+        DataContext = _viewModel;
+        _viewModel.PropertyChanged +=  (_, args) => {
+            if (args.PropertyName == nameof(_viewModel.LoginResultMessage) && 
+                _viewModel.LoginResultMessage == string.Empty)
                 DialogResult = true;
         };
         EmailTBlock.MouseDown += (_, _) => { EmailAddressTBox.Focus(); };
@@ -30,6 +29,6 @@ public partial class LoginView
     private void PasswordTBox_OnPasswordChanged(object sender, RoutedEventArgs e)
     {
         if (sender is not PasswordBox pBox) return;
-        _loginViewModel.Password = pBox.Password;
+        _viewModel.Password = pBox.Password;
     }
 }
