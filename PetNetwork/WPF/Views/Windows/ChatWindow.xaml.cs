@@ -16,7 +16,6 @@ public partial class ChatWindow : Window
     public string Recipient;
     public bool IsGroup;
 
-    private readonly MessageGroupService _messageGroupService;
     private readonly MessageService _messageService;
 
     public ObservableCollection<MessageViewModel> Messages { get; set; }
@@ -26,8 +25,7 @@ public partial class ChatWindow : Window
         InitializeComponent();
         DataContext = this;
 
-        _messageGroupService = new MessageGroupService(Injector.CreateInstance<IRepository<MessageGroup>>());
-        _messageService = new MessageService(Injector.CreateInstance<IRepository<Message>>(), _messageGroupService);
+        _messageService = new MessageService(Injector.CreateInstance<IRepository<Message>>());
 
         Recipient = recipient;
         IsGroup = isGroup;

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PetNetwork.WPF.Views.UserControls"
+             xmlns:enum="clr-namespace:PetNetwork.Domain.Enums"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -45,13 +46,24 @@
         </Grid>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
-            <StackPanel>
+            <StackPanel HorizontalAlignment="Stretch">
                 <ListView Name="ChatListView" HorizontalAlignment="Stretch" ItemsSource="{Binding Chats}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" HorizontalAlignment="Stretch">
                                 <StackPanel HorizontalAlignment="Stretch">
-                                    <TextBlock Text="{Binding}" MouseLeftButtonUp="OpenChat_TextBlock"/>
+                                    <TextBlock Text="{Binding Chat}" MouseLeftButtonUp="OpenChat_TextBlock" HorizontalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontWeight" Value="Normal"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:MessageStatus.Unread}">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -62,7 +74,18 @@
                         <DataTemplate>
                             <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" HorizontalAlignment="Stretch">
                                 <StackPanel HorizontalAlignment="Stretch">
-                                    <TextBlock Text="{Binding}" MouseLeftButtonUp="OpenGroupChat_TextBlock"/>
+                                    <TextBlock Text="{Binding Chat}" MouseLeftButtonUp="OpenGroupChat_TextBlock">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontWeight" Value="Normal"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:MessageStatus.Unread}">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>

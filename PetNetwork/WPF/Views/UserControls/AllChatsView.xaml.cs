@@ -2,6 +2,7 @@
 using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
+using PetNetwork.WPF.ViewModels;
 using PetNetwork.WPF.Views.Windows;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -14,8 +15,8 @@ namespace PetNetwork.WPF.Views.UserControls;
 /// </summary>
 public partial class AllChatsView : UserControl
 {
-    public ObservableCollection<string> Chats { get; set; }
-    public ObservableCollection<string> GroupChats { get; set; }
+    public ObservableCollection<ChatViewModel> Chats { get; set; }
+    public ObservableCollection<ChatViewModel> GroupChats { get; set; }
     public ObservableCollection<string> Members { get; set; }
     public ObservableCollection<string> Groups { get; set; }
     public ObservableCollection<string> JoinedGroups { get; set; }
@@ -30,18 +31,18 @@ public partial class AllChatsView : UserControl
         DataContext = this;
 
         _messageGroupService = new MessageGroupService(Injector.CreateInstance<IRepository<MessageGroup>>());
-        _messageService = new MessageService(Injector.CreateInstance<IRepository<Message>>(), _messageGroupService);
+        _messageService = new MessageService(Injector.CreateInstance<IRepository<Message>>());
         var personRepo = Injector.CreateInstance<IRepository<Person>>();
         var userRepo = Injector.CreateInstance<IRepository<UserAccount>>();
         _userService = new UserService(userRepo, personRepo);
 
-        Chats = new ObservableCollection<string>();
+        Chats = new ObservableCollection<ChatViewModel>();
         LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
-        ChatListView.ItemsSource = Chats;  
+        ChatListView.ItemsSource = Chats;
 
-        GroupChats = new ObservableCollection<string>();
+        GroupChats = new ObservableCollection<ChatViewModel>();
         LoadGroupChats(_messageService.GetAllGroupChats(UserSession.Session!.Account.Id));
-        GroupChatListView.ItemsSource = GroupChats;  
+        GroupChatListView.ItemsSource = GroupChats;
 
         Members = new ObservableCollection<string>();
         LoadRecipients(_userService.GetAllPersonalInfo());
@@ -118,18 +119,18 @@ public partial class AllChatsView : UserControl
         LoadJoinedGroups(_messageGroupService.GetJoinedGroups(UserSession.Session!.Account.Id));
     }
 
-    private void LoadChats(IList<string> chats) 
+    private void LoadChats(IList<string> chats)
     {
         Chats.Clear();
         foreach (var chat in chats)
-            Chats.Add(chat);
+            Chats.Add(new ChatViewModel(chat, _messageService.IsChatRead(UserSession.Session!.Account.Id, chat)));
     }
 
     private void LoadGroupChats(IList<string> chats)
     {
         GroupChats.Clear();
         foreach (var chat in chats)
-            GroupChats.Add(chat);
+            GroupChats.Add(new ChatViewModel(chat, _messageService.IsChatRead(UserSession.Session!.Account.Id, chat)));
     }
 
     private void LoadRecipients(IList<Person> members)
@@ -163,7 +164,7 @@ public partial class AllChatsView : UserControl
     {
         var recipient = RecipientsComboBox.SelectedValue;
         var group = JoinedGroupsComboBox.SelectedValue;
-        if (recipient != null) 
+        if (recipient != null)
         {
             var sendMessageWindow = new SendMessageWindow((string)recipient, false);
             sendMessageWindow.Closed += (s, e) => LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
@@ -186,7 +187,7 @@ public partial class AllChatsView : UserControl
 
     private void EmptyRecipientButton_Click(object sender, RoutedEventArgs e)
     {
-        RecipientsComboBox.SelectedItem = null;   
+        RecipientsComboBox.SelectedItem = null;
     }
 
     private void EmptyGroupButton_Click(object sender, RoutedEventArgs e)
@@ -201,6 +202,8 @@ public partial class AllChatsView : UserControl
             string recipient = textBlock.Text;
             var chat = new ChatWindow(recipient, false);
             chat.Show();
+            _messageService.ReadAllChatMessages(UserSession.Session!.Account.Id, recipient);
+            LoadChats(_messageService.GetAllChats(UserSession.Session!.Account.Id));
         }
     }
 
@@ -211,6 +214,8 @@ public partial class AllChatsView : UserControl
             string recipient = textBlock.Text;
             var groupChat = new ChatWindow(recipient, true);
             groupChat.Show();
+            _messageService.ReadAllChatMessages(UserSession.Session!.Account.Id, recipient);
+            LoadGroupChats(_messageService.GetAllGroupChats(UserSession.Session!.Account.Id));
         }
     }
 }

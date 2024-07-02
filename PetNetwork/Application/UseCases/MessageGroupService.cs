@@ -13,6 +13,9 @@ public class MessageGroupService
     public MessageGroupService(IRepository<MessageGroup> messageGroupsRepository)
     {
         _messageGroupsRepository = messageGroupsRepository;
+        var userRepo = Injector.CreateInstance<IRepository<UserAccount>>();
+        var personRepo = Injector.CreateInstance<IRepository<Person>>();
+        _userService = new UserService(userRepo, personRepo);
     }
 
     public void AddGroup(MessageGroup messageGroup)
@@ -73,9 +76,6 @@ public class MessageGroupService
 
     public void AddAllVolunteers(MessageGroup messageGroup)
     {
-        var userRepo = Injector.CreateInstance<IRepository<UserAccount>>();
-        var personRepo = Injector.CreateInstance<IRepository<Person>>();
-        _userService = new UserService(userRepo, personRepo);
 
         foreach (var user in _userService.FindUsersPersonalInfo(AccountRole.Volunteer))
         {

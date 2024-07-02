@@ -35,8 +35,7 @@ public partial class SendMessageWindow : Window
             return;
         }
 
-        var messageGroupService = new MessageGroupService(Injector.CreateInstance<IRepository<MessageGroup>>());
-        var messageService = new MessageService(Injector.CreateInstance<IRepository<Message>>(), messageGroupService);
+        var messageService = new MessageService(Injector.CreateInstance<IRepository<Message>>());
 
         messageService.AddMessage(MessageViewModel.ToMessage());
         Close();

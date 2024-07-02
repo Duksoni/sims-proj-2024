@@ -1,6 +1,7 @@
 ﻿using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
 using PetNetwork.Domain.Enums;
+using PetNetwork.Application.Utility;
 
 namespace PetNetwork.Application.UseCases;
 
@@ -10,10 +11,11 @@ public class MessageService
 
     private readonly MessageGroupService _messageGroupService;
 
-    public MessageService(IRepository<Message> messageRepository, MessageGroupService messageGroupService)
+    public MessageService(IRepository<Message> messageRepository)
     {
         _messageRepository = messageRepository;
-        _messageGroupService = messageGroupService;
+        var messageGroupRepo = Injector.CreateInstance<IRepository<MessageGroup>>();
+        _messageGroupService = new MessageGroupService(messageGroupRepo);
     }
 
     public void AddMessage(Message message)
@@ -61,12 +63,29 @@ public class MessageService
         return messages;
     }
 
-    public void ReadMessage(string id)
+    public void ReadMessage(Message message)
     {
-        Message? message = _messageRepository.Get(id);
-        if (message == null) return;
         message.Status = MessageStatus.Read;
         _messageRepository.Update(message);
+    }
+
+    public void ReadAllChatMessages(string sender, string recipient)
+    {
+        var messages = GetMessagesForChat(sender, recipient);
+        foreach (var message in messages)
+        {
+            ReadMessage(message);
+        }
+    }
+
+    public bool IsChatRead(string sender, string recipient)
+    {
+        var messages = GetMessagesForChat(sender, recipient);
+        foreach (var message in messages)
+        {
+            if (message.Status == MessageStatus.Unread) return false;
+        }
+        return true;
     }
 
     public IList<string> GetAllChats(string email)
