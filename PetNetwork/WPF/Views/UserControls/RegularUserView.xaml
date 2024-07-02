@@ -15,6 +15,7 @@
         </TabItem>
         <TabItem Header="Chat" Width="120">
             <Grid>
+                <local:AllChatsView/>
             </Grid>
         </TabItem>
     </TabControl>
