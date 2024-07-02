@@ -16,7 +16,8 @@ public class Injector
         { typeof(IRepository<Comment>), new JsonRepository<Comment>("comments.json")},
         { typeof(IRepository<PostLike>), new JsonRepository<PostLike>("post_likes.json")},
         { typeof(IRepository<PostRating>), new JsonRepository<PostRating>("post_ratings.json")},
-        { typeof(IRepository<Payment>), new JsonRepository<Payment>("payments.json")}
+        { typeof(IRepository<Payment>), new JsonRepository<Payment>("payments.json")},
+        { typeof(IRepository<Pet>), new JsonRepository<Pet>("pets.json")}
 
     };
 
