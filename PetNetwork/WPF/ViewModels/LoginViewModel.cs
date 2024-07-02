@@ -11,7 +11,7 @@ public class LoginViewModel : BaseViewModel
 {
     private readonly UserSessionService _userSessionService;
 
-    public RelayCommand TryLoginCommand => new(_ => TryUserLogin());
+    public RelayCommand TryLoginCommand => new(_ => TryUserLogin(), _ => Email != string.Empty && Password != string.Empty);
 
     private string _email = string.Empty;
     public string Email
@@ -57,7 +57,6 @@ public class LoginViewModel : BaseViewModel
 
     private void TryUserLogin()
     {
-        if (!AreValidInputs()) return;
 
         if (!_userSessionService.Login(Email, Password, out var accountInfo))
         {
@@ -78,14 +77,8 @@ public class LoginViewModel : BaseViewModel
                 break;
             default:
                 UserSession.Start(accountInfo.Key, accountInfo.Value);
+                LoginResultMessage = string.Empty;
                 break;
         }
-    }
-
-    private bool AreValidInputs()
-    {
-        if (Email != string.Empty && Password != string.Empty) return true;
-        LoginResultMessage = UserMessages.InvalidLogin;
-        return false;
     }
 }

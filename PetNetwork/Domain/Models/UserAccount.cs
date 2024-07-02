@@ -8,6 +8,7 @@ namespace PetNetwork.Domain.Models;
 
 public class UserAccount : ISerializable
 {
+    [JsonProperty("Email")]
     public string Id { get; }
 
     private string _password = string.Empty;
@@ -56,9 +57,9 @@ public class UserAccount : ISerializable
     }
 
     [JsonConstructor]
-    public UserAccount(string id, string password, AccountRole role, AccountStatus status)
+    public UserAccount(string email, string password, AccountRole role, AccountStatus status)
     {
-        Id = id;
+        Id = email;
         _password = password;
         Role = role;
         Status = status;

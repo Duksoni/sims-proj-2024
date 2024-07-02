@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
-using PetNetwork.Domain.Interfaces;
 
 namespace PetNetwork.Domain.Models;
 
-public class Address : ISerializable
+public class Address
 {
-
-    public string Id => $"{Street.Replace(' ', '-')}_{StreetNo}";
-
     public string Street { get; set; }
 
     public string StreetNo { get; set; }

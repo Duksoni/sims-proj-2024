@@ -1,12 +1,11 @@
 [
   {
-    "Id": "pera@gmail.com",
+    "AccountEmail": "pera@gmail.com",
     "FirstName": "Pera",
     "LastName": "Peric",
     "Phone": "0612345678",
     "Gender": "Male",
     "Address": {
-      "Id": "Petra-Kocica_11",
       "Street": "Petra Kocica",
       "StreetNo": "11",
       "Town": "Smederevo",
@@ -17,13 +16,12 @@
     "Deleted": false
   },
   {
-    "Id": "zika@gmail.com",
+    "AccountEmail": "zika@gmail.com",
     "FirstName": "Zika",
     "LastName": "Zikic",
     "Phone": "0612345678",
     "Gender": "Male",
     "Address": {
-      "Id": "Petra-Kocica_12",
       "Street": "Petra Kocica",
       "StreetNo": "12",
       "Town": "Smederevo",
@@ -34,13 +32,12 @@
     "Deleted": false
   },
   {
-    "Id": "mika@gmail.com",
+    "AccountEmail": "mika@gmail.com",
     "FirstName": "Mika",
     "LastName": "Mikic",
     "Phone": "0611234156",
     "Gender": "Male",
     "Address": {
-      "Id": "Mike-Antica_22",
       "Street": "Mike Antica",
       "StreetNo": "22",
       "Town": "Novi Sad",
@@ -51,13 +48,12 @@
     "Deleted": false
   },
   {
-    "Id": "patrik@gmail.com",
+    "AccountEmail": "patrik@gmail.com",
     "FirstName": "patrik",
     "LastName": "patrikovic",
     "Phone": "0612345678",
     "Gender": "Male",
     "Address": {
-      "Id": "Petra_Kocica_11",
       "Street": "Petra Kocica",
       "StreetNo": "11",
       "Town": "Smederevo",

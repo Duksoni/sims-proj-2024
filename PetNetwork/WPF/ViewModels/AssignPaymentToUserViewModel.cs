@@ -1,6 +1,5 @@
 ﻿using PetNetwork.Application.UseCases;
 using PetNetwork.Application.Utility;
-using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
 using PetNetwork.Domain.Models;
 using System.Collections.ObjectModel;
@@ -43,7 +42,7 @@ public class AssignPaymentToUserViewModel : BaseViewModel
         var userRepo = Injector.CreateInstance<IRepository<UserAccount>>();
         var personRepo = Injector.CreateInstance<IRepository<Person>>();
         var userService = new UserService(userRepo, personRepo);
-        UserEmails = new ObservableCollection<string>(userService.GetAllAccounts().Where(acc => acc.Status != AccountStatus.Rejected).Select(acc => acc.Id));
+        UserEmails = new ObservableCollection<string>(userService.FindActiveAccounts().Select(acc => acc.Id));
     }
 
     private void Submit()

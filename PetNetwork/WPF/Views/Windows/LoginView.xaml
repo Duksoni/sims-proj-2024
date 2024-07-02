@@ -18,8 +18,8 @@
             <TextBlock Name="ValidationMessage" Foreground="Red" Text="{Binding LoginResultMessage}"/>
 
             <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 35">
-                <Button Name="LoginBtn" Content="Login" Width="70"
-                        Margin="50, 0, 50, 0" IsDefault="True"/>
+                <Button Content="Login" Width="70" Margin="50, 0, 50, 0"
+                        IsDefault="True" Command="{Binding TryLoginCommand}"/>
                 <Button Content="Cancel" IsCancel="True" Width="70" 
                         Margin="50, 0, 50, 0" />
             </StackPanel>

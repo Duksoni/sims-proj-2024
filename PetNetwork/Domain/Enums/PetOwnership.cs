@@ -1,8 +1,8 @@
-﻿namespace PetNetwork.Domain.Enums
+﻿namespace PetNetwork.Domain.Enums;
+
+public enum PetOwnership
 {
-    public enum PetOwnership
-    {
-        Owned,
-        Stray
-    }
+    Stray,
+    Owned
+        
 }

@@ -65,6 +65,8 @@ public class UserService
         return GetUserPersonalInfoRange(accountEmails);
     }
 
+    public IList<UserAccount> FindActiveAccounts() => _userAccountRepository.Find(acc => acc.Status == AccountStatus.Active);
+
     public IList<UserAccount> GetAllAccounts(bool includeRemoved = false) => _userAccountRepository.GetAll(includeRemoved);
 
     public IList<Person> GetAllPersonalInfo(bool includeRemoved = false) => _personRepository.GetAll(includeRemoved);

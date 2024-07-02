@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="Assign Payment To Pet" Height="150" Width="300">
+        Title="Assign Payment To Pet" Height="200" Width="550">
     <StackPanel Margin="15">
         <TextBlock Text="Select a pet"/>
         <ComboBox ItemsSource="{Binding Pets}" SelectedItem="{Binding SelectedPet, Mode=TwoWay}"/>

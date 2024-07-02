@@ -12,12 +12,13 @@ public class PetHealth
     public PetHealth()
     {
         Description = string.Empty;
-        Condition = PetHealthCondition.Healthy;
     }
 
-    public PetHealth(string description, PetHealthCondition condition)
+    public PetHealth(string description, PetHealthCondition condition = PetHealthCondition.Healthy)
     {
         Description = description;
         Condition = condition;
     }
+
+    public override string ToString() => $"Condition: {Condition} ({Description})";
 }

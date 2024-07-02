@@ -1,16 +1,41 @@
-﻿namespace PetNetwork.Domain.Models;
+﻿using Newtonsoft.Json;
+using PetNetwork.Domain.Interfaces;
 
-public class AnimalType
+namespace PetNetwork.Domain.Models;
+
+public class AnimalType : ISerializable
 {
-    public string Type { get; set; }
+
+    [JsonProperty("Type")]
+    public string Id { get; set; }
+
+    private bool _deleted;
+    public bool Deleted
+    {
+        get => _deleted;
+        set
+        {
+            if (!_deleted && value)
+                _deleted = value;
+        }
+    }
 
     public AnimalType()
     {
-        Type = string.Empty;
+        Id = string.Empty;
     }
 
     public AnimalType(string type)
     {
-        Type = type;
+        Id = type;
     }
+
+    [JsonConstructor]
+    public AnimalType(string id, bool deleted)
+    {
+        Id = id;
+        _deleted = deleted;
+    }
+
+    public override string ToString() => Id;
 }
