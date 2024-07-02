@@ -10,6 +10,9 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties data_4bank_3statement_1schema_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
