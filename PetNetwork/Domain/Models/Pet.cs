@@ -4,7 +4,7 @@ using PetNetwork.Domain.Interfaces;
 
 namespace PetNetwork.Domain.Models
 {
-    internal class Pet : ISerializable
+    public class Pet : ISerializable
     {
         public string Id { get; set; }
 
@@ -40,7 +40,7 @@ namespace PetNetwork.Domain.Models
         }
 
 
-        internal Pet()
+        public Pet()
         {
             Id = string.Empty;
             Breed = string.Empty;

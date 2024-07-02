@@ -1,17 +1,16 @@
-﻿namespace PetNetwork.Domain.Models
+﻿namespace PetNetwork.Domain.Models;
+
+public class AnimalType
 {
-    internal class AnimalType
+    public string Type { get; set; }
+
+    public AnimalType()
     {
-        public string Type { get; set; }
+        Type = string.Empty;
+    }
 
-        internal AnimalType()
-        {
-            Type = string.Empty;
-        }
-
-        public AnimalType(string type)
-        {
-            Type = type;
-        }
+    public AnimalType(string type)
+    {
+        Type = type;
     }
 }
