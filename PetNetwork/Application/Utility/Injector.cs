@@ -18,6 +18,7 @@ public class Injector
         { typeof(IRepository<PostRating>), new JsonRepository<PostRating>("post_ratings.json")},
         { typeof(IRepository<Message>), new JsonRepository<Message>("messages.json")},
         { typeof(IRepository<MessageGroup>), new JsonRepository<MessageGroup>("message_groups.json")}
+        { typeof(IRepository<Payment>), new JsonRepository<Payment>("payments.json")}
 
     };
 

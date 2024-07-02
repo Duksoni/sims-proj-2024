@@ -27,10 +27,8 @@
                 <local:AllUsersView/>
             </ScrollViewer>
         </TabItem>
-        <TabItem Header="Manage payments" Width="120">
-            <Grid>
-
-            </Grid>
+        <TabItem Header="Manage payments/donations">
+            <local:AllPaymentsView/>
         </TabItem>
     </TabControl>
 </UserControl>
