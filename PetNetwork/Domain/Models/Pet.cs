@@ -1,10 +1,4 @@
-﻿using Newtonsoft.Json.Converters;
-using PetNetwork.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PetNetwork.Domain.Enums;
 using Newtonsoft.Json;
 using PetNetwork.Domain.Interfaces;
 
@@ -28,7 +22,7 @@ namespace PetNetwork.Domain.Models
 
         public Address Location { get; set; }
 
-        public UserAccount? FinalOwner { get; set; }
+        public string FinalOwner { get; set; }
 
         public AnimalType Animal {  get; set; }
 
@@ -56,12 +50,12 @@ namespace PetNetwork.Domain.Models
             Status = PetAdoptionStatus.Pending; // null?
             Gender = Gender.Male;
             Location = new Address(); // null?
-            FinalOwner = null; // null?
+            FinalOwner = string.Empty;
             Animal = new AnimalType();
             Health = new PetHealth();
         }
 
-        public Pet(string id, string breed, string colour, int birthYear, PetOwnership ownership, PetAdoptionStatus status, Gender gender, Address location, UserAccount? finalOwner, AnimalType animal, PetHealth health)
+        public Pet(string id, string breed, string colour, int birthYear, PetOwnership ownership, PetAdoptionStatus status, Gender gender, Address location, string finalOwner, AnimalType animal, PetHealth health)
         {
             Id = id;
             Breed = breed;
@@ -77,7 +71,7 @@ namespace PetNetwork.Domain.Models
         }
 
         [JsonConstructor]
-        public Pet(string id, string breed, string colour, int birthYear, PetOwnership ownership, PetAdoptionStatus status, Gender gender, Address location, UserAccount? finalOwner, AnimalType animal, PetHealth health, bool deleted)
+        public Pet(string id, string breed, string colour, int birthYear, PetOwnership ownership, PetAdoptionStatus status, Gender gender, Address location, string finalOwner, AnimalType animal, PetHealth health, bool deleted)
         {
             Id = id;
             Breed = breed;
