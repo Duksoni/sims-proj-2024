@@ -109,4 +109,15 @@ public class MessageService
             .Cast<string>()
             .ToList();
     }
+
+    public IList<Message> SearchMessages(string sender, string reciever, string pattern)
+    {
+        IList<Message> messages = new List<Message>();
+        foreach (var message in GetMessagesForChat(sender, reciever))
+        {
+            if (message.Title.ToLower().Contains(pattern.ToLower())) messages.Add(message);
+        }
+
+        return messages;
+    }
 }

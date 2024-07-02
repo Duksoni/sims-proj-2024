@@ -47,7 +47,11 @@ public partial class ChatWindow : Window
 
     private void SearchButton_Click(object sender, RoutedEventArgs e)
     {
-
+        var pattern = SearchBox.Text.Trim();
+        var messages = string.IsNullOrEmpty(pattern) 
+            ? _messageService.GetMessagesForChat(UserSession.Session!.Account.Id, Recipient) 
+            : _messageService.SearchMessages(UserSession.Session!.Account.Id, Recipient, pattern);
+        LoadMessages(messages);
     }
 
     private void SendMessageButton_Click(object sender, RoutedEventArgs e)
