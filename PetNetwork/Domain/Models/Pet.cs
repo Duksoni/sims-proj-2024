@@ -1,12 +1,13 @@
-﻿using PetNetwork.Domain.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using PetNetwork.Application.Utility;
+using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
 
 namespace PetNetwork.Domain.Models
 {
     public class Pet : ISerializable
     {
-        public string Id { get; set; }
+        public string Id { get; }
 
         public string Breed { get; set; }
 
@@ -55,23 +56,22 @@ namespace PetNetwork.Domain.Models
             Health = new PetHealth();
         }
 
-        public Pet(string id, string breed, string colour, int birthYear, PetOwnership ownership, PetAdoptionStatus status, Gender gender, Address location, string finalOwner, AnimalType animal, PetHealth health)
+        public Pet(string breed, string colour, int birthYear, Gender gender, Address location, AnimalType animal, PetHealth health)
         {
-            Id = id;
+            Id = IdGenerator.Generate();
             Breed = breed;
             Colour = colour;
             BirthYear = birthYear;
-            Ownership = ownership;
-            Status = status;
             Gender = gender;
             Location = location;
-            FinalOwner = finalOwner;
+            FinalOwner = string.Empty;
             Animal = animal;
             Health = health;
         }
 
         [JsonConstructor]
-        public Pet(string id, string breed, string colour, int birthYear, PetOwnership ownership, PetAdoptionStatus status, Gender gender, Address location, string finalOwner, AnimalType animal, PetHealth health, bool deleted)
+        public Pet(string id, string breed, string colour, int birthYear, PetOwnership ownership, PetAdoptionStatus status,
+            Gender gender, Address location, string finalOwner, AnimalType animal, PetHealth health, bool deleted)
         {
             Id = id;
             Breed = breed;
