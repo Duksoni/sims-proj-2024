@@ -19,7 +19,7 @@
         </TabItem>
         <TabItem Header="Manage posts" Width="120">
             <Grid>
-
+                <local:ManagePost></local:ManagePost>
             </Grid>
         </TabItem>
         <TabItem Header="Manage users" Width="120">

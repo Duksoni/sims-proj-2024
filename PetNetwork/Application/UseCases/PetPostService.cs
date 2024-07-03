@@ -70,5 +70,16 @@ public class PetPostService
 
         return posts;
     }
+
+    public IList<PetPost> GetPendingPetPosts()
+    {
+        IList<PetPost> posts = new List<PetPost>();
+        foreach (var post in _petPostRepository.GetAll())
+        {
+            if (post.Status == PostStatus.PendingApproval) posts.Add(post);
+        }
+
+        return posts;
+    }
 }
 
