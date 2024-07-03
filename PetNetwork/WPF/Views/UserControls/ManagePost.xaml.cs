@@ -67,11 +67,12 @@ namespace PetNetwork.WPF.Views.UserControls
 
         private void AcceptPost(object parameter)
         {
-            if (parameter is PetPost petPost)
+            if (parameter is ManagePostViewModel viewModel)
             {
-                petPost.Status = PostStatus.Active;
+                viewModel.Post.Status = PostStatus.Active;
                 var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
-                petPostService.UpdatePost(petPost);
+                petPostService.UpdatePost((PetPost)viewModel.Post);
+                Posts = new ObservableCollection<ManagePostViewModel>();
                 foreach (var post in petPostService.GetPendingPetPosts())
                 {
                     Posts.Add(new ManagePostViewModel(post, true, false));
@@ -83,11 +84,12 @@ namespace PetNetwork.WPF.Views.UserControls
 
         private void RejectPost(object parameter)
         {
-            if (parameter is PetPost petPost)
+            if (parameter is ManagePostViewModel viewModel)
             {
-                petPost.Status = PostStatus.Rejected;
+                viewModel.Post.Status = PostStatus.Rejected;
                 var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
-                petPostService.UpdatePost(petPost);
+                petPostService.UpdatePost((PetPost)viewModel.Post);
+                Posts = new ObservableCollection<ManagePostViewModel>();
                 foreach (var post in petPostService.GetPendingPetPosts())
                 {
                     Posts.Add(new ManagePostViewModel(post, true, false));
@@ -99,19 +101,19 @@ namespace PetNetwork.WPF.Views.UserControls
 
         private void DeletePost(object parameter)
         {
-            if (parameter is Post postDel)
+            if (parameter is ManagePostViewModel viewModel)
             {
-                postDel.Status = PostStatus.Deleted;
+                //viewModel.Post.Status = PostStatus.Deleted;
                 var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
                 var postService = new PostService(Injector.CreateInstance<IRepository<Post>>());
                 Posts = new ObservableCollection<ManagePostViewModel>();
-                if (postDel is PetPost petPost)
+                if (viewModel.Post is PetPost petPost)
                 {
-                    petPostService.UpdatePost((PetPost)postDel);
+                    petPostService.DeletePost(petPost);
                 }
                 else
                 {
-                    postService.UpdatePost(postDel);
+                    postService.DeletePost(viewModel.Post);
                 }
                 foreach (var post in petPostService.GetAllActivePosts())
                 {
