@@ -8,8 +8,8 @@
     "Body": "ahfshs",
     "ImageUrl": "",
     "VideoUrl": "",
-    "SendTime": "2024-06-30T12:27:17.5740644+02:00",
-    "Status": 0,
+    "SendTime": "2024-06-30 12:27:17",
+    "Status": "Unread",
     "Deleted": false
   },
   {
@@ -21,8 +21,8 @@
     "Body": "test body",
     "ImageUrl": "",
     "VideoUrl": "",
-    "SendTime": "2024-07-01T12:48:13.1392171+02:00",
-    "Status": 1,
+    "SendTime": "2024-07-01 12:48:13",
+    "Status": "Read",
     "Deleted": false
   },
   {
@@ -34,8 +34,8 @@
     "Body": "test",
     "ImageUrl": "https://assets.codeguru.com/uploads/2021/08/C-Sharp-Tutorials.png",
     "VideoUrl": "",
-    "SendTime": "2024-07-03T23:23:12.2006715+02:00",
-    "Status": 1,
+    "SendTime": "2024-07-03 23:23:12",
+    "Status": "Read",
     "Deleted": false
   },
   {
@@ -47,8 +47,8 @@
     "Body": "drugi test",
     "ImageUrl": "",
     "VideoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
-    "SendTime": "2024-07-03T23:23:53.3176638+02:00",
-    "Status": 1,
+    "SendTime": "2024-07-03 23:23:53",
+    "Status": "Read",
     "Deleted": false
   }
 ]

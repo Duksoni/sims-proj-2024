@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Converters;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
-using System.Text.Json.Serialization;
 
 namespace PetNetwork.Domain.Models;
 
