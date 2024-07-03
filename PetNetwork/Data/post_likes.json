@@ -15,5 +15,48 @@
       "Deleted": false
     },
     "Deleted": false
+  },
+  {
+    "Id": "88ddc6f5-4d3a-4348-94d0-4deea4bba15a",
+    "Author": "pera@gmail.com",
+    "Post": {
+      "Pet": {
+        "Id": "P2",
+        "Breed": "Siamese",
+        "Colour": "Cream and Brown",
+        "BirthYear": 2020,
+        "Ownership": 1,
+        "Status": 0,
+        "Gender": 1,
+        "Location": {
+          "Street": "456 Cat Avenue",
+          "StreetNo": null,
+          "Town": null,
+          "PostalCode": 23000,
+          "Deleted": false
+        },
+        "FinalOwner": null,
+        "Animal": {
+          "Type": "Dog",
+          "Deleted": false
+        },
+        "Health": {
+          "Description": "All good",
+          "Condition": 0
+        },
+        "Deleted": false
+      },
+      "Id": "2",
+      "Title": "Beautiful Siamese Cat for Adoption",
+      "Description": "A calm and affectionate cat looking for a new home.",
+      "Author": "user2@example.com",
+      "ImageUrl": "",
+      "VideoUrl": "",
+      "LikeCount": 200,
+      "Status": 2,
+      "CreatedAt": "2024-06-30T10:00:00Z",
+      "Deleted": false
+    },
+    "Deleted": false
   }
 ]

@@ -22,11 +22,18 @@ namespace PetNetwork.WPF.Views.UserControls
         public ICommand RejectCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
 
+        private readonly PetPostService _petPostService;
+        private readonly PostService _postService;
+
         public ManagePost()
         {
             InitializeComponent();
             Posts = new ObservableCollection<ManagePostViewModel>();
             DataContext = this;
+
+            _petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
+            _postService = new PostService(Injector.CreateInstance<IRepository<Post>>());
+
             PostsListView.ItemsSource = Posts;
             AcceptCommand = new RelayCommand(AcceptPost);
             RejectCommand = new RelayCommand(RejectPost);
@@ -35,50 +42,35 @@ namespace PetNetwork.WPF.Views.UserControls
 
         private void RequestButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
-            Posts = new ObservableCollection<ManagePostViewModel>();
-
-            foreach (var post in petPostService.GetPendingPetPosts())
-            {
-                Posts.Add(new ManagePostViewModel(post, true, false));
-            }
-
-            PostsListView.ItemsSource = Posts;
+            LoadPosts(_petPostService.GetPendingPetPosts(), true, false);
         }
 
         private void ActivePostsButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
-            var postService = new PostService(Injector.CreateInstance<IRepository<Post>>());
-            Posts = new ObservableCollection<ManagePostViewModel>();
+            LoadPosts(_petPostService.GetAllActivePosts(), false, true);
+            LoadPosts(_postService.GetAllActivePosts(), false, true);
+        }
 
-            foreach (var post in petPostService.GetAllActivePosts())
+        private void LoadPosts(IEnumerable<Post> posts, bool isPending, bool isActive)
+        {
+            foreach (var post in posts)
             {
-                Posts.Add(new ManagePostViewModel(post, false, true));
+                Posts.Add(new ManagePostViewModel(post, isPending, isActive));
             }
+        }
 
-            foreach (var post in postService.GetAllActivePosts())
-            {
-                Posts.Add(new ManagePostViewModel(post, false, true));
-            }
-
-            PostsListView.ItemsSource = Posts;
+        private void RefreshPendingPosts()
+        {
+            Posts.Clear();
+            LoadPosts(_petPostService.GetPendingPetPosts(), true, false);
         }
 
         private void AcceptPost(object parameter)
         {
             if (parameter is ManagePostViewModel viewModel)
             {
-                viewModel.Post.Status = PostStatus.Active;
-                var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
-                petPostService.UpdatePost((PetPost)viewModel.Post);
-                Posts = new ObservableCollection<ManagePostViewModel>();
-                foreach (var post in petPostService.GetPendingPetPosts())
-                {
-                    Posts.Add(new ManagePostViewModel(post, true, false));
-                }
-                PostsListView.ItemsSource = Posts;
-
+                UpdatePostStatus(viewModel, PostStatus.Active);
+                RefreshPendingPosts();
             }
         }
 
@@ -86,16 +78,8 @@ namespace PetNetwork.WPF.Views.UserControls
         {
             if (parameter is ManagePostViewModel viewModel)
             {
-                viewModel.Post.Status = PostStatus.Rejected;
-                var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
-                petPostService.UpdatePost((PetPost)viewModel.Post);
-                Posts = new ObservableCollection<ManagePostViewModel>();
-                foreach (var post in petPostService.GetPendingPetPosts())
-                {
-                    Posts.Add(new ManagePostViewModel(post, true, false));
-                }
-                PostsListView.ItemsSource = Posts;
-
+                UpdatePostStatus(viewModel, PostStatus.Rejected);
+                RefreshPendingPosts();
             }
         }
 
@@ -103,30 +87,38 @@ namespace PetNetwork.WPF.Views.UserControls
         {
             if (parameter is ManagePostViewModel viewModel)
             {
-                //viewModel.Post.Status = PostStatus.Deleted;
-                var petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
-                var postService = new PostService(Injector.CreateInstance<IRepository<Post>>());
-                Posts = new ObservableCollection<ManagePostViewModel>();
                 if (viewModel.Post is PetPost petPost)
                 {
-                    petPostService.DeletePost(petPost);
+                    _petPostService.DeletePost(petPost);
                 }
                 else
                 {
-                    postService.DeletePost(viewModel.Post);
+                    _postService.DeletePost(viewModel.Post);
                 }
-                foreach (var post in petPostService.GetAllActivePosts())
-                {
-                    Posts.Add(new ManagePostViewModel(post, false, true));
-                }
-
-                foreach (var post in postService.GetAllActivePosts())
-                {
-                    Posts.Add(new ManagePostViewModel(post, false, true));
-                }
-
-                PostsListView.ItemsSource = Posts;
+                RefreshActivePosts();
             }
         }
+
+        private void UpdatePostStatus(ManagePostViewModel viewModel, PostStatus status)
+        {
+            viewModel.Post.Status = status;
+
+            if (viewModel.Post is PetPost petPost)
+            {
+                _petPostService.UpdatePost(petPost);
+            }
+            else
+            {
+                _postService.UpdatePost(viewModel.Post);
+            }
+        }
+
+        private void RefreshActivePosts()
+        {
+            Posts.Clear();
+            LoadPosts(_petPostService.GetAllActivePosts(), false, true);
+            LoadPosts(_postService.GetAllActivePosts(), false, true);
+        }
     }
+
 }

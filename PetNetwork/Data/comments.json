@@ -17,5 +17,50 @@
     },
     "CreatedAt": "2024-06-28 22:57:04",
     "Deleted": false
+  },
+  {
+    "Id": "717929ee-c606-412d-b38b-5da1a2e907f6",
+    "Text": "Hello",
+    "Author": "pera@gmail.com",
+    "Post": {
+      "Pet": {
+        "Id": "P1",
+        "Breed": "Labrador Retriever",
+        "Colour": "Golden",
+        "BirthYear": 2022,
+        "Ownership": 1,
+        "Status": 0,
+        "Gender": 0,
+        "Location": {
+          "Street": "123 Pet Street",
+          "StreetNo": null,
+          "Town": null,
+          "PostalCode": 23000,
+          "Deleted": false
+        },
+        "FinalOwner": null,
+        "Animal": {
+          "Type": "Dog",
+          "Deleted": false
+        },
+        "Health": {
+          "Description": "All good",
+          "Condition": 0
+        },
+        "Deleted": false
+      },
+      "Id": "1",
+      "Title": "Adopt this Cute Puppy",
+      "Description": "A friendly and playful puppy looking for a loving home.",
+      "Author": "user1@example.com",
+      "ImageUrl": "https://i.imgur.com/IX5Q777_d.webp?maxwidth=520&shape=thumb&fidelity=high",
+      "VideoUrl": "",
+      "LikeCount": 150,
+      "Status": 2,
+      "CreatedAt": "2024-07-01T14:30:00Z",
+      "Deleted": false
+    },
+    "CreatedAt": "2024-07-03 14:50:17",
+    "Deleted": false
   }
 ]

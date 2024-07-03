@@ -7,9 +7,9 @@
     "ImageUrl": "",
     "VideoUrl": "",
     "LikeCount": 1,
-    "Status": 2,
+    "Status": 3,
     "CreatedAt": "2024-06-28T22:56:37.7340582+02:00",
-    "Deleted": false
+    "Deleted": true
   },
   {
     "Id": "58de279a-c4ef-4883-83a8-09e007e0862b",
