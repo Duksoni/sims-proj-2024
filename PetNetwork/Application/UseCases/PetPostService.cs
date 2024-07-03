@@ -81,5 +81,13 @@ public class PetPostService
 
         return posts;
     }
+
+    public void RemoveAllPosts(string email)
+    {
+        foreach (var post in GetAllActivePosts())
+        {
+            if (post.Author == email) _petPostRepository.Remove(post.Id);
+        }
+    }
 }
 

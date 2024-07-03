@@ -21,6 +21,7 @@ namespace PetNetwork.WPF.Views.Windows
         public CreatePostWindow()
         {
             InitializeComponent();
+            this.WindowState = WindowState.Maximized;
             DataContext = this;
             PostViewModel = new PostViewModel();
             SetupContents();
@@ -36,6 +37,7 @@ namespace PetNetwork.WPF.Views.Windows
             {
                 CreateTitle.Text = "Create Post Request";
                 CreateButton.Content = "Create Post Request";
+                PetTextBlock.Text = "Pet(can't be empty)";
             }
             else
             {
@@ -62,11 +64,16 @@ namespace PetNetwork.WPF.Views.Windows
                 PostViewModel.Status = PostStatus.Active;
             }
 
-            if (PetComboBox.SelectedIndex == -1) // creating normal post
+            if (PetComboBox.SelectedIndex == -1 && UserSession.Session.Account.Role == AccountRole.Volunteer) // creating normal post
             {
                 var postRepo = Injector.CreateInstance<IRepository<Post>>();
                 var postService = new PostService(postRepo);
                 postService.AddPost(PostViewModel.ToPost());
+            }
+            else if (PetComboBox.SelectedIndex == -1 && UserSession.Session.Account.Role == AccountRole.RegularUser)
+            {
+                MessageBox.Show(this, "Pet can't be empty");
+                return;
             }
             else // creating petpost
             {

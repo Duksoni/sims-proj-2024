@@ -13,8 +13,10 @@
             <RowDefinition Height="20*" />
             <RowDefinition Height="20*" />
             <RowDefinition Height="20*" />
-            <RowDefinition Height="20*"/>
             <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>
@@ -45,7 +47,7 @@
                  Text="{Binding PostViewModel.VideoUrl}"></TextBox>
 
         <TextBlock Grid.Row="5" Text="Pet (can be empty): " FontSize="24" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Name="PetTextBlock"></TextBlock>
 
         <ComboBox Grid.Row="5" Grid.Column="1" Width="Auto" Height="Auto" HorizontalAlignment="Center"
                   VerticalAlignment="Center"
