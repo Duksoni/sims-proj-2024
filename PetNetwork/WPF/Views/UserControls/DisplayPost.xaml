@@ -45,9 +45,14 @@
                             <TextBlock Text="{Binding Post.Title}" FontWeight="Bold" FontSize="18"/>
                             <TextBlock Text="{Binding Post.Description}" TextWrapping="Wrap" Margin="0,5,0,5"/>
                             <TextBlock Text="{Binding Post.Author}" FontStyle="Italic" FontSize="12" Foreground="Gray"/>
-                            <TextBlock Text="{Binding Post.ImageUrl}" FontStyle="Italic" Margin="0,5,0,5"/>
+                            <Image Width="400" Source="{Binding ImageSource}"/>
+                            <MediaElement Width="400" Source="{Binding MediaElement.Source}"/>
                             <TextBlock Text="{Binding Post.CreatedAt}" FontSize="12" Foreground="Gray"/>
                             <TextBlock Text="{Binding Post.LikeCount, StringFormat='Likes: {0}'}" FontSize="12" Foreground="Gray"/>
+                            <TextBlock Text="{Binding Pet.Breed}"/>
+                            <TextBlock Text="{Binding Pet.Colour}" />
+                            <TextBlock Text="{Binding Pet.BirthYear}" />
+                            <TextBlock Text="{Binding Pet.Gender}" />
                             <Button Content="Like"
                                     FontSize="20"
                                     Height="Auto"

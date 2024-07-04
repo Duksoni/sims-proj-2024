@@ -14,7 +14,8 @@ namespace PetNetwork.WPF.Views.Windows
             var viewModel = new AddPetViewModel();
             DataContext = viewModel;
 
-            viewModel.PropertyChanged += (_, args) => {
+            viewModel.PropertyChanged += (_, args) =>
+            {
                 if (args.PropertyName == nameof(viewModel.Added))
                     DialogResult = true;
             };

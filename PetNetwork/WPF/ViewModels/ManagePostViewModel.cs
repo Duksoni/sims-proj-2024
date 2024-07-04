@@ -4,14 +4,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace PetNetwork.WPF.ViewModels;
-
-public class PostDisplayViewModel
+public class ManagePostViewModel
 {
     public Post Post { get; set; }
 
-    public bool CanLike { get; set; }
+    public bool CanAccept { get; set; }
 
-    public bool CanRate { get; set; }
+    public bool CanDelete { get; set; }
 
     public Pet? Pet { get; set; }
 
@@ -20,11 +19,11 @@ public class PostDisplayViewModel
     public MediaElement? MediaElement { get; set; }
 
 
-    public PostDisplayViewModel(Post post, bool canLike, bool canRate)
+    public ManagePostViewModel(Post post, bool canAccept, bool canDelete)
     {
         Post = post;
-        CanLike = canLike;
-        CanRate = canRate;
+        CanAccept = canAccept;
+        CanDelete = canDelete;
         ImageSource = LoadImage();
         MediaElement = LoadVideo();
 

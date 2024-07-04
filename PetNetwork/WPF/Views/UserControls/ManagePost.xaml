@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="PetNetwork.WPF.Views.UserControls.ManagePost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PetNetwork.WPF.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Manage Posts" FontSize="30"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        
+        <Button Grid.Row="1" Grid.Column="0" Content="Requests" Height="Auto" Width="Auto"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" FontSize="20"
+                Name="RequestButton" Padding="10,0,10,0" Click="RequestButton_OnClick"></Button>
+
+        <Button Grid.Row="1" Grid.Column="1" Content="Active posts" Height="Auto" Width="Auto"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" FontSize="20"
+                Name="ActivePostsButton" Padding="10, 0,10, 0" Click="ActivePostsButton_OnClick"></Button>
+
+        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Name="PostsListView" ItemsSource="{Binding Posts}" HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" HorizontalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Post.Title}" FontWeight="Bold" FontSize="18"/>
+                            <TextBlock Text="{Binding Post.Description}" TextWrapping="Wrap" Margin="0,5,0,5"/>
+                            <TextBlock Text="{Binding Post.Author}" FontStyle="Italic" FontSize="12" Foreground="Gray"/>
+                            <Image Width="400" Source="{Binding ImageSource}"/>
+                            <MediaElement Width="400" Source="{Binding MediaElement.Source}"/>
+                            <TextBlock Text="{Binding Post.CreatedAt}" FontSize="12" Foreground="Gray"/>
+                            <TextBlock Text="{Binding Post.LikeCount, StringFormat='Likes: {0}'}" FontSize="12" Foreground="Gray"/>
+                            <TextBlock Text="{Binding Pet.Breed}"/>
+                            <TextBlock Text="{Binding Pet.Colour}" />
+                            <TextBlock Text="{Binding Pet.BirthYear}" />
+                            <TextBlock Text="{Binding Pet.Gender}" />
+                            <Button Content="Accept"
+                            FontSize="20"
+                            Height="Auto"
+                            Width="Auto"
+                            Margin="0, 5, 0, 5"
+                            Padding="10, 0, 10, 0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Command="{Binding DataContext.AcceptCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                            CommandParameter="{Binding}"
+                            IsEnabled="{Binding CanAccept}"/>
+                            <Button Content="Reject" 
+                            FontSize="20"
+                            Height="Auto"
+                            Width="Auto"
+                            Margin="0,5,0,5"
+                            Padding="10,0,10,0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                            CommandParameter="{Binding}"
+                            IsEnabled="{Binding CanAccept}"
+                            />
+                            
+                            <Button Content="Delete"
+                            FontSize="20"
+                            Height="Auto"
+                            Width="Auto"
+                            Margin="0, 5, 0, 5"
+                            Padding="10, 0, 10, 0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                            CommandParameter="{Binding}"
+                            IsEnabled="{Binding CanDelete}"
+                            />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

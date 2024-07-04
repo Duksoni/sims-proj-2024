@@ -1,14 +1,1 @@
-[
-  {
-    "Id": "32e25fd4-d2fc-4efb-8867-4860c5d8e47f",
-    "Title": "Post fro GUI",
-    "Description": "This post was created thru GUI",
-    "Author": "pera@gmail.com",
-    "ImageUrl": "",
-    "VideoUrl": "",
-    "LikeCount": 1,
-    "Status": "Active",
-    "CreatedAt": "2024-06-28 22:56:37",
-    "Deleted": false
-  }
-]
+[]
