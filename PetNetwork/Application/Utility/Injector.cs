@@ -20,7 +20,8 @@ public class Injector
         { typeof(IRepository<MessageGroup>), new JsonRepository<MessageGroup>("message_groups.json")},
         { typeof(IRepository<Payment>), new JsonRepository<Payment>("payments.json")},
         { typeof(IRepository<Pet>), new JsonRepository<Pet>("pets.json")},
-        { typeof(IRepository<PetPost>), new JsonRepository<PetPost>("pet_posts.json")}
+        { typeof(IRepository<PetPost>), new JsonRepository<PetPost>("pet_posts.json")},
+        { typeof(IRepository<AnimalType>), new JsonRepository<AnimalType>("animal_types.json")}
     };
 
     public static T CreateInstance<T>()

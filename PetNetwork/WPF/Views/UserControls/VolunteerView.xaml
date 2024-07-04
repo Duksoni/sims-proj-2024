@@ -30,5 +30,10 @@
         <TabItem Header="Manage payments/donations">
             <local:AllPaymentsView/>
         </TabItem>
+        <TabItem Header="Manage pets" Width="120">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:AllPetsView/>
+            </ScrollViewer>
+        </TabItem>
     </TabControl>
 </UserControl>

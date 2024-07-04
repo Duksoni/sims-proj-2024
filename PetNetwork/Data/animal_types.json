@@ -1,0 +1,22 @@
+[
+  {
+    "Id": "Cat",
+    "Deleted": false
+  },
+  {
+    "Id": "Elephant",
+    "Deleted": true
+  },
+  {
+    "Id": "Octopus",
+    "Deleted": false
+  },
+  {
+    "Id": "Meercat",
+    "Deleted": false
+  },
+  {
+    "Id": "Bobcat",
+    "Deleted": false
+  }
+]

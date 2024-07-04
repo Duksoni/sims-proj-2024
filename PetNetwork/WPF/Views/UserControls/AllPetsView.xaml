@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="PetNetwork.WPF.Views.UserControls.AllPetsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PetNetwork.WPF.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Actions" HorizontalAlignment="Center" FontSize="20"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="AddPetBtn" Content="Add" Height="25" Width="100" Margin="15" FontSize="15" Command="{Binding AddPetViewCommand}"/>
+            <Button Name="UpdatePetBtn" Content="Update" Height="25" Width="100" Margin="15" FontSize="15" Command="{Binding UpdatePetViewCommand}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2">
+            <DataGrid x:Name="PetsGrid" AutoGenerateColumns="False" Margin="10" FontSize="15" CanUserReorderColumns="False"
+              IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
+              ItemsSource="{Binding PetsView}" SelectedItem="{Binding SelectedPet, Mode=TwoWay}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Breed" Binding="{Binding Breed}"/>
+                    <DataGridTextColumn Header="Colour" Binding="{Binding Colour}"/>
+                    <DataGridTextColumn Header="Birth year" Binding="{Binding BirthYear}"/>
+                    <DataGridTextColumn Header="Ownership" Binding="{Binding Ownership}"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
+                    <DataGridTextColumn Header="Street" Binding="{Binding Location.Street}"/>
+                    <DataGridTextColumn Header="Street number" Binding="{Binding Location.StreetNo}"/>
+                    <DataGridTextColumn Header="Postal code" Binding="{Binding Location.PostalCode}"/>
+                    <DataGridTextColumn Header="Town" Binding="{Binding Location.Town}"/>
+                    <DataGridTextColumn Header="Final owner E-Mail" Binding="{Binding FinalOwner}"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Animal.Id}"/>
+                    <DataGridTextColumn Header="Health status" Binding="{Binding Health.Description}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

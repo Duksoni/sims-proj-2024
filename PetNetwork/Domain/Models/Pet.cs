@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PetNetwork.Application.Utility;
 using PetNetwork.Domain.Enums;
 using PetNetwork.Domain.Interfaces;
@@ -15,10 +16,13 @@ public class Pet : ISerializable
 
     public int BirthYear { get; set; }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public PetOwnership Ownership { get; set; }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public PetAdoptionStatus Status { get; set; }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public Gender Gender { get; set; }
 
     public Address Location { get; set; }
@@ -51,6 +55,19 @@ public class Pet : ISerializable
         FinalOwner = string.Empty;
         Animal = new AnimalType();
         Health = new PetHealth();
+    }
+
+    public Pet(string id, string breed, string colour, int birthYear, Gender gender, Address location, AnimalType animal, PetHealth health)
+    {
+        Id = id;
+        Breed = breed;
+        Colour = colour;
+        BirthYear = birthYear;
+        Gender = gender;
+        Location = location;
+        FinalOwner = string.Empty;
+        Animal = animal;
+        Health = health;
     }
 
     public Pet(string breed, string colour, int birthYear, Gender gender, Address location, AnimalType animal, PetHealth health)

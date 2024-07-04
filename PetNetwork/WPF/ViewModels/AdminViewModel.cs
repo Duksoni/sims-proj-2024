@@ -10,28 +10,21 @@ public class AdminViewModel
 {
     private readonly PetSocietyService _petSocietyService;
 
-    private readonly UserService _userService;
-
     public PetSocietyViewModel Society { get; }
 
     public bool CanAddVolunteer { get; }
 
-    public RelayCommand RegisterSocietyCommand => new(_ => RegisterSociety());
+    public RelayCommand RegisterSocietyCommand => 
+        new(_ => _petSocietyService.Add(Society.ToPetSociety()), _ => Society.IsValid);
 
     public AdminViewModel()
     {
         var accountRepo = Injector.CreateInstance<IRepository<UserAccount>>();
         var personRepo = Injector.CreateInstance<IRepository<Person>>();
-        _userService = new UserService(accountRepo, personRepo);
+        var userService = new UserService(accountRepo, personRepo);
         _petSocietyService = new PetSocietyService(Injector.CreateInstance<IRepository<PetSociety>>());
         var createdSociety = _petSocietyService.Get();
         Society = createdSociety == null ? new PetSocietyViewModel() : new PetSocietyViewModel(createdSociety);
-        CanAddVolunteer = _userService.FindUserAccounts(AccountRole.Volunteer).Count == 0;
-    }
-
-    private void RegisterSociety()
-    {
-        if (Society.IsValid)
-            _petSocietyService.Add(Society.ToPetSociety());
+        CanAddVolunteer = userService.FindUserAccounts(AccountRole.Volunteer).Count == 0;
     }
 }
