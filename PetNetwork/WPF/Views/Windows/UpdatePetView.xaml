@@ -1,0 +1,79 @@
+﻿<Window x:Class="PetNetwork.WPF.Views.Windows.UpdatePetView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PetNetwork.WPF.Views.Windows"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="750"
+        Title="Update a pet" Height="450" Width="750">
+    <Grid Margin="25, 25, 25, 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Breed" FontSize="18" Margin="2"/>
+        <TextBox Name="BreedTextBox" Grid.Column="1" Grid.Row="0" FontSize="16" Margin="2"
+             Text="{Binding Pet.Breed, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Colour" FontSize="18" Margin="2"/>
+        <TextBox Name="ColourTextBox" Grid.Column="1" Grid.Row="1" FontSize="16" Margin="2"
+             Text="{Binding Pet.Colour, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Birth year" FontSize="18" Margin="2"/>
+        <TextBox Name="BirthYearTextBox" Grid.Column="1" Grid.Row="2" FontSize="16" Margin="2"
+             Text="{Binding Pet.BirthYear, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Gender" FontSize="18" Margin="2"/>
+        <ComboBox Name="GenderComboBox" Grid.Column="1" Grid.Row="3" FontSize="16" Margin="2"
+              ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender}"
+              Text="{Binding Pet.Gender, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="Street" FontSize="18" Margin="2"/>
+        <TextBox Name="StreetTextBox" Grid.Column="1" Grid.Row="4" FontSize="16" Margin="2"
+             Text="{Binding Pet.Location.Street, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="Street number" FontSize="18" Margin="2"/>
+        <TextBox Name="StreetNumberTextBox" Grid.Column="1" Grid.Row="5" FontSize="16" Margin="2"
+             Text="{Binding Pet.Location.StreetNo, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="Town" FontSize="18" Margin="2"/>
+        <TextBox Name="TownTextBox" Grid.Column="1" Grid.Row="6" FontSize="16" Margin="2"
+             Text="{Binding Pet.Location.Town, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="7" Text="Postal code" FontSize="18" Margin="2"/>
+        <TextBox Name="PostalCodeTextBox" Grid.Column="1" Grid.Row="7" FontSize="16" Margin="2"
+             Text="{Binding Pet.Location.PostalCode, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="8" Text="Animal type" FontSize="18" Margin="2"/>
+        <ComboBox Name="AnimalTypeComboBox" Grid.Column="1" Grid.Row="8" FontSize="16" Margin="2"
+              ItemsSource="{Binding AnimalTypes}" SelectedItem="{Binding AnimalType}"
+              Text="{Binding Pet.Animal.Id, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="9" Text="Health condition" FontSize="18" Margin="2"/>
+        <ComboBox Name="HealthConditionComboBox" Grid.Column="1" Grid.Row="9" FontSize="16" Margin="2"
+              ItemsSource="{Binding HealthConditions}" SelectedItem="{Binding HealthCondition}"
+              Text="{Binding Pet.Health.Description, Mode=TwoWay}"/>
+
+        <StackPanel Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 20">
+            <Button Content="Update" Width="100" Height="25" Margin="0,0,30,0" Command="{Binding TryUpdatePetCommand}"/>
+            <Button Content="Cancel" Width="100" Height="25" IsCancel="True" Margin="30,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
