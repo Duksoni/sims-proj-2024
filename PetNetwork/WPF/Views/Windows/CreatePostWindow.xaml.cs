@@ -104,11 +104,22 @@ namespace PetNetwork.WPF.Views.Windows
         private void AddPetButton_OnClick(object sender, RoutedEventArgs e)
         {
             var petCreateWindow = new AddPetView();
-            petCreateWindow.Closed += RefreshPets;
-            petCreateWindow.Show();
+            var res = petCreateWindow.ShowDialog();
+            if (res == true)
+            {
+                RefreshPets();
+            }
+
         }
 
         private void RefreshPets(object? sender, EventArgs e)
+        {
+            var petService = new PetService(Injector.CreateInstance<IRepository<Pet>>());
+            Pets = new ObservableCollection<Pet>(petService.GetAll());
+            PetComboBox.ItemsSource = Pets;
+        }
+
+        private void RefreshPets()
         {
             var petService = new PetService(Injector.CreateInstance<IRepository<Pet>>());
             Pets = new ObservableCollection<Pet>(petService.GetAll());
