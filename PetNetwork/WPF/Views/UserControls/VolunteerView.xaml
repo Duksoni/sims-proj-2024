@@ -8,19 +8,19 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <TabControl SelectionChanged="TabControl_SelectionChanged">
         <TabItem Header="Home" Width="120">
-            <Grid>
-                <local:DisplayPost x:Name="displayPostControl"></local:DisplayPost>
-            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:DisplayPost x:Name="displayPostControl"/>
+            </ScrollViewer>
         </TabItem>
         <TabItem Header="Chat" Width="120">
-            <Grid ScrollViewer.CanContentScroll="True">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
                 <local:AllChatsView/>
-            </Grid>
+            </ScrollViewer>
         </TabItem>
         <TabItem Header="Manage posts" Width="120">
-            <Grid>
-                <local:ManagePost></local:ManagePost>
-            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:ManagePost/>
+            </ScrollViewer>
         </TabItem>
         <TabItem Header="Manage users" Width="120">
             <ScrollViewer VerticalScrollBarVisibility="Auto">

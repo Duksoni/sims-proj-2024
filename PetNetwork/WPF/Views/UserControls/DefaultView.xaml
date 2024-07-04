@@ -8,9 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <TabControl>
         <TabItem Header="Home" Width="120">
-            <Grid>
-                <local:DisplayPost></local:DisplayPost>
-            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:DisplayPost/>
+            </ScrollViewer>
         </TabItem>
     </TabControl>
 </UserControl>
