@@ -1,1 +1,54 @@
-[]
+[
+  {
+    "Id": "709eb237-e9e4-4ac1-b1a9-5ab113a12d11",
+    "Breed": "Cutest",
+    "Colour": "Rainbow",
+    "BirthYear": 2024,
+    "Ownership": 0,
+    "Status": 0,
+    "Gender": 0,
+    "Location": {
+      "Street": "Najduza u gradu",
+      "StreetNo": "123",
+      "Town": "Crnograd",
+      "PostalCode": 12321,
+      "Deleted": false
+    },
+    "FinalOwner": "",
+    "Animal": {
+      "Type": "Cat",
+      "Deleted": false
+    },
+    "Health": {
+      "Description": "Healthy",
+      "Condition": 0
+    },
+    "Deleted": false
+  },
+  {
+    "Id": "4c4d8aed-6512-4629-a7b2-941bdbbf139a",
+    "Breed": "Cute",
+    "Colour": "Rainbow",
+    "BirthYear": 2024,
+    "Ownership": 0,
+    "Status": 0,
+    "Gender": 0,
+    "Location": {
+      "Street": "Najkraca u gradu",
+      "StreetNo": "321",
+      "Town": "Bjelograd",
+      "PostalCode": 32123,
+      "Deleted": false
+    },
+    "FinalOwner": "",
+    "Animal": {
+      "Type": "Octopus",
+      "Deleted": false
+    },
+    "Health": {
+      "Description": "Healthy",
+      "Condition": 0
+    },
+    "Deleted": false
+  }
+]
