@@ -53,6 +53,19 @@ public class Pet : ISerializable
         Health = new PetHealth();
     }
 
+    public Pet(string id, string breed, string colour, int birthYear, Gender gender, Address location, AnimalType animal, PetHealth health)
+    {
+        Id = id;
+        Breed = breed;
+        Colour = colour;
+        BirthYear = birthYear;
+        Gender = gender;
+        Location = location;
+        FinalOwner = string.Empty;
+        Animal = animal;
+        Health = health;
+    }
+
     public Pet(string breed, string colour, int birthYear, Gender gender, Address location, AnimalType animal, PetHealth health)
     {
         Id = IdGenerator.Generate();
