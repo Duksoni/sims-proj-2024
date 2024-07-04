@@ -55,18 +55,29 @@
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Id}"></TextBlock>
+                        <TextBlock Text="{Binding Breed}"></TextBlock>
                         <TextBlock Text=" - " />
-                        <TextBlock Text="{Binding Breed}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Colour}" FontWeight="Bold"/>
                         <TextBlock Text=" - " />
-                        <TextBlock Text="{Binding Colour}" />
+                        <TextBlock Text="{Binding BirthYear}" />
+                        <TextBlock Text=" - "/>
+                        <TextBlock Text="{Binding Animal.Id}" />
+                        <TextBlock Text=" - " />
+                        <TextBlock Text="{Binding Gender}"/>
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <Button Grid.Row="6" Grid.Column="1" Name="CreateButton" Margin="158,0,0,0" 
+        <Button Grid.Row="7" Grid.Column="1" Name="CreateButton" Margin="158,0,0,0" 
                 FontSize="30" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Left"
                 Click="CreateButton_OnClick"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" FontSize="24" Text="You can add new pet here:" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+        <Button Grid.Row="6" Grid.Column="1" Content="Add new pet" Width="Auto" Height="Auto" 
+                VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"
+                Name="AddPetButton" Click="AddPetButton_OnClick"></Button>
     </Grid>
 </Window>

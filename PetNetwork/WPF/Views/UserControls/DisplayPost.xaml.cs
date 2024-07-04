@@ -134,24 +134,30 @@ namespace PetNetwork.WPF.Views.UserControls
         private void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
             var pattern = SearchBox.Text.Trim();
-            var posts = string.IsNullOrEmpty(pattern) ? GetAllPosts() : _postService.SearchPosts(pattern).Concat(_petPostService.SearchPosts(pattern).Cast<Post>());
+            var posts = string.IsNullOrEmpty(pattern)
+                ? GetAllPosts()
+                : _postService.SearchPosts(pattern).Concat(_petPostService.SearchPosts(pattern).Cast<Post>());
             LoadPosts(posts);
         }
 
-        private void LoadPosts(IEnumerable<Post> posts)
+        public void LoadPosts(IEnumerable<Post> posts)
         {
             Posts.Clear();
 
             foreach (var post in posts)
             {
-                var canLike = UserSession.Session == null ? false : !_postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id);
-                var canRate = UserSession.Session == null ? false : _postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id);
+                var canLike = UserSession.Session == null
+                    ? false
+                    : !_postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id);
+                var canRate = UserSession.Session == null
+                    ? false
+                    : _postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id);
 
                 Posts.Add(new PostDisplayViewModel(post, canLike, canRate));
             }
         }
 
-        private IEnumerable<Post> GetAllPosts()
+        public IEnumerable<Post> GetAllPosts()
         {
             var posts = _postService.GetAllActivePosts();
             var petPosts = _petPostService.GetAllActivePosts().Cast<Post>(); // Cast PetPosts to Post
@@ -163,7 +169,6 @@ namespace PetNetwork.WPF.Views.UserControls
             return posts.Concat(petPosts).OrderByDescending(post => post.LikeCount);
 
         }
-
     }
 
 }

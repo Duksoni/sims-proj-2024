@@ -42,13 +42,12 @@ namespace PetNetwork.WPF.Views.UserControls
 
         private void RequestButton_OnClick(object sender, RoutedEventArgs e)
         {
-            LoadPosts(_petPostService.GetPendingPetPosts(), true, false);
+            RefreshPendingPosts();
         }
 
         private void ActivePostsButton_OnClick(object sender, RoutedEventArgs e)
         {
-            LoadPosts(_petPostService.GetAllActivePosts(), false, true);
-            LoadPosts(_postService.GetAllActivePosts(), false, true);
+            RefreshActivePosts();
         }
 
         private void LoadPosts(IEnumerable<Post> posts, bool isPending, bool isActive)
@@ -57,6 +56,8 @@ namespace PetNetwork.WPF.Views.UserControls
             {
                 Posts.Add(new ManagePostViewModel(post, isPending, isActive));
             }
+
+            PostsListView.ItemsSource = Posts;
         }
 
         private void RefreshPendingPosts()
@@ -71,6 +72,7 @@ namespace PetNetwork.WPF.Views.UserControls
             {
                 UpdatePostStatus(viewModel, PostStatus.Active);
                 RefreshPendingPosts();
+                RefreshActivePosts();
             }
         }
 

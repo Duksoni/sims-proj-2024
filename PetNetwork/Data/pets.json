@@ -4,9 +4,9 @@
     "Breed": "Cutest",
     "Colour": "Rainbow",
     "BirthYear": 2024,
-    "Ownership": 0,
-    "Status": 0,
-    "Gender": 0,
+    "Ownership": "Stray",
+    "Status": "Pending",
+    "Gender": "Male",
     "Location": {
       "Street": "Najduza u gradu",
       "StreetNo": "123",
@@ -21,7 +21,7 @@
     },
     "Health": {
       "Description": "Healthy",
-      "Condition": 0
+      "Condition": "Healthy"
     },
     "Deleted": false
   },
@@ -30,9 +30,9 @@
     "Breed": "Cute",
     "Colour": "Rainbow",
     "BirthYear": 2024,
-    "Ownership": 0,
-    "Status": 0,
-    "Gender": 0,
+    "Ownership": "Stray",
+    "Status": "Pending",
+    "Gender": "Male",
     "Location": {
       "Street": "Najkraca u gradu",
       "StreetNo": "321",
@@ -47,7 +47,7 @@
     },
     "Health": {
       "Description": "Healthy",
-      "Condition": 0
+      "Condition": "Healthy"
     },
     "Deleted": false
   }
