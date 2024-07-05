@@ -8,8 +8,8 @@
     "Body": "ahfshs",
     "ImageUrl": "",
     "VideoUrl": "",
-    "SendTime": "2024-06-30T12:27:17.5740644+02:00",
-    "Status": 0,
+    "SendTime": "2024-06-30 12:27:17",
+    "Status": "Unread",
     "Deleted": false
   },
   {
@@ -19,23 +19,36 @@
     "GroupName": "",
     "Title": "test title",
     "Body": "test body",
-    "ImageUrl": "test image",
-    "VideoUrl": "test video",
-    "SendTime": "2024-07-01T12:48:13.1392171+02:00",
-    "Status": 0,
+    "ImageUrl": "",
+    "VideoUrl": "",
+    "SendTime": "2024-07-01 12:48:13",
+    "Status": "Read",
     "Deleted": false
   },
   {
-    "Id": "d88f36db-ab82-47f1-b39b-71b381838264",
+    "Id": "5c6d23e8-ccca-4b8c-b0c1-420f320d5366",
     "Sender": "pera@gmail.com",
     "Recipient": "",
-    "GroupName": "grupa 2",
-    "Title": "group title",
-    "Body": "group body",
-    "ImageUrl": "",
+    "GroupName": "volonterska grupa",
+    "Title": "test ",
+    "Body": "test",
+    "ImageUrl": "https://assets.codeguru.com/uploads/2021/08/C-Sharp-Tutorials.png",
     "VideoUrl": "",
-    "SendTime": "2024-07-01T13:19:09.9099836+02:00",
-    "Status": 0,
+    "SendTime": "2024-07-03 23:23:12",
+    "Status": "Read",
+    "Deleted": false
+  },
+  {
+    "Id": "f9aac638-5b87-49dd-b3fc-348f992857fc",
+    "Sender": "pera@gmail.com",
+    "Recipient": "",
+    "GroupName": "volonterska grupa",
+    "Title": "drugi test",
+    "Body": "drugi test",
+    "ImageUrl": "",
+    "VideoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "SendTime": "2024-07-03 23:23:53",
+    "Status": "Read",
     "Deleted": false
   }
 ]

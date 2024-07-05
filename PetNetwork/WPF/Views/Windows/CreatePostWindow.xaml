@@ -8,13 +8,15 @@
         Title="CreatePostWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="24*" />
-            <RowDefinition Height="24*" />
-            <RowDefinition Height="24*" />
-            <RowDefinition Height="24*" />
-            <RowDefinition Height="17*" />
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="24*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>
@@ -40,12 +42,42 @@
                  Text="{Binding PostViewModel.ImageUrl}"></TextBox>
 
         <TextBlock Grid.Row="4" Text="Video URL:" FontSize="24" 
-                   VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" Name="VideoTextBox" Grid.RowSpan="2"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="5,5,5,5" Name="VideoTextBox"
                  Text="{Binding PostViewModel.VideoUrl}"></TextBox>
 
-        <Button Grid.Row="6" Grid.Column="1" Name="CreateButton" Margin="158,0,0,0" 
+        <TextBlock Grid.Row="5" Text="Pet (can be empty): " FontSize="24" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center" Name="PetTextBlock"></TextBlock>
+
+        <ComboBox Grid.Row="5" Grid.Column="1" Width="Auto" Height="Auto" HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  ItemsSource="{Binding Pets}" Name="PetComboBox">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Breed}"></TextBlock>
+                        <TextBlock Text=" - " />
+                        <TextBlock Text="{Binding Colour}" FontWeight="Bold"/>
+                        <TextBlock Text=" - " />
+                        <TextBlock Text="{Binding BirthYear}" />
+                        <TextBlock Text=" - "/>
+                        <TextBlock Text="{Binding Animal.Id}" />
+                        <TextBlock Text=" - " />
+                        <TextBlock Text="{Binding Gender}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button Grid.Row="7" Grid.Column="1" Name="CreateButton" Margin="158,0,0,0" 
                 FontSize="30" Width="Auto" Height="Auto" VerticalAlignment="Center" HorizontalAlignment="Left"
                 Click="CreateButton_OnClick"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" FontSize="24" Text="You can add new pet here:" 
+                   VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+        <Button Grid.Row="6" Grid.Column="1" Content="Add new pet" Width="Auto" Height="Auto" 
+                VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"
+                Name="AddPetButton" Click="AddPetButton_OnClick"></Button>
     </Grid>
 </Window>

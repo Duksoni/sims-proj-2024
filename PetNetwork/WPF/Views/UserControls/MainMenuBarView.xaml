@@ -16,6 +16,17 @@
                 <Separator/>
                 <MenuItem Name="Exit" Header="Exit" FontSize="16"/>
             </MenuItem>
+            <MenuItem Header="About" FontSize="18">
+                <MenuItem Header="Society name" FontSize="16" IsEnabled="False"/>
+                <MenuItem Header="{Binding PetSociety.Name}" FontSize="16"
+                          Command="{Binding CopySocietyNameToClipboardCommand}"
+                          ToolTip="Click to copy society's name to clipboard"/>
+                <Separator/>
+                <MenuItem Header="Bank account no." FontSize="16" IsEnabled="False"/>
+                <MenuItem Header="{Binding PetSociety.BankAccount}" FontSize="16" 
+                          Command="{Binding CopyBankAccountToClipboardCommand}"
+                          ToolTip="Click to copy bank account number to clipboard"/>
+            </MenuItem>
         </Menu>            
     </Grid>
 </UserControl>
