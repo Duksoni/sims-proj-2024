@@ -166,6 +166,9 @@ namespace PetNetwork.WPF.ViewModels
 
         public Pet ToPet() => new Pet(Breed, Colour, BirthYear, Gender, Location, Animal, Health);
 
+        public Pet ToPet(PetViewModel pet) => new Pet(pet.Id, pet.Breed, pet.Colour, pet.BirthYear, pet.Ownership, pet.Status,
+                                                      pet.Gender, pet.Location, pet.FinalOwner, pet.Animal, pet.Health, false);
+
         private readonly PetInputValidation _petValidation = new();
         private readonly AddressInputValidation _addressValidation = new();
 
