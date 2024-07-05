@@ -9,8 +9,17 @@
     <TabControl>
         <TabItem Header="Home" Width="120">
             <Grid>
-                <local:DisplayPost></local:DisplayPost>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="101*"/>
+                    <ColumnDefinition Width="693*"/>
+                </Grid.ColumnDefinitions>
+                <local:DisplayPost Grid.ColumnSpan="2"></local:DisplayPost>
             </Grid>
+        </TabItem>
+        <TabItem Header="Manage pets" Width="120">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:AllPetsView/>
+            </ScrollViewer>
         </TabItem>
     </TabControl>
 </UserControl>
