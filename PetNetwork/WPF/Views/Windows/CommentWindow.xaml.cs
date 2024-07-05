@@ -20,6 +20,7 @@ namespace PetNetwork.WPF.Views.Windows
         public CommentWindow()
         {
             InitializeComponent();
+            CommentButton.IsEnabled = UserSession.Session != null;
 
         }
 
@@ -27,7 +28,7 @@ namespace PetNetwork.WPF.Views.Windows
         {
             InitializeComponent();
             Post = post;
-            CommentButton.IsEnabled = UserSession.Session == null;
+            CommentButton.IsEnabled = UserSession.Session != null;
             Title = $"Comments for post: {Post.Title}";
             var commentRepo = Injector.CreateInstance<IRepository<Comment>>();
             var commentService = new CommentService(commentRepo);

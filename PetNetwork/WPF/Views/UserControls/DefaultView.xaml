@@ -8,13 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <TabControl>
         <TabItem Header="Home" Width="120">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="101*"/>
-                    <ColumnDefinition Width="693*"/>
-                </Grid.ColumnDefinitions>
-                <local:DisplayPost Grid.ColumnSpan="2"></local:DisplayPost>
-            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:DisplayPost/>
+            </ScrollViewer>
         </TabItem>
         <TabItem Header="Manage pets" Width="120">
             <ScrollViewer VerticalScrollBarVisibility="Auto">

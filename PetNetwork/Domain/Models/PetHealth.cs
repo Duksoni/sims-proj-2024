@@ -1,4 +1,6 @@
-﻿using PetNetwork.Domain.Enums;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using PetNetwork.Domain.Enums;
 
 namespace PetNetwork.Domain.Models;
 
@@ -6,6 +8,7 @@ public class PetHealth
 {
     public string Description { get; set; }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public PetHealthCondition Condition { get; set; }
 
 

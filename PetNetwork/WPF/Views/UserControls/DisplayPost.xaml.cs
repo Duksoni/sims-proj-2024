@@ -26,6 +26,9 @@ namespace PetNetwork.WPF.Views.UserControls
         private readonly PostService _postService;
         private readonly PostLikeService _postLikeService;
         private readonly PostRatingService _postRatingService;
+        private readonly PetPostService _petPostService;
+
+        private bool _isRankDate { get; set; } //flag to track the ranking
 
         public DisplayPost()
         {
@@ -36,9 +39,11 @@ namespace PetNetwork.WPF.Views.UserControls
             _postService = new PostService(Injector.CreateInstance<IRepository<Post>>());
             _postLikeService = new PostLikeService(Injector.CreateInstance<IRepository<PostLike>>());
             _postRatingService = new PostRatingService(Injector.CreateInstance<IRepository<PostRating>>());
+            _petPostService = new PetPostService(Injector.CreateInstance<IRepository<PetPost>>());
 
             Posts = new ObservableCollection<PostDisplayViewModel>();
-            LoadPosts(_postService.GetAllActivePosts());
+            _isRankDate = true;
+            LoadPosts(GetAllPosts());
 
             PostsListView.ItemsSource = Posts;
 
@@ -72,9 +77,17 @@ namespace PetNetwork.WPF.Views.UserControls
                 if (!postLikeViewModel.IsValid) return;
 
                 _postLikeService.AddPostLike(postLikeViewModel.ToPostLike());
-                _postService.IncrementLikeCount(viewModel.Post.Id);
+                if (viewModel.Post is PetPost petPost)
+                {
+                    _petPostService.IncrementLikeCount(petPost.Id);
+                }
+                else
+                {
+                    _postService.IncrementLikeCount(viewModel.Post.Id);
+                }
 
-                LoadPosts(_postService.GetAllActivePosts());
+                viewModel.CanLike = false;
+                LoadPosts(GetAllPosts());
             }
         }
 
@@ -92,7 +105,7 @@ namespace PetNetwork.WPF.Views.UserControls
             if (parameter is PostDisplayViewModel viewModel)
             {
                 var ratingWindow = new RatingWindow(viewModel.Post);
-                ratingWindow.Closed += (s, e) => LoadPosts(_postService.GetAllActivePosts());
+                ratingWindow.Closed += (s, e) => LoadPosts(GetAllPosts());
                 ratingWindow.Show();
             }
         }
@@ -100,39 +113,61 @@ namespace PetNetwork.WPF.Views.UserControls
         private void CreatePostButton_OnClick(object sender, RoutedEventArgs e)
         {
             var createPostWindow = new CreatePostWindow();
-            createPostWindow.Closed += (s, e) => LoadPosts(_postService.GetAllActivePosts());
+            createPostWindow.Closed += (s, e) => LoadPosts(GetAllPosts());
             createPostWindow.Show();
         }
 
         private void RankDateButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var sortedPosts = _postService.GetAllActivePosts().OrderByDescending(post => post.CreatedAt);
+            var sortedPosts = GetAllPosts().OrderByDescending(post => post.CreatedAt);
+            _isRankDate = true;
             LoadPosts(sortedPosts);
         }
 
         private void RankLikeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var sortedPosts = _postService.GetAllActivePosts().OrderByDescending(post => post.LikeCount);
+            var sortedPosts = GetAllPosts().OrderByDescending(post => post.LikeCount);
+            _isRankDate = false;
             LoadPosts(sortedPosts);
         }
 
         private void SearchButton_OnClick(object sender, RoutedEventArgs e)
         {
             var pattern = SearchBox.Text.Trim();
-            var posts = string.IsNullOrEmpty(pattern) ? _postService.GetAllActivePosts() : _postService.SearchPosts(pattern);
+            var posts = string.IsNullOrEmpty(pattern)
+                ? GetAllPosts()
+                : _postService.SearchPosts(pattern).Concat(_petPostService.SearchPosts(pattern).Cast<Post>());
             LoadPosts(posts);
         }
 
-        private void LoadPosts(IEnumerable<Post> posts)
+        public void LoadPosts(IEnumerable<Post> posts)
         {
             Posts.Clear();
+
             foreach (var post in posts)
             {
-                var canLike = UserSession.Session == null ? false : !_postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id);
-                var canRate = UserSession.Session == null ? false : _postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id);
+                var canLike = UserSession.Session == null
+                    ? false
+                    : !_postLikeService.UserAlreadyLiked(UserSession.Session!.Account.Id, post.Id);
+                var canRate = UserSession.Session == null
+                    ? false
+                    : _postRatingService.CanUserRate(UserSession.Session!.Account.Id, post.Id);
 
                 Posts.Add(new PostDisplayViewModel(post, canLike, canRate));
             }
+        }
+
+        public IEnumerable<Post> GetAllPosts()
+        {
+            var posts = _postService.GetAllActivePosts();
+            var petPosts = _petPostService.GetAllActivePosts().Cast<Post>(); // Cast PetPosts to Post
+            if (_isRankDate)
+            {
+                return posts.Concat(petPosts).OrderByDescending(post => post.CreatedAt);
+            }
+
+            return posts.Concat(petPosts).OrderByDescending(post => post.LikeCount);
+
         }
     }
 

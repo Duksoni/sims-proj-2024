@@ -45,7 +45,7 @@ public partial class AllChatsView : UserControl
         GroupChatListView.ItemsSource = GroupChats;
 
         Members = new ObservableCollection<string>();
-        LoadRecipients(_userService.GetAllPersonalInfo());
+        LoadRecipients(_userService.FindActiveAccounts());
 
         Groups = new ObservableCollection<string>();
         LoadGroups(_messageGroupService.GetAll());
@@ -135,7 +135,7 @@ public partial class AllChatsView : UserControl
             GroupChats.Add(new ChatViewModel(chat, _messageService.IsChatRead(UserSession.Session!.Account.Id, chat)));
     }
 
-    private void LoadRecipients(IList<Person> members)
+    private void LoadRecipients(IList<UserAccount> members)
     {
         Members.Clear();
         foreach (var member in members)
