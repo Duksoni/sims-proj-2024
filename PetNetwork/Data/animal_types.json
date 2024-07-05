@@ -1,22 +1,26 @@
 [
   {
-    "Id": "Cat",
+    "Type": "Cat",
     "Deleted": false
   },
   {
-    "Id": "Elephant",
+    "Type": "Elephant",
     "Deleted": true
   },
   {
-    "Id": "Octopus",
+    "Type": "Octopus",
     "Deleted": false
   },
   {
-    "Id": "Meercat",
+    "Type": "Meercat",
     "Deleted": false
   },
   {
-    "Id": "Bobcat",
+    "Type": "Bobcat",
     "Deleted": false
+  },
+  {
+    "Type": "Bubac",
+    "Deleted": true
   }
 ]

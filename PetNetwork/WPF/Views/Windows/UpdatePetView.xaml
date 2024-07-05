@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PetNetwork.WPF.Views.Windows"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="750"
-        Title="Update a pet" Height="450" Width="750">
+        WindowStartupLocation="CenterScreen" MinHeight="550" MinWidth="750"
+        Title="Update a pet" Height="550" Width="750">
     <Grid Margin="25, 25, 25, 0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -23,7 +23,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -40,38 +42,53 @@
         <TextBox Name="BirthYearTextBox" Grid.Column="1" Grid.Row="2" FontSize="16" Margin="2"
              Text="{Binding Pet.BirthYear, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="3" Text="Gender" FontSize="18" Margin="2"/>
-        <ComboBox Name="GenderComboBox" Grid.Column="1" Grid.Row="3" FontSize="16" Margin="2"
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Ownership" FontSize="18" Margin="2"/>
+        <ComboBox Name="OwnershipComboBox" Grid.Column="1" Grid.Row="3" FontSize="16" Margin="2"
+              ItemsSource="{Binding Ownerships}" SelectedItem="{Binding Ownership}"
+              Text="{Binding Pet.Ownership, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="Adoption status" FontSize="18" Margin="2"/>
+        <ComboBox Name="AdoptionStatusComboBox" Grid.Column="1" Grid.Row="4" FontSize="16" Margin="2"
+              ItemsSource="{Binding AdoptionStatuses}" SelectedItem="{Binding AdoptionStatus}"
+              Text="{Binding Pet.Status, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="Gender" FontSize="18" Margin="2"/>
+        <ComboBox Name="GenderComboBox" Grid.Column="1" Grid.Row="5" FontSize="16" Margin="2"
               ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender}"
               Text="{Binding Pet.Gender, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="4" Text="Street" FontSize="18" Margin="2"/>
-        <TextBox Name="StreetTextBox" Grid.Column="1" Grid.Row="4" FontSize="16" Margin="2"
+        <TextBlock Grid.Column="0" Grid.Row="6" Text="Street" FontSize="18" Margin="2"/>
+        <TextBox Name="StreetTextBox" Grid.Column="1" Grid.Row="6" FontSize="16" Margin="2"
              Text="{Binding Pet.Location.Street, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="5" Text="Street number" FontSize="18" Margin="2"/>
-        <TextBox Name="StreetNumberTextBox" Grid.Column="1" Grid.Row="5" FontSize="16" Margin="2"
+        <TextBlock Grid.Column="0" Grid.Row="7" Text="Street number" FontSize="18" Margin="2"/>
+        <TextBox Name="StreetNumberTextBox" Grid.Column="1" Grid.Row="7" FontSize="16" Margin="2"
              Text="{Binding Pet.Location.StreetNo, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="6" Text="Town" FontSize="18" Margin="2"/>
-        <TextBox Name="TownTextBox" Grid.Column="1" Grid.Row="6" FontSize="16" Margin="2"
+        <TextBlock Grid.Column="0" Grid.Row="8" Text="Town" FontSize="18" Margin="2"/>
+        <TextBox Name="TownTextBox" Grid.Column="1" Grid.Row="8" FontSize="16" Margin="2"
              Text="{Binding Pet.Location.Town, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="7" Text="Postal code" FontSize="18" Margin="2"/>
-        <TextBox Name="PostalCodeTextBox" Grid.Column="1" Grid.Row="7" FontSize="16" Margin="2"
+        <TextBlock Grid.Column="0" Grid.Row="9" Text="Postal code" FontSize="18" Margin="2"/>
+        <TextBox Name="PostalCodeTextBox" Grid.Column="1" Grid.Row="9" FontSize="16" Margin="2"
              Text="{Binding Pet.Location.PostalCode, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="8" Text="Animal type" FontSize="18" Margin="2"/>
-        <ComboBox Name="AnimalTypeComboBox" Grid.Column="1" Grid.Row="8" FontSize="16" Margin="2"
+        <TextBlock Grid.Column="0" Grid.Row="10" Text="Final owner e-mail" FontSize="18" Margin="2"/>
+        <ComboBox Name="FinalOwnerComboBox" Grid.Column="1" Grid.Row="10" FontSize="16" Margin="2"
+              ItemsSource="{Binding UserAccounts}" SelectedItem="{Binding UserAccount.Id}"
+              Text="{Binding Pet.FinalOwner, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="11" Text="Animal type" FontSize="18" Margin="2"/>
+        <ComboBox Name="AnimalTypeComboBox" Grid.Column="1" Grid.Row="11" FontSize="16" Margin="2"
               ItemsSource="{Binding AnimalTypes}" SelectedItem="{Binding AnimalType}"
               Text="{Binding Pet.Animal.Id, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="9" Text="Health condition" FontSize="18" Margin="2"/>
-        <ComboBox Name="HealthConditionComboBox" Grid.Column="1" Grid.Row="9" FontSize="16" Margin="2"
+        <TextBlock Grid.Column="0" Grid.Row="12" Text="Health condition" FontSize="18" Margin="2"/>
+        <ComboBox Name="HealthConditionComboBox" Grid.Column="1" Grid.Row="12" FontSize="16" Margin="2"
               ItemsSource="{Binding HealthConditions}" SelectedItem="{Binding HealthCondition}"
               Text="{Binding Pet.Health.Description, Mode=TwoWay}"/>
 
-        <StackPanel Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 20">
+        <StackPanel Grid.Column="0" Grid.Row="13" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 20">
             <Button Content="Update" Width="100" Height="25" Margin="0,0,30,0" Command="{Binding TryUpdatePetCommand}"/>
             <Button Content="Cancel" Width="100" Height="25" IsCancel="True" Margin="30,0,0,0"/>
         </StackPanel>

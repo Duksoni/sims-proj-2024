@@ -12,5 +12,10 @@
                 <local:DisplayPost/>
             </ScrollViewer>
         </TabItem>
+        <TabItem Header="Manage pets" Width="120">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <local:AllPetsView/>
+            </ScrollViewer>
+        </TabItem>
     </TabControl>
 </UserControl>
