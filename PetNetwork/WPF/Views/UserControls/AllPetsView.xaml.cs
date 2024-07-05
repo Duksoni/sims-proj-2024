@@ -11,7 +11,7 @@ namespace PetNetwork.WPF.Views.UserControls
         public AllPetsView()
         {
             InitializeComponent();
-            var viewModel = new AllPetsViewModel();
+            var viewModel = new AllPetsViewModel(this);
             DataContext = viewModel;
         }
     }
