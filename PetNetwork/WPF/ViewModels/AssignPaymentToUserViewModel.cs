@@ -42,7 +42,7 @@ public class AssignPaymentToUserViewModel : BaseViewModel
         var userRepo = Injector.CreateInstance<IRepository<UserAccount>>();
         var personRepo = Injector.CreateInstance<IRepository<Person>>();
         var userService = new UserService(userRepo, personRepo);
-        UserEmails = new ObservableCollection<string>(userService.FindActiveAccounts().Select(acc => acc.Id));
+        UserEmails = new ObservableCollection<string>(userService.GetAllAccounts().Select(acc => acc.Id));
     }
 
     private void Submit()
