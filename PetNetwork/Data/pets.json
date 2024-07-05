@@ -4,8 +4,8 @@
     "Breed": "Cutest",
     "Colour": "Rainbow",
     "BirthYear": 2024,
-    "Ownership": 0,
-    "Status": 0,
+    "Ownership": 1,
+    "Status": 1,
     "Gender": 0,
     "Location": {
       "Street": "Najduza u gradu",
@@ -14,7 +14,7 @@
       "PostalCode": 12321,
       "Deleted": false
     },
-    "FinalOwner": "",
+    "FinalOwner": "pera@gmail.com",
     "Animal": {
       "Type": "Cat",
       "Deleted": false
