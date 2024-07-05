@@ -49,7 +49,17 @@ namespace PetNetwork.WPF.ViewModels
             if (AnimalType.Id == string.Empty) return;
 
             foreach (var animalType in animalTypes)
-                if (animalType.Id == AnimalType.Id) return;
+            {
+                if (animalType.Id == AnimalType.Id)
+                {
+                    if (animalType.Deleted)
+                    {
+                        _animalTypeService.Update(new AnimalType(AnimalType.Id, false));
+                        Added = true;
+                    }
+                    return;
+                }
+            }
 
             _animalTypeService.Add(AnimalType.ToAnimalType(AnimalType.Id));
             Added = true;
