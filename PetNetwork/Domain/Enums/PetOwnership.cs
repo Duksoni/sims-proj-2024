@@ -4,5 +4,4 @@ public enum PetOwnership
 {
     Stray,
     Owned
-        
 }
